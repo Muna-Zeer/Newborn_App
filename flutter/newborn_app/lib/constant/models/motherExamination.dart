@@ -26,9 +26,12 @@ class MotherExaminations {
   final String complicationAfterDelivery;
   final String diagnosis;
   final String referred;
-  final String doctorName;
-  final String midwifeName;
-  final String nurseName;
+  String doctorName;
+  String midwifeName;
+  String nurseName;
+  int doctorid;
+  int midwifeid;
+  int nurseid;
   final bool FirstBorn;
   final bool BP_Status;
   final int MotherWeight;
@@ -54,6 +57,9 @@ class MotherExaminations {
     required this.doctorName,
     required this.midwifeName,
     required this.nurseName,
+    required this.doctorid,
+    required this.midwifeid,
+    required this.nurseid,
     required this.FirstBorn,
     required this.BP_Status,
     required this.MotherWeight,
@@ -78,9 +84,9 @@ class MotherExaminations {
         'Complication_after_delivery': complicationAfterDelivery,
         'Diagnosis': diagnosis,
         'Referred': referred,
-        'doctor_name': doctorName,
-        'midwife_name': midwifeName,
-        'nurse_name': nurseName,
+        'doctor_id': doctorName,
+        'midwife_id': midwifeName,
+        'nurse_id': nurseName,
         'First_born': FirstBorn,
         'BP_Status': BP_Status,
         'Mother_weight': MotherWeight,
@@ -112,9 +118,12 @@ class MotherExaminations {
       complicationAfterDelivery: json['Complication_after_delivery'] ?? '',
       diagnosis: json['Diagnosis'] ?? '',
       referred: json['Referred'] ?? '',
-      doctorName: json['doctor_name'] ?? 0,
-      midwifeName: json['midwife_name'] ?? 0,
-      nurseName: json['nurse_name'] ?? 0,
+      doctorid: json['doctor_id'] ?? 0,
+      midwifeid: json['midwife_id'] ?? 0,
+      nurseid: json['nurse_id'] ?? 0,
+      doctorName: '',
+      midwifeName: '',
+      nurseName: '',
       FirstBorn: json['First_born'] ?? false,
       BP_Status: json['BP_Status'] ?? false,
       MotherWeight: json['Mother_weight'] ?? 0,

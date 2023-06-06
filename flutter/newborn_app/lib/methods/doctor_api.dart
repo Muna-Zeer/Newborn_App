@@ -251,3 +251,21 @@ Future<List<Map<String, dynamic>>> fetchNurses() async {
     throw Exception('Failed to fetch ministries of health');
   }
 }
+
+Future<List<Map<String, dynamic>>> fetchVaccines() async {
+  final response =
+      await http.get(Uri.parse('http://127.0.0.1:8000/api/fetchVaccines'));
+  if (response.statusCode == 200) {
+    final List<dynamic> data = jsonDecode(response.body);
+    final List<Map<String, dynamic>> ministriesOfHealth =
+        data.map<Map<String, dynamic>>((item) {
+      return {
+        'id': item['id'],
+        'name': item['name'].toString(),
+      };
+    }).toList();
+    return ministriesOfHealth;
+  } else {
+    throw Exception('Failed to fetch ministries of health');
+  }
+}

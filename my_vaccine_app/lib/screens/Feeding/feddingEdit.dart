@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:intl/intl.dart';
+import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/Feeding/feddingClass.dart';
 import 'package:my_vaccine_app/screens/Feeding/feedingTable.dart';
 
@@ -43,7 +44,8 @@ class _FeedingEditState extends State<FeedingEdit> {
   }
 
   Future<void> updateFeeding(Feeding feeding) async {
-    final url = Uri.parse('http://127.0.0.1:8000/api/feedings/${feeding.id}');
+     final baseUrl = ApiService.getBaseUrl();
+    final url = Uri.parse('$baseUrl/${feeding.id}');
     final headers = <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     };

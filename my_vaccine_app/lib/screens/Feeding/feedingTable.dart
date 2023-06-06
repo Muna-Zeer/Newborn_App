@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'dart:convert';
 import 'package:collection/collection.dart';
+import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/Feeding/feddingClass.dart';
 import 'package:my_vaccine_app/screens/Feeding/feddingEdit.dart';
 import 'package:my_vaccine_app/screens/Feeding/feddingForm.dart';
@@ -30,8 +31,9 @@ class _FeedingTableState extends State<FeedingTable> {
   }
 
   Future<void> getFeeding() async {
+     final baseUrl = ApiService.getBaseUrl();
     final response = await http
-        .get(Uri.parse('http://127.0.0.1:8000/api/feedings'))
+        .get(Uri.parse('$baseUrl/feedings'))
         .catchError((error) => print(error));
 
     print('$response');

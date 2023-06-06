@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_vaccine_app/apiServer.dart';
 import 'dart:convert';
 
 import 'package:my_vaccine_app/screens/Instructions/guildlineClass.dart';
@@ -26,7 +27,8 @@ class _GuidelineListState extends State<GuidelineList> {
 
   Future<void> fetchGuidelines() async {
     try {
-      final response = await http.get(url);
+      final baseUrl = ApiService.getBaseUrl();
+      final response = await http.get(Uri.parse('$baseUrl/guidelines'));
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
         final guidelines = responseData['data'];

@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:my_vaccine_app/apiServer.dart';
+
 class VaccineList extends StatefulWidget {
   @override
   _VaccineListState createState() => _VaccineListState();
 }
 
 class _VaccineListState extends State<VaccineList> {
-  final url = Uri.parse('http://127.0.0.1:8000/api/vaccines');
+        final baseUrl = ApiService.getBaseUrl();
+
   late TextEditingController _searchController;
   List<dynamic> vaccineList = [];
   List<dynamic> filteredList = [];
@@ -22,7 +25,7 @@ class _VaccineListState extends State<VaccineList> {
 
   Future<void> fetchVaccines() async {
     try {
-      final response = await http.get(url);
+      final response = await http.get(Uri.parse('$baseUrl/allVaccines'));
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
         setState(() {

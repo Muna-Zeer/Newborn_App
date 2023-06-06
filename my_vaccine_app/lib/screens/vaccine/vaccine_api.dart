@@ -2,10 +2,13 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccine.dart';
 
 Future<void> storeVaccine(Vaccine vaccine) async {
-  final url = Uri.parse('http://127.0.0.1:8000/api/storeVaccine');
+        final baseUrl = ApiService.getBaseUrl();
+
+  final url = Uri.parse('$baseUrl/storeVaccine');
   final headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   };
@@ -28,8 +31,10 @@ Future<void> storeVaccine(Vaccine vaccine) async {
 }
 
 Future<void> deleteVaccine(int id, BuildContext context) async {
+        final baseUrl = ApiService.getBaseUrl();
+
   final response =
-      await http.delete(Uri.parse('http://127.0.0.1:8000/api/vaccines/$id'));
+      await http.delete(Uri.parse('$baseUrl/vaccines/$id'));
 
   if (response.statusCode == 200) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -47,8 +52,10 @@ Future<void> deleteVaccine(int id, BuildContext context) async {
 }
 
 Future<bool> editVaccine(int id, BuildContext context) async {
+        final baseUrl = ApiService.getBaseUrl();
+
   final response =
-      await http.put(Uri.parse('http://127.0.0.1:8000/api/vaccine/$id'));
+      await http.put(Uri.parse('$baseUrl/vaccine/$id'));
 
   if (response.statusCode == 200) {
     return true;
@@ -58,8 +65,10 @@ Future<bool> editVaccine(int id, BuildContext context) async {
 }
 
 Future<Vaccine> fetchVaccine(int VaccineId) async {
+        final baseUrl = ApiService.getBaseUrl();
+
   final response = await http
-      .get(Uri.parse('http://127.0.0.1:8000/api/vaccines/$VaccineId'));
+      .get(Uri.parse('$baseUrl/vaccines/$VaccineId'));
   if (response.statusCode == 200) {
     return Vaccine.fromJson(jsonDecode(response.body));
   } else {

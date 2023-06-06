@@ -18,6 +18,9 @@ class DropdownPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final double avatarRadius = size.height * 0.15;
+
+    bool isPhone = size.width < 600; // Set the breakpoint for phone screen size
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Who are you?'),
@@ -28,60 +31,54 @@ class DropdownPage extends StatelessWidget {
           SizedBox(
             height: size.height * 0.01,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              // Center(
-              //   child: CircleAvatar(
-              //     radius: size.height * 0.15,
-              //     backgroundImage: AssetImage('lib/assets/newborn.png'),
-              //   ),
-              // ),
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              Container(
-                width: 250, // set the width of the container
-                decoration: BoxDecoration(
-                  color: Colors.blue, // set the background color
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: DropdownButton<String>(
-                  value: 'Mother',
-                  dropdownColor:
-                      Colors.blue, // set the dropdown background color
-                  onChanged: (newValue) {
-                    if (newValue == 'Login') {
-                      Navigator.pushReplacement(
+          if (isPhone)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  width: isPhone ? size.width * 0.8 : 250,
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: DropdownButton<String>(
+                    value: 'Mother',
+                    dropdownColor: Colors.blue,
+                    onChanged: (newValue) {
+                      if (newValue == 'Login') {
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MotherLoginPage()));
-                    } else if (newValue == 'Register') {
-                      // Navigator.pushNamed(context, '/mother/register');
-                      Navigator.pushReplacement(
+                            builder: (context) => MotherLoginPage(),
+                          ),
+                        );
+                      } else if (newValue == 'Register') {
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MotherForm(motherId: 0)));
-                    }
-                  },
-                  items: [
-                    DropdownMenuItem(
-                      child: Text('Mother'),
-                      value: 'Mother',
-                    ),
-                    DropdownMenuItem(
-                      child: Text('Login'),
-                      value: 'Login',
-                    ),
-                    DropdownMenuItem(
-                      child: Text('Register'),
-                      value: 'Register',
-                    ),
-                  ],
+                            builder: (context) => MotherForm(motherId: 0),
+                          ),
+                        );
+                      }
+                    },
+                    items: [
+                      DropdownMenuItem(
+                        child: Text('Mother'),
+                        value: 'Mother',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('Login'),
+                        value: 'Login',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('Register'),
+                        value: 'Register',
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
           SizedBox(
             height: size.height * 0.01,
           ),
@@ -89,24 +86,29 @@ class DropdownPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                width: 250, // set the width of the container
+                width: isPhone ? size.width * 0.8 : 250,
                 decoration: BoxDecoration(
-                  color: Colors.blue, // set the background color
+                  color: Colors.blue,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: DropdownButton<String>(
                   value: 'Admin',
-                  dropdownColor:
-                      Colors.blue, // set the dropdown background color
+                  dropdownColor: Colors.blue,
                   onChanged: (newValue) {
                     if (newValue == 'Login') {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => LoginView()));
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginView(),
+                        ),
+                      );
                     } else if (newValue == 'Register') {
                       Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignUpView()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignUpView(),
+                        ),
+                      );
                     }
                   },
                   items: [
@@ -130,28 +132,38 @@ class DropdownPage extends StatelessWidget {
           SizedBox(
             height: size.height * 0.01,
           ),
+          SizedBox(
+            height: size.height * 0.01,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                width: 250, // set the width of the container
+                width: isPhone ? size.width * 0.8 : 250,
                 decoration: BoxDecoration(
-                  color: Colors.blue, // set the background color
+                  color: Colors.blue,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: DropdownButton<String>(
                   value: 'Doctor',
-                  dropdownColor:
-                      Colors.blue, // set the dropdown background color
+                  dropdownColor: Colors.blue,
                   onChanged: (newValue) {
                     if (newValue == 'Login') {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => LoginView()));
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              isPhone ? LoginView() : SignUpView(),
+                        ),
+                      );
                     } else if (newValue == 'Register') {
                       Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignUpView()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              isPhone ? SignUpView() : LoginView(),
+                        ),
+                      );
                     }
                   },
                   items: [
@@ -171,6 +183,9 @@ class DropdownPage extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          SizedBox(
+            height: size.height * 0.01,
           ),
           ElevatedButton(
             onPressed: () {

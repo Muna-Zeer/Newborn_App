@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_vaccine_app/apiServer.dart';
 import 'dart:convert';
 
 import 'package:my_vaccine_app/screens/mother/motherClass.dart';
@@ -7,8 +8,9 @@ import 'package:my_vaccine_app/screens/mother/motherUser.dart';
 
 //create the info of mother in the hospital
 Future<bool> createMother(Mother mother) async {
+  final baseUrl = ApiService.getBaseUrl();
   final response = await http.post(
-    Uri.parse('http://127.0.0.1:8000/api/createInfoOfMother'),
+    Uri.parse('$baseUrl/createInfoOfMother'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -24,8 +26,9 @@ Future<bool> createMother(Mother mother) async {
 }
 
 Future<void> createMotherUser(MotherUser motherUser) async {
+  final baseUrl = ApiService.getBaseUrl();
   final response = await http.post(
-    Uri.parse('http://127.0.0.1:8000/api/createMotherUser'),
+    Uri.parse('$baseUrl/createMotherUser'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -39,9 +42,9 @@ Future<void> createMotherUser(MotherUser motherUser) async {
 }
 
 Future<bool> checkIdentityNumber(String identityNumber) async {
+  final baseUrl = ApiService.getBaseUrl();
   final response = await http.get(
-    Uri.parse(
-        'http://127.0.0.1:8000/api/check-identity-number/$identityNumber'),
+    Uri.parse('$baseUrl/check-identity-number/$identityNumber'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -57,8 +60,9 @@ Future<bool> checkIdentityNumber(String identityNumber) async {
 
 Future<List<Map<String, dynamic>>> fetchNewborns(
     String motherIdentityNumber) async {
+  final baseUrl = ApiService.getBaseUrl();
   final response = await http.get(
-    Uri.parse('http://127.0.0.1:8000/api/newborns/$motherIdentityNumber'),
+    Uri.parse('$baseUrl/newborns/$motherIdentityNumber'),
   );
 
   if (response.statusCode == 200) {
@@ -117,8 +121,8 @@ Future<List<Map<String, dynamic>>> fetchNewborns(
 // }
 
 Future<Mother> fetchMother(int motherId) async {
-  final response =
-      await http.get(Uri.parse('http://127.0.0.1:8000/api/mothers/$motherId'));
+  final baseUrl = ApiService.getBaseUrl();
+  final response = await http.get(Uri.parse('$baseUrl/mothers/$motherId'));
   if (response.statusCode == 200) {
     return Mother.fromJson(jsonDecode(response.body));
   } else {

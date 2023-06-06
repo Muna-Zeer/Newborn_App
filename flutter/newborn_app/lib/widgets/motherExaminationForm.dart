@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:newborn_app/alert/motherExaminationAlert.dart';
 import 'package:newborn_app/constant/models/motherExamination.dart';
+import 'package:newborn_app/methods/doctor_api.dart';
 import 'package:newborn_app/methods/motherExamination_api.dart';
 import 'dart:convert';
 
@@ -55,6 +56,47 @@ class _MotherExaminationFormState extends State<MotherExaminationForm> {
     'Day 5',
     'Day 6'
   ];
+  List<Map<String, dynamic>> nurses = [];
+
+  List<Map<String, dynamic>> doctors = [];
+  List<Map<String, dynamic>> midwives = [];
+
+  String? selectedNurses;
+  String? selectedDoctor;
+  String? selectedMidwife;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    try {
+      List<Map<String, dynamic>> fetchedNurses = await fetchNurses();
+      List<Map<String, dynamic>> fetchedDoctors = await fetchDoctorHospital();
+      List<Map<String, dynamic>> fetchedMidwives = await fetchMidwives();
+
+      setState(() {
+        nurses = fetchedNurses;
+        doctors = fetchedDoctors;
+        midwives = fetchedMidwives;
+
+        selectedNurses =
+            fetchedNurses.isNotEmpty ? fetchedNurses[0]['id'].toString() : null;
+
+        selectedMidwife = fetchedMidwives.isNotEmpty
+            ? fetchedMidwives[0]['id'].toString()
+            : null;
+
+        selectedDoctor = fetchedDoctors.isNotEmpty
+            ? fetchedDoctors[0]['id'].toString()
+            : null;
+      });
+    } catch (error) {
+      print('Failed to fetch data: $error');
+    }
+  }
 
   @override
   void dispose() {
@@ -91,9 +133,12 @@ class _MotherExaminationFormState extends State<MotherExaminationForm> {
         complicationAfterDelivery: _complicationAfterDelivery.text,
         diagnosis: _diagnosisController.text,
         referred: _referredController.text,
-        doctorName: _doctorName.text,
-        midwifeName: _midwifeName.text,
-        nurseName: _nurseName.text,
+        doctorName: selectedDoctor ?? '',
+        midwifeName: selectedMidwife ?? '',
+        nurseName: selectedNurses ?? '',
+        midwifeid: int.parse(selectedMidwife ?? '0'),
+        doctorid: int.parse(selectedDoctor ?? '0'),
+        nurseid: int.parse(selectedNurses ?? '0'),
         FirstBorn: _firstBorn,
         BP_Status: _BPStatus,
         StrengthOfBlood: int.parse(_strengthOfBlood.text),
@@ -456,36 +501,6 @@ class _MotherExaminationFormState extends State<MotherExaminationForm> {
                       return null;
                     },
                   ),
-                  TextFormField(
-                    controller: _doctorName,
-                    decoration: InputDecoration(labelText: 'Name of Doctor'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'please fill this field';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _midwifeName,
-                    decoration: InputDecoration(labelText: 'midwife Name'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'please fill this field';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _nurseName,
-                    decoration: InputDecoration(labelText: 'Name of Nurse'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'please fill this field';
-                      }
-                      return null;
-                    },
-                  ),
                   DropdownButtonFormField<PerinealTear>(
                     decoration: InputDecoration(
                         labelText: 'PerinealTear grade',
@@ -627,6 +642,67 @@ class _MotherExaminationFormState extends State<MotherExaminationForm> {
                       }
                       return null;
                     },
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          value: selectedDoctor,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedDoctor = value!;
+                            });
+                          },
+                          items: doctors.map((doctor) {
+                            return DropdownMenuItem<String>(
+                              value: doctor['id'].toString(),
+                              child: Text(doctor['name']),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            labelText: 'Doctor',
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          value: selectedMidwife,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedMidwife = value!;
+                            });
+                          },
+                          items: midwives.map((midwife) {
+                            return DropdownMenuItem<String>(
+                              value: midwife['id'].toString(),
+                              child: Text(midwife['name']),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            labelText: 'Midwife',
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          value: selectedNurses,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedNurses = value!;
+                            });
+                          },
+                          items: nurses.map((nurse) {
+                            return DropdownMenuItem<String>(
+                              value: nurse['id'].toString(),
+                              child: Text(nurse['name']),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            labelText: 'Nurse',
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   ElevatedButton(
                     child: Text('Save'),

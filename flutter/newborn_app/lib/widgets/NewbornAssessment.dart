@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:newborn_app/alert/newbornAssessmentAlert.dart';
 import 'package:newborn_app/constant/models/newbornAssessments.dart';
+import 'package:newborn_app/methods/doctor_api.dart';
 import 'package:newborn_app/methods/newbornAssessments_api.dart';
 
 import 'dart:convert';
@@ -39,12 +40,53 @@ class _NewbornAssessmentState extends State<NewbornAssessmentForm> {
   final _doctorNameController = TextEditingController();
   final _midwifeNameController = TextEditingController();
   final _nurseNameController = TextEditingController();
+  List<Map<String, dynamic>> nurses = [];
+
+  List<Map<String, dynamic>> doctors = [];
+  List<Map<String, dynamic>> midwives = [];
+
+  String? selectedNurses;
+  String? selectedDoctor;
+  String? selectedMidwife;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    try {
+      List<Map<String, dynamic>> fetchedNurses = await fetchNurses();
+      List<Map<String, dynamic>> fetchedDoctors = await fetchDoctorHospital();
+      List<Map<String, dynamic>> fetchedMidwives = await fetchMidwives();
+
+      setState(() {
+        nurses = fetchedNurses;
+        doctors = fetchedDoctors;
+        midwives = fetchedMidwives;
+
+        selectedNurses =
+            fetchedNurses.isNotEmpty ? fetchedNurses[0]['id'].toString() : null;
+
+        selectedMidwife = fetchedMidwives.isNotEmpty
+            ? fetchedMidwives[0]['id'].toString()
+            : null;
+
+        selectedDoctor = fetchedDoctors.isNotEmpty
+            ? fetchedDoctors[0]['id'].toString()
+            : null;
+      });
+    } catch (error) {
+      print('Failed to fetch data: $error');
+    }
+  }
 
   void _saveKey() async {
     if (_formKey.currentState!.validate()) {
       var uuid = Uuid().v4(); // generate a unique ID
       var newborn = NewbornAssessments(
-        id: uuid,
+        id: 0,
         birthWeight: _birthWeightController.text,
         dateOfDelivery: DateTime.parse(_dateOfDeliveryController.text),
         modeOfDelivery: _modeOfDelivery!,
@@ -62,9 +104,12 @@ class _NewbornAssessmentState extends State<NewbornAssessmentForm> {
         umbilicalStump: _umbilicalStumpController.text,
         feeding: _feeding!,
         remarks: _remarksController.text,
-        doctorName: _doctorNameController.text,
-        midwifeName: _midwifeNameController.text,
-        nurseName: _nurseNameController.text,
+        doctorName: selectedDoctor ?? '',
+        midwifeName: selectedMidwife ?? '',
+        nurseName: selectedNurses ?? '',
+        midwifeid: int.parse(selectedMidwife ?? '0'),
+        doctorid: int.parse(selectedDoctor ?? '0'),
+        nurseid: int.parse(selectedNurses ?? '0'),
       );
       // Call the createNewborn function to submit the data to the server
       try {
@@ -283,35 +328,66 @@ class _NewbornAssessmentState extends State<NewbornAssessmentForm> {
                       );
                     }).toList(),
                   ),
-                  TextFormField(
-                    controller: _doctorNameController,
-                    decoration: InputDecoration(labelText: 'Name of Doctor'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'please fill this field';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _midwifeNameController,
-                    decoration: InputDecoration(labelText: 'midwife Name'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'please fill this field';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _nurseNameController,
-                    decoration: InputDecoration(labelText: 'Name of Nurse'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'please fill this field';
-                      }
-                      return null;
-                    },
+                  Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          value: selectedDoctor,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedDoctor = value!;
+                            });
+                          },
+                          items: doctors.map((doctor) {
+                            return DropdownMenuItem<String>(
+                              value: doctor['id'].toString(),
+                              child: Text(doctor['name']),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            labelText: 'Doctor',
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          value: selectedMidwife,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedMidwife = value!;
+                            });
+                          },
+                          items: midwives.map((midwife) {
+                            return DropdownMenuItem<String>(
+                              value: midwife['id'].toString(),
+                              child: Text(midwife['name']),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            labelText: 'Midwife',
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          value: selectedNurses,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedNurses = value!;
+                            });
+                          },
+                          items: nurses.map((nurse) {
+                            return DropdownMenuItem<String>(
+                              value: nurse['id'].toString(),
+                              child: Text(nurse['name']),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            labelText: 'Nurse',
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   TextFormField(
                     controller: _dateOfDeliveryController,

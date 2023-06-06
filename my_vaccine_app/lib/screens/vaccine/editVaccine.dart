@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccine.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccineTable.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccine_api.dart';
@@ -86,7 +87,9 @@ class _EditVaccineState extends State<EditVaccine> {
   }
 
   Future<void> updateVaccine(Vaccine vaccine) async {
-    final url = Uri.parse('http://127.0.0.1:8000/api/vaccine/${vaccine.id}');
+          final baseUrl = ApiService.getBaseUrl();
+
+    final url = Uri.parse('$baseUrl/vaccine/${vaccine.id}');
     final headers = <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     };

@@ -23,13 +23,17 @@ class NewbornExamination {
   String breastfeeding;
   String congenitalMalformation;
   String medication;
-  String vaccineName;
   String complicationAfterBirth;
   String diagnosis;
   String referred;
+  String vaccineName;
   String doctorName;
   String midwifeName;
   String nurseName;
+  int doctorid;
+  int vaccineid;
+  int midwifeid;
+  int nurseid;
 
   NewbornExamination({
     required this.id,
@@ -46,13 +50,17 @@ class NewbornExamination {
     required this.breastfeeding,
     required this.congenitalMalformation,
     required this.medication,
-    required this.vaccineName,
     required this.complicationAfterBirth,
     required this.diagnosis,
     required this.referred,
     required this.doctorName,
     required this.midwifeName,
     required this.nurseName,
+    required this.doctorid,
+    required this.vaccineName,
+    required this.vaccineid,
+    required this.midwifeid,
+    required this.nurseid,
   });
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -76,6 +84,7 @@ class NewbornExamination {
         'doctor_name': doctorName,
         'midwife_name': midwifeName,
         'nurse_name': nurseName,
+        'vaccine_name': vaccineName,
       };
 
   factory NewbornExamination.fromJson(Map<String, dynamic> json) {
@@ -96,13 +105,17 @@ class NewbornExamination {
       breastfeeding: json['breastfeeding_ft'],
       congenitalMalformation: json['Congenital_Malformation'],
       medication: json['Medication'],
-      vaccineName: json['vaccine_name'],
       complicationAfterBirth: json['complication_after_birth'],
       diagnosis: json['Diagnosis'],
       referred: json['Referred'],
-      doctorName: json['doctor_name'],
-      midwifeName: json['midwife_name'],
-      nurseName: json['nurse_name'],
+      doctorid: json['doctor_id'] ?? null,
+      midwifeid: json['midwife_id'] ?? null,
+      nurseid: json['nurse_id'] ?? null,
+      vaccineid: json['vaccine_id'] ?? null,
+      vaccineName: '',
+      doctorName: '',
+      midwifeName: '',
+      nurseName: '',
     );
   }
 }

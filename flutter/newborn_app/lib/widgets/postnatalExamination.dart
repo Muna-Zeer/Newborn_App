@@ -9,18 +9,19 @@ import 'package:newborn_app/constant/models/postnatalExaminations.dart';
 import 'package:newborn_app/methods/doctor_api.dart';
 import 'package:newborn_app/methods/motherExamination_api.dart';
 import 'package:newborn_app/methods/postnatalExamination_api.dart';
+import 'package:newborn_app/postnatalExamination.dart/postnatalTable.dart';
 import 'dart:convert';
 
 import 'package:uuid/uuid.dart';
 
-class MotherPostnatalExamination extends StatefulWidget {
+class MotherPostnatalExaminationForm extends StatefulWidget {
   final int motherId;
-  const MotherPostnatalExamination({Key? key, required this.motherId})
+  const MotherPostnatalExaminationForm({Key? key, required this.motherId})
       : super(key: key);
   _MotherPostnatalFormState createState() => _MotherPostnatalFormState();
 }
 
-class _MotherPostnatalFormState extends State<MotherPostnatalExamination> {
+class _MotherPostnatalFormState extends State<MotherPostnatalExaminationForm> {
   @override
   final _formKey = GlobalKey<FormState>();
   String _bpClassification = '';
@@ -34,6 +35,7 @@ class _MotherPostnatalFormState extends State<MotherPostnatalExamination> {
   final _Family_Planing_Counseling = TextEditingController();
   final _Fundal_HeightController = TextEditingController();
   final _day_after_deliveryController = TextEditingController();
+  final _motherController = TextEditingController();
 
   Breasts? _breast;
   Lochia_Color? _lochia_color;
@@ -94,7 +96,7 @@ class _MotherPostnatalFormState extends State<MotherPostnatalExamination> {
     if (_formKey.currentState!.validate()) {
       var uuid = Uuid().v4();
       var mother = PostnatalExaminations(
-        id: uuid,
+        id: 0,
         dayAfterDelivery: int.parse(_day_after_deliveryController.text),
         dateOfVisit: DateTime.parse(_date_of_visit.text),
         temp: _TempController.text,
@@ -115,6 +117,7 @@ class _MotherPostnatalFormState extends State<MotherPostnatalExamination> {
         fpAppointment: DateTime.parse(_FPappointment.text),
         recommendations: _RecommendationsController.text,
         remarks: _RemarksController.text,
+        motherName: _motherController.text ?? '',
         doctorName: selectedDoctor ?? '',
         midwifeName: selectedMidwife ?? '',
         nurseName: selectedNurses ?? '',
@@ -122,6 +125,7 @@ class _MotherPostnatalFormState extends State<MotherPostnatalExamination> {
         doctorid: int.parse(selectedDoctor ?? '0'),
         nurseid: int.parse(selectedNurses ?? '0'),
       );
+
       try {
         // Call the createMother function to submit the data to the server
         await createPostnatalExamination(mother);
@@ -138,7 +142,12 @@ class _MotherPostnatalFormState extends State<MotherPostnatalExamination> {
         _Family_Planing_Counseling.clear();
         _Fundal_HeightController.clear();
         _day_after_deliveryController.clear();
-    
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  PostnatalExaminationPage()), // Replace NextPage() with the actual widget representing the next page
+        );
       } catch (e) {
         MotherPostnatalAlert.showError(context);
       }
@@ -353,7 +362,7 @@ class _MotherPostnatalFormState extends State<MotherPostnatalExamination> {
                       ),
                     ],
                   ),
-              Row(
+                  Row(
                     children: [
                       Expanded(
                         child: DropdownButtonFormField<String>(

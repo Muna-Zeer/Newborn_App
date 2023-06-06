@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FirebaseHelper;
+use App\Models\motherUser;
 use App\Models\Newborn;
 use App\Models\newborn_vaccine;
 use App\Models\VaccinationTabel;
 use DateTime;
 use Illuminate\Http\Request;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
 
 class NewbornVaccineController extends Controller
 {
@@ -87,20 +91,20 @@ class NewbornVaccineController extends Controller
 
             foreach ($vaccines as $vaccine) {
                 $vaccineDays = intval($vaccine->month_vaccinations) * 30;
-                // echo (' days:' . $vaccineDays);
+
                 if ($newbornAgeInDays == $vaccineDays) {
                     $matchingNewborns[] = [
                         'firstName' => $newborn->firstName,
                         'lastName' => $newborn->lastName,
-                        'identity_number'=>$newborn->identity_number,
-                        'date_of_birth'=>$newborn->date_of_birth,
+                        'identity_number' => $newborn->identity_number,
+                        'date_of_birth' => $newborn->date_of_birth,
                         'ageInMonths' => $newbornAgeInMonths,
-                        'gender'=>$newborn->gender,
+                        'gender' => $newborn->gender,
                         'ageInDays' => $newbornAgeInDays,
                         'remainingDays' => $newbornRemainingDays,
-                        'vaccineName' => $vaccine->name, // Modify the field name to match the actual field containing the vaccine name
+                        'vaccineName' => $vaccine->name,
                         'vaccineDays' => $vaccineDays,
-                      ];
+                    ];
                 } else {
                     $nonMatchingNewborns[] = [
                         'firstName' => $newborn->firstName,
@@ -110,23 +114,21 @@ class NewbornVaccineController extends Controller
                         'remainingDays' => $newbornRemainingDays,
                         'vaccineName' => $vaccine->name,
                         'vaccineDays' => $vaccineDays,
+                        'date_of_birth' => $newborn->date_of_birth,
                     ];
                 }
+
             }
         }
+
+
+    
         return response()->json([
             'status' => 'success',
             'message' => 'Newborns age and vaccines retrieved successfully.',
             'matchingNewborns' => $matchingNewborns,
+            'nonMatchingNewborns' => $nonMatchingNewborns,
 
         ]);
+    }}
 
-    }
-
-
-
-
-
-
-
-}

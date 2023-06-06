@@ -5,7 +5,7 @@ import 'package:newborn_app/constant/models/newbornAssessments.dart';
 
 Future<bool> createNewbornAssessment(NewbornAssessments assessment) async {
   final response = await http.post(
-    Uri.parse('http://127.0.0.1:8000/api/newborn-assessments'),
+    Uri.parse('http://127.0.0.1:8000/api/newbornAssessments'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

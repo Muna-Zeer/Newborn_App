@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "myvaccine-90458",
+    "private_key_id": "50f300a370231b98bfb7f39fe088609c99a671ff",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDXfI4dMwXnXDuY\nHPVkrXK9AxUhYCYSG0gxffXAKoAmjSu5rzpz7hQwRyDF9Cg+88YoDB9oZ9cskyWT\nlH1Cg1Ls5zrKeIhjjGIz3kHuyGhOnAih9vIo9YHB8KCSEYFrOtfF+iinubWVzTXW\nkk3+ZYuN96W42yY+iEknOXSo0uVkG+ZHNrwe2coR4OvFzSkDVrECiVBhlewUh2Ko\nv5QZTRA1gw1BXZgdJTb05Lsjtj4U3vCWiY18bvrfGQmzedd87Mk0Mg/Njili9TYg\n3HoXuGo2uHdmkgteDaeU8cv3/oXXDazpQDjOiaJbOU0aNk/FCr0L1dr36ISxaw7f\n6e4TuT0XAgMBAAECggEAQ46itWfSMYM6kcl+a7ZvMu/c944/0UxpWU7etYT9kViP\n/VKA9miNPseF8FnIJlhh5xtJ2382uBxX2wliLfCjFm+2AFVCmUchYJaNQDHndcG4\neSLFL+8sY6Ovi6veUcJsdH6lsVPpKJJiDyfmONwYIQWjmK1oM5GhsaDzQJyB21zK\nEsJl/7W9YuUS7sbIDOj2TISQVDDD+j775qHfvKaY3os79ZKX3V1jyZOI39o3HQO4\noUA6wHox1Y+a1XA/oHFWa4jKM4PqNK/KSQaXvLU9yURdcZVZe6GWcBNUE1C+27Rj\nbqKTFOhvlnpLZr6eQepWueiY1cvWHCH0IjX4/+ht5QKBgQD/Fkbq1I5UnwktVIGC\nhNyTfyfnA+mdPB/ynhjGLMLe+5NAZMLbbzbVK9tRbnmP82KS/OJuugr0Yq4GTSjx\nxpb3Z2/7UzykSULNA/IzTbGWV+Tq1tdD0cOSKjZxKbKuGnzoyGpCLCppY9h5cLH9\nTlBGGd35jTXg9XeivoTxOUuqqwKBgQDYQf6Hb1cZ3PFGkjeZUNGg5jrh4kdgmzQI\ns2GrAxTJJ/5iVC2S0nWafs4WYUPLhrcl4BA9xMCiG9awoWEjNDVNRO8csOoqTnHG\n7etVEf5GMva52KbTH4d2+R2+72dLj6VRAg3t0cFg/MmB1WlfQmJ3o8yfyzBIZMbh\n5vhpofy3RQKBgBF76Wh3ITpTnEFrJWVYzfWeJZIEBqMsV9Q9Wd1bfA/klnc3cNOx\nj8SUuPef5t0jBYKlqq+EOPP/P4ZXC5Nm1Ton8Nj9H47zJoz+1D8H+EAhziL6js6r\nNghytECVZxXf4ufhtMbMWCvZGCFaxBhkocPsSfas4yCEMqsI+/u8vZ75AoGAW2JX\n2od0ORuiYX38PK9oRiPEEhv6qZosPNkAlrFwoShjWM3VjEufIrAfCloDugetcTXj\n5xYziM1WxcEMOUIgnAxbNraT3VjUv4lefs5hsuxqUlJ4/JJAPkg7B6pG7ik/ZKIH\nnM2ceA2aYWD7bCOzVHdFSukj+BON73wY0RqAnjkCgYANmQCR8cUw1FW/fdTbnGY2\nOpswlPLbjP42QnBCkbUACVZFITH71zdyick8a5ZQiNHu3dJoIW61QhUSLne5qSrB\nzFsjsVTsK+p3Ci0H0Pt1yu5QgilvV9DTxdOZfYoFUZHeB9xkJhvDZPOetu8Mn5RE\nB+VNJOYHZ1UaeyoY6s1czA==\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-7ngwc@myvaccine-90458.iam.gserviceaccount.com",
+    "client_id": "115608282606817648569",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-7ngwc%40myvaccine-90458.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }

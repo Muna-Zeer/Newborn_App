@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:newborn_app/alert/NewbornExaminationAlert.dart';
 import 'package:newborn_app/constant/models/motherExamination.dart';
 import 'package:newborn_app/constant/models/newbornExamination.dart';
+import 'package:newborn_app/methods/doctor_api.dart';
 import 'package:newborn_app/methods/motherExamination_api.dart';
 import 'package:newborn_app/methods/newbornExamination_api.dart';
 import 'dart:convert';
@@ -40,32 +41,86 @@ class _NewbornExaminationFormState extends State<NewbornExaminationForm> {
   final _apgarScoreController = TextEditingController();
   Sex? _sex;
   Birth_outcome? _birthOutcome;
+  List<Map<String, dynamic>> nurses = [];
+
+  List<Map<String, dynamic>> doctors = [];
+  List<Map<String, dynamic>> midwives = [];
+  List<Map<String, dynamic>> vaccines = [];
+
+  String? selectedNurses;
+  String? selectedDoctor;
+  String? selectedMidwife;
+  String? selectedVaccine;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    try {
+      List<Map<String, dynamic>> fetchedNurses = await fetchNurses();
+      List<Map<String, dynamic>> fetchedDoctors = await fetchDoctorHospital();
+      List<Map<String, dynamic>> fetchedMidwives = await fetchMidwives();
+      List<Map<String, dynamic>> fetchedVaccines = await fetchVaccines();
+
+      setState(() {
+        nurses = fetchedNurses;
+        doctors = fetchedDoctors;
+        midwives = fetchedMidwives;
+        vaccines = fetchedVaccines;
+
+        selectedNurses =
+            fetchedNurses.isNotEmpty ? fetchedNurses[0]['id'].toString() : null;
+
+        selectedMidwife = fetchedMidwives.isNotEmpty
+            ? fetchedMidwives[0]['id'].toString()
+            : null;
+
+        selectedDoctor = fetchedDoctors.isNotEmpty
+            ? fetchedDoctors[0]['id'].toString()
+            : null;
+        selectedVaccine = fetchedVaccines.isNotEmpty
+            ? fetchedVaccines[0]['id'].toString()
+            : null;
+      });
+    } catch (error) {
+      print('Failed to fetch data: $error');
+    }
+  }
+
   //create function to save fields
   void _saveKey() async {
     if (_formKey.currentState!.validate()) {
       var uuid = Uuid().v4();
       var newborn = NewbornExamination(
-          id: uuid,
-          sex: Sex.Female,
-          newbornName: _nameOfNewbornController.text,
-          birthOutcome: Birth_outcome.Abortion,
-          headCircumference: _headCircumferenceController.text,
-          length: _lengthController.text,
-          weight: _weightController.text,
-          pulse: _pulseController.text,
-          temperature: _temperatureController.text,
-          respiratoryRate: _respiratoryRateController.text,
-          apgarScore: double.parse(_apgarScoreController.text),
-          breastfeeding: _breastfeedingController.text,
-          congenitalMalformation: _congenitalMalformationController.text,
-          medication: _medicationController.text,
-          vaccineName: _vaccineNameController.text,
-          complicationAfterBirth: _complicationAfterBirthController.text,
-          diagnosis: _diagnosisController.text,
-          referred: _referredController.text,
-          doctorName: _doctorNameController.text,
-          midwifeName: _midwifeNameController.text,
-          nurseName: _nurseNameController.text);
+        id: uuid,
+        sex: Sex.Female,
+        newbornName: _nameOfNewbornController.text,
+        birthOutcome: Birth_outcome.Abortion,
+        headCircumference: _headCircumferenceController.text,
+        length: _lengthController.text,
+        weight: _weightController.text,
+        pulse: _pulseController.text,
+        temperature: _temperatureController.text,
+        respiratoryRate: _respiratoryRateController.text,
+        apgarScore: double.parse(_apgarScoreController.text),
+        breastfeeding: _breastfeedingController.text,
+        congenitalMalformation: _congenitalMalformationController.text,
+        medication: _medicationController.text,
+        vaccineName: selectedVaccine ?? '',
+        complicationAfterBirth: _complicationAfterBirthController.text,
+        diagnosis: _diagnosisController.text,
+        referred: _referredController.text,
+        doctorName: selectedDoctor ?? '',
+        midwifeName: selectedMidwife ?? '',
+        nurseName: selectedNurses ?? '',
+        midwifeid: int.parse(selectedMidwife ?? '0'),
+        vaccineid: int.parse(selectedVaccine ?? '0'),
+        doctorid: int.parse(selectedDoctor ?? '0'),
+        nurseid: int.parse(selectedNurses ?? '0'),
+      );
 
       try {
         // Call the createMother function to submit the data to the server
@@ -232,18 +287,6 @@ class _NewbornExaminationFormState extends State<NewbornExaminationForm> {
                     },
                   ),
                   TextFormField(
-                    controller: _vaccineNameController,
-                    decoration: InputDecoration(
-                      labelText: 'Name of vaccine',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'please fill this field';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
                     controller: _complicationAfterBirthController,
                     decoration: InputDecoration(
                       labelText: 'complication After Birth',
@@ -260,6 +303,7 @@ class _NewbornExaminationFormState extends State<NewbornExaminationForm> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: 'apgar Score',
+                      hintText: 'enter number less 10',
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -292,53 +336,85 @@ class _NewbornExaminationFormState extends State<NewbornExaminationForm> {
                       return null;
                     },
                   ),
-                  TextFormField(
-                    controller: _nurseNameController,
-                    decoration: InputDecoration(
-                      labelText: 'Name of Nurse',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'please fill this field';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _midwifeNameController,
-                    decoration: InputDecoration(
-                      labelText: 'Name of Midwife',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'please fill this field';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _doctorNameController,
-                    decoration: InputDecoration(
-                      labelText: 'Name of doctor',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'please fill this field';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _midwifeNameController,
-                    decoration: InputDecoration(
-                      labelText: 'Name of Midwife',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'please fill this field';
-                      }
-                      return null;
-                    },
+                  Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          value: selectedDoctor,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedDoctor = value!;
+                            });
+                          },
+                          items: doctors.map((doctor) {
+                            return DropdownMenuItem<String>(
+                              value: doctor['id'].toString(),
+                              child: Text(doctor['name']),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            labelText: 'Doctor',
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          value: selectedMidwife,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedMidwife = value!;
+                            });
+                          },
+                          items: midwives.map((midwife) {
+                            return DropdownMenuItem<String>(
+                              value: midwife['id'].toString(),
+                              child: Text(midwife['name']),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            labelText: 'Midwife',
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          value: selectedNurses,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedNurses = value!;
+                            });
+                          },
+                          items: nurses.map((nurse) {
+                            return DropdownMenuItem<String>(
+                              value: nurse['id'].toString(),
+                              child: Text(nurse['name']),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            labelText: 'Nurse',
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          value: selectedVaccine,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedVaccine = value!;
+                            });
+                          },
+                          items: vaccines.map((vaccine) {
+                            return DropdownMenuItem<String>(
+                              value: vaccine['id'].toString(),
+                              child: Text(vaccine['name']),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            labelText: 'Vaccine',
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   DropdownButtonFormField<Sex>(
                     decoration: InputDecoration(

@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'dart:convert';
 import 'package:collection/collection.dart';
+import 'package:my_vaccine_app/apiServer.dart';
 
 import 'package:my_vaccine_app/screens/Instructions/guildlineClass.dart';
 import 'package:my_vaccine_app/screens/Instructions/guildlineEdit.dart';
@@ -31,8 +32,10 @@ class _GuildlineTableState extends State<GuildlineTable> {
   }
 
   Future<void> getGuildline() async {
+          final baseUrl = ApiService.getBaseUrl();
+
     final response = await http
-        .get(Uri.parse('http://127.0.0.1:8000/api/guidelines'))
+        .get(Uri.parse('$baseUrl/guidelines'))
         .catchError((error) => print(error));
 
     print('$response');

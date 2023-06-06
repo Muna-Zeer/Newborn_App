@@ -16,7 +16,6 @@ class Vaccine {
   String monthVaccinations;
   int? newbornId;
   int? ministryId;
-  DateTime? vaccinationDate; // Added field for vaccination date
 
   Vaccine({
     required this.id,
@@ -28,7 +27,6 @@ class Vaccine {
     required this.monthVaccinations,
     this.newbornId,
     this.ministryId,
-    this.vaccinationDate, // Added field for vaccination date
   });
 
   Map<String, dynamic> toJson() {
@@ -42,27 +40,23 @@ class Vaccine {
       'month_vaccinations': monthVaccinations,
       'newborn_id': newbornId,
       'ministry_id': ministryId,
-      'vaccination_date': vaccinationDate != null
-          ? vaccinationDate!
-              .toIso8601String() // Convert date to ISO 8601 format for JSON serialization
-          : null,
     };
   }
 
   factory Vaccine.fromJson(Map<String, dynamic> json) {
     return Vaccine(
-      id: json['id'],
-      name: json['name'],
-      doses: json['doses'],
-      place: json['place'],
-      diseases: json['diseases'],
-      method: Method.values.firstWhereOrNull(
-          (element) => element.toString() == 'Method.' + json['method']),
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      doses: json['doses'] ?? 0,
+      place: json['place'] ?? '',
+      diseases: json['diseases'] ?? '',
+      method: json['method'] != null
+          ? Method.values.firstWhereOrNull(
+              (element) => element.toString() == 'Method.' + json['method'])
+          : null,
       monthVaccinations: json['month_vaccinations'],
-      newbornId: json['newborn_id'],
-      ministryId: json['ministry_id'],
-      vaccinationDate: DateTime.tryParse(json[
-          'vaccination_date']), // Parse ISO 8601 date string back to DateTime
+      newbornId: json['newborn_id'] ?? 1,
+      ministryId: json['ministry_id'] ?? 1,
     );
   }
 }

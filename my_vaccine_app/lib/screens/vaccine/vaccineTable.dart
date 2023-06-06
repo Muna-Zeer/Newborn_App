@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'dart:convert';
 import 'package:collection/collection.dart';
+import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/vaccine/editVaccine.dart';
 
 import 'package:my_vaccine_app/screens/vaccine/vaccine.dart';
@@ -32,8 +33,10 @@ class _VaccineTableState extends State<VaccinePage> {
   }
 
   Future<void> getVaccines() async {
+          final baseUrl = ApiService.getBaseUrl();
+
     final response = await http
-        .get(Uri.parse('http://127.0.0.1:8000/api/allVaccines'))
+        .get(Uri.parse('$baseUrl/allVaccines'))
         .catchError((error) => print(error));
 
     print('$response');

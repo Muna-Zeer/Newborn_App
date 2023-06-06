@@ -57,41 +57,44 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
         appBar: AppBar(
           title: Text('Newborn Details'),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                  'Newborn Identity Number: ${widget.newbornData['identity_number']}'),
-              Text('ID: ${widget.newbornData['id']}'),
-              Text('First Name: ${widget.newbornData['firstName']}'),
-              Text('Last Name: ${widget.newbornData['lastName']}'),
-              Text('Date of Birth: ${widget.newbornData['date_of_birth']}'),
-              Text('Gender: ${widget.newbornData['gender']}'),
-              Text('Mother Name: ${widget.newbornData['motherName']}'),
-              SizedBox(height: 20),
-              Text(
-                'Vaccine Details:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => VaccineTable(
-                        identityNumber: widget.newbornData['identity_number'],
-                        newbornName: widget.newbornData['firstName'] +
-                            ' ' +
-                            widget.newbornData['lastName'],
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Newborn Identity Number: ${widget.newbornData['identity_number']}',
+                ),
+                Text('ID: ${widget.newbornData['id']}'),
+                Text('First Name: ${widget.newbornData['firstName']}'),
+                Text('Last Name: ${widget.newbornData['lastName']}'),
+                Text('Date of Birth: ${widget.newbornData['date_of_birth']}'),
+                Text('Gender: ${widget.newbornData['gender']}'),
+                Text('Mother Name: ${widget.newbornData['motherName']}'),
+                SizedBox(height: 20),
+                Text(
+                  'Vaccine Details:',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VaccineTable(
+                          identityNumber: widget.newbornData['identity_number'],
+                          newbornName: widget.newbornData['firstName'] +
+                              ' ' +
+                              widget.newbornData['lastName'],
+                        ),
                       ),
-                    ),
-                  );
-                },
-                child: Text('Vaccines Table'),
-              ),
-            ],
+                    );
+                  },
+                  child: Text('Vaccines Table'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

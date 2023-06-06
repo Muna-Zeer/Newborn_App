@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:intl/intl.dart';
+import 'package:my_vaccine_app/apiServer.dart';
 
 class PreventiveExaminationForm extends StatefulWidget {
   @override
@@ -30,9 +31,10 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
         'time': _timeController.text,
         'ministry_id': int.parse(_ministryIdController.text),
       };
+      final baseUrl = ApiService.getBaseUrl();
 
       final url =
-          Uri.parse('http://127.0.0.1:8000/api/preventiveExaminationsMinistry');
+          Uri.parse('$baseUrl/preventiveExaminationsMinistry');
       final headers = <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       };

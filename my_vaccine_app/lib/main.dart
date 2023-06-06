@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:my_vaccine_app/screens/role.dart';
 
 import './Auth/register.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp(
+  //   options: FirebaseOptions(
+  //       apiKey: "AIzaSyC_JMG6koOiDVUrymKq2ArG8ICbd1ojSzA",
+  //       authDomain: "myvaccine-90458.firebaseapp.com",
+  //       projectId: "myvaccine-90458",
+  //       storageBucket: "myvaccine-90458.appspot.com",
+  //       messagingSenderId: "239023568069",
+  //       appId: "1:239023568069:web:769167c089a5b6750f6cac",
+  //       measurementId: "G-K0BV2M91GB"),
+  // );
   runApp(const MyApp());
 }
 

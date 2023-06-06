@@ -93,16 +93,22 @@ class Mother {
       husbandName: json['husband_name'] ?? '',
       identityNumber: json['identity_number'] ?? '',
       husbandPhoneNumber: json['husband_phone_number'] ?? '',
-      numberOfNewborns: json['number_of_newborns'] ?? 0,
       city: json['city'] ?? '',
       country: json['country'] ?? '',
       bloodType: BloodType.values.firstWhere(
-          (element) => element.toString() == 'blood_type' + json['blood_type']),
-      rhesusFactor: RhesusFactor.values.firstWhere((element) =>
-          element.toString() == 'rhesusFactor' + json['rhesusFactor']),
-      age: json['age'] ?? 0,
-      ministryId: json['ministry_of_health_id'] ?? 0,
-      hospitalId: json['hospital_id'] ?? 0,
+        (element) => element.toString() == 'blood_type.' + json['blood_type'],
+        orElse: () => BloodType.A,
+      ),
+      rhesusFactor: RhesusFactor.values.firstWhere(
+        (element) =>
+            element.toString() == 'rhesusFactor.' + json['rhesusFactor'],
+        orElse: () => RhesusFactor.Negative,
+      ),
+      numberOfNewborns:
+          int.tryParse(json['number_of_newborns'].toString()) ?? 0,
+      age: int.tryParse(json['age'].toString()) ?? 0,
+      ministryId: int.tryParse(json['ministry_id'].toString()) ?? 0,
+      hospitalId: int.tryParse(json['hospital_id'].toString()) ?? 0,
       doctorId: json['doctor_id'] ?? '',
       midwifeId: json['midwife_id'] ?? '',
       newbornIDNumber: json['newborn_id'] ?? '',
@@ -113,4 +119,41 @@ class Mother {
       hospitalName: '',
     );
   }
+
+  factory Mother.fromJsonTable(Map<String, dynamic> json) {
+  return Mother(
+    id: json['id'] ?? 0,
+    firstName: json['first_name'] ?? '',
+    lastName: json['last_name'] ?? '',
+    address: json['address'] ?? '',
+    phoneNumber: json['phone_number'] ?? '',
+    email: json['email'] ?? '',
+    dateOfBirth: json['date_of_birth'] != null ? DateTime.parse(json['date_of_birth']) : DateTime.now(),
+    husbandName: json['husband_name'] ?? '',
+    identityNumber: json['identity_number'] ?? '',
+    husbandPhoneNumber: json['husband_phone_number'] ?? '',
+    city: json['city'] ?? '',
+    country: json['country'] ?? '',
+    bloodType: json['blood_type'] != null ? BloodType.values.firstWhere(
+      (element) => element.toString() == 'BloodType.' + json['blood_type'],
+      orElse: () => BloodType.A,
+    ) : BloodType.A,
+    rhesusFactor: json['rhesusFactor'] != null ? RhesusFactor.values.firstWhere(
+      (element) => element.toString() == 'RhesusFactor.' + json['rhesusFactor'],
+      orElse: () => RhesusFactor.Negative,
+    ) : RhesusFactor.Negative,
+    age: json['age'] ?? 0,
+    ministryName: '',
+    hospitalCenterName: '',
+    doctorName: '',
+    midwifeName: '',
+    ministryId: 0,
+    hospitalId: 0,
+    hospitalName: '',
+    doctorId: 0,
+    midwifeId: 0,
+    newbornIDNumber: '', numberOfNewborns: 0,
+  );
+}
+
 }

@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:intl/intl.dart';
+import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/Feeding/feedingTable.dart';
 import 'package:my_vaccine_app/screens/Instructions/guildlineTable.dart';
 
@@ -21,7 +22,9 @@ class _GuildlineFormState extends State<GuildlineForm> {
 
   Future<void> submitForm() async {
     if (_formKey.currentState!.validate()) {
-      final url = Uri.parse('http://192.168.105.21:8000/api/guidelines');
+            final baseUrl = ApiService.getBaseUrl();
+
+      final url = Uri.parse('$baseUrl/guidelines');
       final response = await http.post(
         url,
         body: {

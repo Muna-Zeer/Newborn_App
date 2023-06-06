@@ -13,7 +13,7 @@ enum mode_of_delivery { C_S, V_D }
 enum Sex { Male, Female }
 
 class NewbornAssessments {
-  String id;
+  int id;
   String birthWeight;
   DateTime dateOfDelivery;
   mode_of_delivery modeOfDelivery;
@@ -34,6 +34,9 @@ class NewbornAssessments {
   String doctorName;
   String midwifeName;
   String nurseName;
+  int doctorid;
+  int midwifeid;
+  int nurseid;
 
   NewbornAssessments({
     required this.id,
@@ -57,6 +60,9 @@ class NewbornAssessments {
     required this.doctorName,
     required this.midwifeName,
     required this.nurseName,
+    required this.doctorid,
+    required this.midwifeid,
+    required this.nurseid,
   });
 
   factory NewbornAssessments.fromJson(Map<String, dynamic> json) {
@@ -87,11 +93,15 @@ class NewbornAssessments {
       feeding: Feeding.values.firstWhere(
           (element) => element.toString() == 'Feeding.' + json['Feeding']),
       remarks: json['Remarks'] ?? '',
-      doctorName: json['doctor_name'] ?? 0,
-      midwifeName: json['midwife_name'] ?? 0,
-      nurseName: json['nurse_name'] ?? 0,
+      doctorName: '',
+      midwifeName: '',
+      nurseName: '',
+      doctorid: json['doctor_id'] ?? 0,
+      midwifeid: json['midwife_id'] ?? 0,
+      nurseid: json['nurse_id'] ?? 0,
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,

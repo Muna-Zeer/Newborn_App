@@ -93,7 +93,7 @@ class _NewbornFormState extends State<NewbornForm> {
     if (_formKey.currentState!.validate()) {
       var uuid = Uuid().v4(); // generate a unique ID
       var newborn = Newborn(
-        id: uuid,
+        id: 0,
         firstName: _firstNameController.text,
         lastName: _lastNameController.text,
         dateOfBirth: DateTime.parse(_dateOfBirthController.text),
@@ -305,9 +305,28 @@ class _NewbornFormState extends State<NewbornForm> {
                   ),
                   TextFormField(
                     controller: _identityNumberController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
                     decoration: InputDecoration(
                         labelText: '_identity Number',
                         border: OutlineInputBorder()),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'please fill this field';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: _motherNameController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    decoration: InputDecoration(
+                        labelText: 'Mother ID', border: OutlineInputBorder()),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'please fill this field';

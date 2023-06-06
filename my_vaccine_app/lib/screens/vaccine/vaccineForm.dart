@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccine.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccineTable.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccine_api.dart';
@@ -37,7 +38,6 @@ class _VaccineFormState extends State<VaccineForm> {
     _monthVaccinationsController = TextEditingController();
     _newbornIdController = TextEditingController();
     _ministryIdController = TextEditingController();
-    _vaccinationDateController = TextEditingController(text: 'yyyy,MM,dd');
   }
 
   @override
@@ -49,7 +49,7 @@ class _VaccineFormState extends State<VaccineForm> {
     _monthVaccinationsController.dispose();
     _newbornIdController.dispose();
     _ministryIdController.dispose();
-    _vaccinationDateController.dispose();
+
     super.dispose();
   }
 
@@ -65,16 +65,34 @@ class _VaccineFormState extends State<VaccineForm> {
         monthVaccinations: _monthVaccinationsController.text,
         newbornId: int.tryParse(_newbornIdController.text) ?? 0,
         ministryId: int.tryParse(_ministryIdController.text) ?? 0, id: 0,
-        vaccinationDate: DateTime.parse(_vaccinationDateController.text),
       );
       print(' vaccine => $vaccine');
       storeVaccine(vaccine);
       print('$context,$vaccine');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Success'),
+            content: Text('Vaccine created successfully.'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
   Future<void> createVaccine(Vaccine vaccine, BuildContext context) async {
-    final url = Uri.parse('http://192.168.43.150:8000/api/storeVaccine');
+          final baseUrl = ApiService.getBaseUrl();
+
+    final url = Uri.parse('$baseUrl/storeVaccine');
     final headers = <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     };
@@ -212,6 +230,15 @@ class _VaccineFormState extends State<VaccineForm> {
                         }
                         return null;
                       }),
+                  TextFormField(
+                      controller: _monthVaccinationsController,
+                      decoration: InputDecoration(labelText: 'Month Vaccine'),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter the disease';
+                        }
+                        return null;
+                      }),
                   DropdownButtonFormField<Method>(
                     decoration: InputDecoration(
                         labelText: 'method', hintText: 'select an option'),
@@ -227,31 +254,6 @@ class _VaccineFormState extends State<VaccineForm> {
                         child: Text(value.toString().split('.').last),
                       );
                     }).toList(),
-                  ),
-                  TextFormField(
-                    controller: _vaccinationDateController,
-                    decoration: InputDecoration(labelText: 'Date of vaccine'),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Please enter a date of vaccine';
-                      }
-                      return null;
-                    },
-                    onTap: () async {
-                      final DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime.now(),
-                      );
-                      if (pickedDate != null) {
-                        final formattedDate =
-                            DateFormat('yyyy-MM-dd').format(pickedDate);
-                        setState(() {
-                          _vaccinationDateController.text = formattedDate;
-                        });
-                      }
-                    },
                   ),
                   ElevatedButton(
                     onPressed: () {

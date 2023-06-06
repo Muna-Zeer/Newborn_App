@@ -494,17 +494,6 @@ class _MotherFormState extends State<MotherForm> {
                     ),
                   ],
                 ),
-                TextFormField(
-                    controller: _newbornNameController,
-                    decoration: InputDecoration(
-                      labelText: 'Newborn Identity Number',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'please enter name of responsible newborn ';
-                      }
-                      return null;
-                    }),
                 ElevatedButton(
                   child: Text('Save'),
                   onPressed: _saveKey,

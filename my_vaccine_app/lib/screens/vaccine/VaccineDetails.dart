@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:my_vaccine_app/apiServer.dart';
+
 class VaccineTable extends StatefulWidget {
   final String identityNumber;
   final String newbornName;
@@ -22,8 +24,9 @@ class _VaccineTableState extends State<VaccineTable> {
   }
 
   Future<void> fetchData() async {
+    final baseUrl = ApiService.getBaseUrl();
     final response = await http.get(
-      Uri.parse('http://127.0.0.1:8000/api/vaccines/${widget.identityNumber}'),
+      Uri.parse('$baseUrl/vaccines/${widget.identityNumber}'),
     );
     print('response$response');
     if (response.statusCode == 200) {
@@ -60,8 +63,9 @@ class _VaccineTableState extends State<VaccineTable> {
 
   Future<void> updateVaccine(
       String id, Map<String, dynamic> updatedVaccine) async {
+    final baseUrl = ApiService.getBaseUrl();
     final response = await http.put(
-      Uri.parse('http://127.0.0.1:8000/api/vaccines/$id'),
+      Uri.parse('$baseUrl/vaccines/$id'),
       body: json.encode(updatedVaccine),
       headers: {'Content-Type': 'application/json'},
     );
@@ -74,8 +78,9 @@ class _VaccineTableState extends State<VaccineTable> {
   }
 
   Future<void> insertNewbornVaccine(Map<String, dynamic> vaccine) async {
+    final baseUrl = ApiService.getBaseUrl();
     final response = await http.post(
-      Uri.parse('http://127.0.0.1:8000/api/newborn-vaccines'),
+      Uri.parse('$baseUrl/newborn-vaccines'),
       body: json.encode({
         'identity_number': widget.identityNumber,
         'vaccination_table_id': vaccine['id'] ?? 1,

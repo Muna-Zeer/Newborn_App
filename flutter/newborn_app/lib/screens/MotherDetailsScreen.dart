@@ -32,6 +32,7 @@ class _MotherDetailsScreenState extends State<MotherDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text('id: ${mother.id.toString()}'),
                     Text('Name: ${mother.firstName}'),
                     Text('Age: ${mother.age}'),
                     Text('Address: ${mother.address}'),

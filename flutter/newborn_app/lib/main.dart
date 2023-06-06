@@ -34,7 +34,9 @@ import 'package:newborn_app/Nurse/NurseTable.dart';
 import 'package:newborn_app/constant/models/Measurement.dart';
 import 'package:newborn_app/midwife/Midwife/MidwifeTable.dart';
 import 'package:newborn_app/midwife/Midwife/midwife.dart';
+import 'package:newborn_app/mother/motherTable.dart';
 import 'package:newborn_app/nurse/NurseForm.dart';
+import 'package:newborn_app/postnatalExamination.dart/postnatalTable.dart';
 import 'package:newborn_app/screens/DoctorTable.dart';
 import 'package:newborn_app/screens/MotherDetailsScreen.dart';
 import 'package:newborn_app/widgets/HomeMother.dart';
@@ -46,6 +48,7 @@ import 'package:newborn_app/widgets/doctor.dart';
 import 'package:newborn_app/widgets/measurementChart.dart';
 import 'package:newborn_app/widgets/motherExaminationForm.dart';
 import 'package:newborn_app/widgets/motherForm.dart';
+import 'package:newborn_app/widgets/newbornTable.dart';
 import 'package:newborn_app/widgets/newborns_table.dart';
 import 'package:newborn_app/widgets/postnatalExamination.dart';
 // import './widgets/motherExaminationForm.dart';
@@ -143,6 +146,25 @@ class MyHomePage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
+                  builder: (context) => NewbornAssessmentForm(motherId: 1),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blue,
+              onPrimary: Colors.white,
+              padding: EdgeInsets.all(8),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+            ),
+            child: Text('Newborn Assessment Form'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
                   builder: (context) => MotherForm(motherId: 1),
                 ),
               );
@@ -162,7 +184,8 @@ class MyHomePage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MotherPostnatalExamination(motherId: 1),
+                  builder: (context) =>
+                      MotherPostnatalExaminationForm(motherId: 1),
                 ),
               );
             },
@@ -314,6 +337,25 @@ class MyHomePage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
+                  builder: (context) => PostnatalExaminationPage(),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blue,
+              onPrimary: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            ),
+            child: Text('View postnatal Details'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
                   builder: (context) => DoctorPage(),
                 ),
               );
@@ -327,6 +369,63 @@ class MyHomePage extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
             ),
             child: Text('View doctor Details'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MotherDetailsScreen(motherId: 1),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blue,
+              onPrimary: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            ),
+            child: Text('View mother neewborn'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MotherTablePage(),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blue,
+              onPrimary: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            ),
+            child: Text('View mother tabel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NewbornPage(),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blue,
+              onPrimary: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            ),
+            child: Text('View newborn tabel'),
           ),
           ElevatedButton(
             onPressed: () {

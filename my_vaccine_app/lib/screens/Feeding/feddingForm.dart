@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:intl/intl.dart';
+import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/Feeding/feedingTable.dart';
 
 class FeedingForm extends StatefulWidget {
@@ -21,7 +22,8 @@ class _FeedingFormState extends State<FeedingForm> {
 
   Future<void> submitForm() async {
     if (_formKey.currentState!.validate()) {
-      final url = Uri.parse('http://192.168.43.150:8000/api/feedings');
+       final baseUrl = ApiService.getBaseUrl();
+      final url = Uri.parse('$baseUrl/feedings');
       final response = await http.post(
         url,
         body: {

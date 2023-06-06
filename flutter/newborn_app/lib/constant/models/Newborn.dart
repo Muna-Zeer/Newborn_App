@@ -8,7 +8,7 @@ enum Gender { Female, Male }
 enum MethodOFDelivery { Normal, Vaccum, Forceps, C_S }
 
 class Newborn {
-  String id;
+  int id;
   String firstName;
   String lastName;
   DateTime dateOfBirth;
@@ -19,7 +19,6 @@ class Newborn {
   double length;
   Status status;
   MethodOFDelivery deliveryMethod;
-
   String motherName;
   String hospitalCenterName;
   String ministryCenterName;
@@ -96,10 +95,10 @@ class Newborn {
         'length': length,
         'status': status.toString().split('.').last,
         'delivery_method': deliveryMethod.toString().split('.').last,
-        'mother_name': motherName,
-        'hospital_name': hospitalCenterName,
-        'ministryCenter_name': ministryCenterName,
-        'doctor_name': doctorName,
-        'midwife_name': midwifeName,
+        'mother_id': motherName,
+        'hospital_center_id': hospitalCenterName,
+        'ministry_center_id': ministryCenterName,
+        'doctor_id': doctorName,
+        'midwife_id': midwifeName,
       };
 }

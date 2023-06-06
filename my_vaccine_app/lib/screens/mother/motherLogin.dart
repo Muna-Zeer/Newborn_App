@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_vaccine_app/apiServer.dart';
 import 'dart:convert';
 
 import 'package:my_vaccine_app/screens/mother/MotherAutoProfile.dart';
 import 'package:my_vaccine_app/screens/mother/mother_api.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 
 class MotherLoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -12,9 +14,19 @@ class MotherLoginPage extends StatelessWidget {
   final _identityNumberController = TextEditingController();
   final _phoneController = TextEditingController();
 
+  //retrive token
+  // Future<String> getDeviceToken() async {
+  //   FirebaseMessaging messaging = FirebaseMessaging.instance;
+  //   await messaging.requestPermission();
+  //   String? token = await messaging.getToken();
+  //   return token ?? '';
+  // }
+
   Future<void> createMotherUser(Map<String, dynamic> motherUser) async {
+    final baseUrl = ApiService.getBaseUrl();
+
     final response = await http.post(
-      Uri.parse('http://127.0.0.1:8000/api/createMotherUser'),
+      Uri.parse('$baseUrl/createMotherUser'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -86,70 +98,72 @@ class MotherLoginPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _firstNameController,
-                decoration: InputDecoration(
-                  labelText: 'First Name',
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: _firstNameController,
+                  decoration: InputDecoration(
+                    labelText: 'First Name',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your first name';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your first name';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Password',
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                  ),
+                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
                 ),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _identityNumberController,
-                decoration: InputDecoration(
-                  labelText: 'Identity Number',
+                TextFormField(
+                  controller: _identityNumberController,
+                  decoration: InputDecoration(
+                    labelText: 'Identity Number',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your identity number';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your identity number';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _phoneController,
-                decoration: InputDecoration(
-                  labelText: 'Phone of Mother',
-                  hintText: '(000) 000-0000',
+                TextFormField(
+                  controller: _phoneController,
+                  decoration: InputDecoration(
+                    labelText: 'Phone of Mother',
+                    hintText: '(000) 000-0000',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Please enter a phone number';
+                    }
+                    final phoneRegExp = RegExp(r'^\d{10}$');
+                    if (!phoneRegExp.hasMatch(value)) {
+                      return 'Please enter a valid phone number';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Please enter a phone number';
-                  }
-                  final phoneRegExp = RegExp(r'^\d{10}$');
-                  if (!phoneRegExp.hasMatch(value)) {
-                    return 'Please enter a valid phone number';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => _login(context),
-                child: Text('Login'),
-              ),
-            ],
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () => _login(context),
+                  child: Text('Login'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

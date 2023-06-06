@@ -48,7 +48,7 @@ class Midwife {
 
   factory Midwife.fromJson(Map<String, dynamic> json) {
     return Midwife(
-      id: json['id'] ?? 0,
+      id: int.parse((json['id'] ?? 0).toString()),
       name: json['name'] ?? '',
       salary: json['salary'] ?? 0,
       hours: json['hours'] ?? 0,

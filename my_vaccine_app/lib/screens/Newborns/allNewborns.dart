@@ -105,6 +105,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:my_vaccine_app/apiServer.dart';
+
 class NewbornVaccinePage extends StatefulWidget {
   @override
   _VaccinePageState createState() => _VaccinePageState();
@@ -124,8 +126,10 @@ class _VaccinePageState extends State<NewbornVaccinePage> {
   }
 
   Future<void> fetchNewbornRecords({String? selectedVaccine}) async {
+          final baseUrl = ApiService.getBaseUrl();
+
     final response = await http
-        .get(Uri.parse('http://127.0.0.1:8000/api/compare-newborn-age'));
+        .get(Uri.parse('$baseUrl/compare-newborn-age'));
 
     if (response.statusCode == 200) {
       try {
@@ -146,8 +150,10 @@ class _VaccinePageState extends State<NewbornVaccinePage> {
   }
 
   Future<void> fetchVaccineNames() async {
+          final baseUrl = ApiService.getBaseUrl();
+
     final response =
-        await http.get(Uri.parse('http://127.0.0.1:8000/api/allVaccines'));
+        await http.get(Uri.parse('$baseUrl/allVaccines'));
 
     if (response.statusCode == 200) {
       try {
@@ -155,10 +161,11 @@ class _VaccinePageState extends State<NewbornVaccinePage> {
         final jsonData = data['data'];
 
         setState(() {
-          vaccineNames = List<String>.from(
-              jsonData.map((vaccine) => vaccine['name'].toString()));
-          selectedVaccine =
-              vaccineNames.first; // Select the first vaccine by default
+          vaccineNames = jsonData.isNotEmpty
+              ? List<String>.from(
+                  jsonData.map((vaccine) => vaccine['name'].toString()))
+              : [];
+          selectedVaccine = vaccineNames.isNotEmpty ? vaccineNames.first : null;
         });
       } catch (e) {
         print('Error parsing JSON: $e');
@@ -209,8 +216,7 @@ class _VaccinePageState extends State<NewbornVaccinePage> {
                 onChanged: (String? selectedVaccine) {
                   setState(() {
                     this.selectedVaccine = selectedVaccine;
-                    filterRecords(
-                        selectedVaccine); // Filter records based on the selected vaccine
+                    filterRecords(selectedVaccine);
                   });
                 },
               ),
