@@ -149,8 +149,15 @@ class _EditVaccineState extends State<EditVaccine> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Vaccine Form'),
+    appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              ' تحديث التطعيم',
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -162,7 +169,8 @@ class _EditVaccineState extends State<EditVaccine> {
               children: [
                 TextFormField(
                   controller: _nameController,
-                  decoration: InputDecoration(labelText: 'Name'),
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(labelText: 'اسم التطعيم'),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter the name';
@@ -172,7 +180,8 @@ class _EditVaccineState extends State<EditVaccine> {
                 ),
                 TextFormField(
                   controller: _dosesController,
-                  decoration: InputDecoration(labelText: 'Doses'),
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(labelText: 'عدد الجرعات'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -183,7 +192,8 @@ class _EditVaccineState extends State<EditVaccine> {
                 ),
                 TextFormField(
                   controller: _placeController,
-                  decoration: InputDecoration(labelText: 'Place'),
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(labelText: 'مكان الاعطاء'),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter the place';
@@ -193,7 +203,8 @@ class _EditVaccineState extends State<EditVaccine> {
                 ),
                 TextFormField(
                   controller: _diseasesController,
-                  decoration: InputDecoration(labelText: 'Diseases'),
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(labelText: 'الامراض الوقائية'),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter the disease';
@@ -203,7 +214,7 @@ class _EditVaccineState extends State<EditVaccine> {
                 ),
                 DropdownButtonFormField<Method>(
                   decoration: InputDecoration(
-                    labelText: 'Method',
+                    labelText: 'طريقة الاعطاء',
                     hintText: 'Select an option',
                   ),
                   value: _method,
@@ -227,7 +238,8 @@ class _EditVaccineState extends State<EditVaccine> {
                 ),
                 TextFormField(
                   controller: _monthVaccinationsController,
-                  decoration: InputDecoration(labelText: 'Month'),
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(labelText: 'الشهر'),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter the month';
@@ -240,7 +252,7 @@ class _EditVaccineState extends State<EditVaccine> {
                     submitForm();
                   },
                   child: Text(
-                    'Update Vaccine',
+                    'تحديث التطعيم ',textAlign: TextAlign.right,
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -254,7 +266,7 @@ class _EditVaccineState extends State<EditVaccine> {
                     );
                   },
                   child: Text(
-                    'View Table',
+                    'مشاهدة الجدول',
                     style: TextStyle(
                       color: Colors.white,
                     ),

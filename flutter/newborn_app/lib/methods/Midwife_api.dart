@@ -3,13 +3,15 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:newborn_app/apiService.dart';
 import 'package:newborn_app/constant/models/midwifem.dart';
 import 'package:newborn_app/midwife/Midwife/midwifeAlert.dart';
+final baseUrl = ApiService.getBaseUrl();
 
 //get info of doctor by doctorId
 Future<Midwife> fetchMidwife(int midwifeId) async {
   final response = await http
-      .get(Uri.parse('http://127.0.0.1:8000/api/midwives/$midwifeId'));
+      .get(Uri.parse('$baseUrl/midwives/$midwifeId'));
   if (response.statusCode == 200) {
     return Midwife.fromJson(jsonDecode(response.body));
   } else {
@@ -20,7 +22,7 @@ Future<Midwife> fetchMidwife(int midwifeId) async {
 Future<bool> createMidwife(Midwife midwife, BuildContext context) async {
   var request = http.MultipartRequest(
     'POST',
-    Uri.parse('http://127.0.0.1:8000/api/midwives'),
+    Uri.parse('$baseUrl/midwives'),
   );
   request.fields['id'] = midwife.name;
   request.fields['name'] = midwife.name;
@@ -69,7 +71,7 @@ Future<bool> createMidwife(Midwife midwife, BuildContext context) async {
 
 Future<void> deleteMidwifeAlert(int id, BuildContext context) async {
   final response =
-      await http.delete(Uri.parse('http://127.0.0.1:8000/api/midwives/$id'));
+      await http.delete(Uri.parse('$baseUrl/midwives/$id'));
 
   if (response.statusCode == 200) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -88,7 +90,7 @@ Future<void> deleteMidwifeAlert(int id, BuildContext context) async {
 
 Future<bool> editMidwife(int id, BuildContext context) async {
   final response =
-      await http.put(Uri.parse('http://127.0.0.1:8000/api/doctors/$id'));
+      await http.put(Uri.parse('$baseUrl/doctors/$id'));
 
   if (response.statusCode == 200) {
     return true;
@@ -103,7 +105,7 @@ Future<bool> updateMidwife(
   final scheduleString = jsonEncode(MidwifeData.schedule);
 
   final response =
-      await http.put(Uri.parse('http://127.0.0.1:8000/api/doctors/$id'), body: {
+      await http.put(Uri.parse('$baseUrl/doctors/$id'), body: {
     'name': MidwifeData.name,
     'salary': MidwifeData.salary.toString(),
     'schedule': scheduleString,

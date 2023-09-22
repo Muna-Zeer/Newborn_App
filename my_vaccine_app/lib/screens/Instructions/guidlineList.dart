@@ -39,13 +39,24 @@ class _GuidelineListState extends State<GuidelineList> {
 
             return ListTile(
               title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('Vaccine Name: ${guideline.vaccineName ?? ''}'),
-                  Text('Side Effects: ${guideline.sideEffects ?? ''}'),
-                  Text('Instructions: ${guideline.careInstructions ?? ''}'),
                   Text(
-                      'Preventive Method: ${guideline.preventionMethod ?? ''}'),
+                    'اسم التطعيم: ${guideline.vaccineName ?? ''}',
+                    textAlign: TextAlign.right,
+                  ),
+                  Text(
+                    'الاثارالجانبية: ${guideline.sideEffects ?? ''}',
+                    textAlign: TextAlign.right,
+                  ),
+                  Text(
+                    'التعليمات: ${guideline.careInstructions ?? ''}',
+                    textAlign: TextAlign.right,
+                  ),
+                  Text(
+                    'طريقة الوقاية: ${guideline.preventionMethod ?? ''}',
+                    textAlign: TextAlign.right,
+                  ),
                 ],
               ),
               onTap: () {
@@ -67,17 +78,40 @@ class _GuidelineListState extends State<GuidelineList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Guidelines'),
-      ),
-      body: ListView.builder(
-        itemCount: guidelineList.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: guidelineList[index],
-          );
-        },
+    return Container(
+      color: Colors.lightBlue, // Set the desired background color
+      child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                ' الارشادات الصحية',
+                textAlign: TextAlign.right,
+              ),
+            ],
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.all(18.0),
+              child: SizedBox(
+                width:
+                    MediaQuery.of(context).size.width, // Set the desired width
+                height: MediaQuery.of(context)
+                    .size
+                    .height, // Set the desired height
+                child: ListView.builder(
+                  itemCount: guidelineList.length,
+                  itemBuilder: (context, index) {
+                    return guidelineList[index];
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

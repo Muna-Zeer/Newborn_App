@@ -48,7 +48,14 @@ class VaccineInstructionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vaccine Instructions'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              ' تعليمات التطعيم',
+            ),
+          ],
+        ),
       ),
       body: ListView(
         padding: EdgeInsets.all(16),

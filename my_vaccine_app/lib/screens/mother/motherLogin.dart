@@ -94,7 +94,14 @@ class MotherLoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mother Login'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              ' تسجيل دخول الام',
+            ),
+          ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -103,64 +110,76 @@ class MotherLoginPage extends StatelessWidget {
             key: _formKey,
             child: Column(
               children: [
-                TextFormField(
-                  controller: _firstNameController,
-                  decoration: InputDecoration(
-                    labelText: 'First Name',
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: TextFormField(
+                    controller: _firstNameController,
+                    decoration: InputDecoration(
+                      labelText: 'الاسم الاول',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your first name';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your first name';
-                    }
-                    return null;
-                  },
                 ),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: TextFormField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      labelText: 'الرقم السري',
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      return null;
+                    },
                   ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    return null;
-                  },
                 ),
-                TextFormField(
-                  controller: _identityNumberController,
-                  decoration: InputDecoration(
-                    labelText: 'Identity Number',
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: TextFormField(
+                    controller: _identityNumberController,
+                    decoration: InputDecoration(
+                      labelText: 'رقم الهوية',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your identity number';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your identity number';
-                    }
-                    return null;
-                  },
                 ),
-                TextFormField(
-                  controller: _phoneController,
-                  decoration: InputDecoration(
-                    labelText: 'Phone of Mother',
-                    hintText: '(000) 000-0000',
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: TextFormField(
+                    controller: _phoneController,
+                    decoration: InputDecoration(
+                      labelText: 'رقم الهاتف',
+                      hintText: '(000) 000-0000',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Please enter a phone number';
+                      }
+                      final phoneRegExp = RegExp(r'^\d{10}$');
+                      if (!phoneRegExp.hasMatch(value)) {
+                        return 'Please enter a valid phone number';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Please enter a phone number';
-                    }
-                    final phoneRegExp = RegExp(r'^\d{10}$');
-                    if (!phoneRegExp.hasMatch(value)) {
-                      return 'Please enter a valid phone number';
-                    }
-                    return null;
-                  },
                 ),
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () => _login(context),
-                  child: Text('Login'),
+                  child: Text('تسجيل الدخول'),
                 ),
               ],
             ),

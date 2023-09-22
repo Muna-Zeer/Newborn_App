@@ -3,13 +3,14 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:newborn_app/apiService.dart';
 import 'package:newborn_app/constant/models/nurse.dart';
 
 import 'package:newborn_app/nurse/nurseAlert.dart';
-
+final baseUrl = ApiService.getBaseUrl();
 Future<Nurse> fetchNurse(int nurseId) async {
   final response =
-      await http.get(Uri.parse('http://127.0.0.1:8000/api/nurses/$nurseId'));
+      await http.get(Uri.parse('$baseUrl/nurses/$nurseId'));
   if (response.statusCode == 200) {
     return Nurse.fromJson(jsonDecode(response.body));
   } else {
@@ -20,7 +21,7 @@ Future<Nurse> fetchNurse(int nurseId) async {
 Future<bool> createNurse(Nurse nurse, BuildContext context) async {
   var request = http.MultipartRequest(
     'POST',
-    Uri.parse('http://127.0.0.1:8000/api/nurses'),
+    Uri.parse('$baseUrl/nurses'),
   );
 
   request.headers['Content-Type'] =
@@ -66,7 +67,7 @@ Future<bool> createNurse(Nurse nurse, BuildContext context) async {
 
 Future<void> deleteNurse(int id, BuildContext context) async {
   final response =
-      await http.delete(Uri.parse('http://127.0.0.1:8000/api/nurses/$id'));
+      await http.delete(Uri.parse('$baseUrl/nurses/$id'));
 
   if (response.statusCode == 200) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -85,7 +86,7 @@ Future<void> deleteNurse(int id, BuildContext context) async {
 
 Future<bool> editNurse(int id, BuildContext context) async {
   final response =
-      await http.put(Uri.parse('http://127.0.0.1:8000/api/nurses/$id'));
+      await http.put(Uri.parse('$baseUrl/nurses/$id'));
 
   if (response.statusCode == 200) {
     return true;
@@ -99,7 +100,7 @@ Future<bool> updateNurse(int id, Nurse nurseData, BuildContext context) async {
   // final scheduleString = jsonEncode(nurseData.schedule);
 
   final response =
-      await http.put(Uri.parse('http://127.0.0.1:8000/api/nurses/$id'), body: {
+      await http.put(Uri.parse('$baseUrl/nurses/$id'), body: {
     'name': nurseData.name,
     'specialization_id': nurseData.specialization,
     'hospital_center_id': nurseData.hospitalId,

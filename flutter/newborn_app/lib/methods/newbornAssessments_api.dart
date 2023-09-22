@@ -1,11 +1,12 @@
 import 'package:http/http.dart' as http;
+import 'package:newborn_app/apiService.dart';
 import 'dart:convert';
 
 import 'package:newborn_app/constant/models/newbornAssessments.dart';
-
+final baseUrl = ApiService.getBaseUrl();
 Future<bool> createNewbornAssessment(NewbornAssessments assessment) async {
   final response = await http.post(
-    Uri.parse('http://127.0.0.1:8000/api/newbornAssessments'),
+    Uri.parse('$baseUrl/newbornAssessments'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

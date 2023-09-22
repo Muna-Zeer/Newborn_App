@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:newborn_app/alert/doctorAlert.dart';
+import 'package:newborn_app/apiService.dart';
 import 'package:newborn_app/constant/models/Doctor.dart';
-import 'package:path/path.dart';
-
+final baseUrl = ApiService.getBaseUrl();
 //get info of doctor by doctorId
 Future<Doctor> fetchDoctor(int doctorId) async {
   final response =
-      await http.get(Uri.parse('http://127.0.0.1:8000/api/doctors/$doctorId'));
+      await http.get(Uri.parse('$baseUrl/doctors/$doctorId'));
   if (response.statusCode == 200) {
     return Doctor.fromJson(jsonDecode(response.body));
   } else {
@@ -20,7 +19,7 @@ Future<Doctor> fetchDoctor(int doctorId) async {
 
 Future<List<dynamic>> fetchDoctors() async {
   final response =
-      await http.get(Uri.parse('http://127.0.0.1:8000/api/fetchDoctors'));
+      await http.get(Uri.parse('$baseUrl/fetchDoctors'));
   if (response.statusCode == 200) {
     return jsonDecode(response.body)['data'];
   } else {
@@ -32,7 +31,7 @@ Future<bool> createDoctor(
     Doctor doctor, String imageString, BuildContext context) async {
   var request = http.MultipartRequest(
     'POST',
-    Uri.parse('http://127.0.0.1:8000/api/doctors'),
+    Uri.parse('$baseUrl/doctors'),
   );
   File? image;
   if (image != null) {}
@@ -79,7 +78,7 @@ Future<bool> createDoctor(
 
 Future<void> deleteDoctor(int id, BuildContext context) async {
   final response =
-      await http.delete(Uri.parse('http://127.0.0.1:8000/api/doctors/$id'));
+      await http.delete(Uri.parse('$baseUrl/doctors/$id'));
 
   if (response.statusCode == 200) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -98,7 +97,7 @@ Future<void> deleteDoctor(int id, BuildContext context) async {
 
 Future<bool> editDoctor(int id, BuildContext context) async {
   final response =
-      await http.put(Uri.parse('http://127.0.0.1:8000/api/doctors/$id'));
+      await http.put(Uri.parse('$baseUrl/doctors/$id'));
 
   if (response.statusCode == 200) {
     return true;
@@ -118,7 +117,7 @@ Future<bool> updateSchedule(int id, List<Map<String, String>> schedule) async {
   });
 
   final response = await http.put(
-    Uri.parse('http://127.0.0.1:8000/api/doctors/$id'),
+    Uri.parse('$baseUrl/doctors/$id'),
     body: {
       ...scheduleFields.reduce((value, element) => value..addAll(element)),
     },
@@ -137,7 +136,7 @@ Future<bool> updateDoctor(
   final scheduleString = jsonEncode(doctorData.schedule);
 
   final response =
-      await http.put(Uri.parse('http://127.0.0.1:8000/api/doctors/$id'), body: {
+      await http.put(Uri.parse('$baseUrl/doctors/$id'), body: {
     'name': doctorData.name,
     'specialization': doctorData.specialization,
     'country': doctorData.country,
@@ -163,8 +162,8 @@ Future<bool> updateDoctor(
 }
 
 Future<List<Map<String, dynamic>>> fetchHospitals() async {
-  final response =
-      await http.get(Uri.parse('http://127.0.0.1:8000/api/hospitals'));
+  
+  final response = await http.get(Uri.parse('$baseUrl/hospitals/'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Map<String, dynamic>> hospitals =
@@ -182,7 +181,7 @@ Future<List<Map<String, dynamic>>> fetchHospitals() async {
 
 Future<List<Map<String, dynamic>>> fetchDoctorHospital() async {
   final response =
-      await http.get(Uri.parse('http://127.0.0.1:8000/api/doctors'));
+      await http.get(Uri.parse('$baseUrl/doctors'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Map<String, dynamic>> doctors =
@@ -200,7 +199,7 @@ Future<List<Map<String, dynamic>>> fetchDoctorHospital() async {
 
 Future<List<Map<String, dynamic>>> fetchMidwives() async {
   final response =
-      await http.get(Uri.parse('http://127.0.0.1:8000/api/midwivesForm'));
+      await http.get(Uri.parse('$baseUrl/midwivesForm'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Map<String, dynamic>> doctors =
@@ -218,7 +217,7 @@ Future<List<Map<String, dynamic>>> fetchMidwives() async {
 
 Future<List<Map<String, dynamic>>> fetchMinistriesOfHealth() async {
   final response =
-      await http.get(Uri.parse('http://127.0.0.1:8000/api/ministryofhealths'));
+      await http.get(Uri.parse('$baseUrl/ministryofhealths'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Map<String, dynamic>> ministriesOfHealth =
@@ -236,7 +235,7 @@ Future<List<Map<String, dynamic>>> fetchMinistriesOfHealth() async {
 
 Future<List<Map<String, dynamic>>> fetchNurses() async {
   final response =
-      await http.get(Uri.parse('http://127.0.0.1:8000/api/fetchNurse'));
+      await http.get(Uri.parse('$baseUrl/fetchNurse'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Map<String, dynamic>> ministriesOfHealth =
@@ -254,7 +253,7 @@ Future<List<Map<String, dynamic>>> fetchNurses() async {
 
 Future<List<Map<String, dynamic>>> fetchVaccines() async {
   final response =
-      await http.get(Uri.parse('http://127.0.0.1:8000/api/fetchVaccines'));
+      await http.get(Uri.parse('$baseUrl/fetchVaccines'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Map<String, dynamic>> ministriesOfHealth =

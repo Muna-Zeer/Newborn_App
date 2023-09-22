@@ -37,34 +37,78 @@ class _NewbornsWidgetState extends State<NewbornsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: DataTable(
-        columns: const <DataColumn>[
-          DataColumn(
-            label: Text('Index'),
-          ),
-          DataColumn(
-            label: Text('Newborn Identity Number'),
-          ),
-        ],
-        rows: List<DataRow>.generate(
-          newborns.length,
-          (index) => DataRow(
-            cells: [
-              DataCell(
-                Text((index + 1).toString()),
+    return Container(
+      height: MediaQuery.of(context).size.height, // Set a specific height
+      child: ListView.builder(
+        itemCount: newborns.length + 1,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return Container(
+              color: Colors.grey[300],
+              child: Row(
+                children: const <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'الرقم',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'رقم هوية الطفل',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              DataCell(
-                GestureDetector(
-                  onTap: () {
-                    navigateToNewbornDetails(newborns[index]);
-                  },
-                  child: Text(newborns[index]['identity_number']),
-                ),
+            );
+          }
+
+          final newborn = newborns[index - 1];
+
+          return GestureDetector(
+            onTap: () {
+              navigateToNewbornDetails(newborn);
+            },
+            child: Container(
+              color: index % 2 == 0 ? Colors.grey[200] : Colors.white,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        index.toString(),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        newborn['identity_number'],
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

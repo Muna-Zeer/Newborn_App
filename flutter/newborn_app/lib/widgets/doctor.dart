@@ -246,58 +246,70 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                 Row(
                   children: [
                     Expanded(
-                      child: TextFormField(
-                        controller: nameController,
-                        decoration: InputDecoration(
-                          labelText: 'Doctor Name',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
+                      flex:
+                          1, // Adjust flex values to control width distribution
+                      child: Padding(
+                        padding: const EdgeInsets.all(
+                            8.0), // Add spacing between text fields
+                        child: TextFormField(
+                          controller: nameController,
+                          decoration: InputDecoration(
+                            labelText: 'Doctor Name',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                            errorStyle: TextStyle(color: Colors.red),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          errorStyle: TextStyle(color: Colors.red),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter the doctor name';
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the doctor name';
-                          }
-                          return null;
-                        },
                       ),
                     ),
-                    SizedBox(width: 16.0),
+                    SizedBox(width: 16.0), // Add spacing between text fields
                     Expanded(
-                      child: TextFormField(
-                        controller: aboutController,
-                        decoration: InputDecoration(
-                          labelText: 'About Doctor',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
+                      flex:
+                          1, // Adjust flex values to control width distribution
+                      child: Padding(
+                        padding: const EdgeInsets.all(
+                            8.0), // Add spacing between text fields
+                        child: TextFormField(
+                          controller: aboutController,
+                          decoration: InputDecoration(
+                            labelText: 'About Doctor',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                            errorStyle: TextStyle(color: Colors.red),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          style: TextStyle(
+                            fontSize: 16,
+                            height: 1.5,
                           ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          errorStyle: TextStyle(color: Colors.red),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter some information about the doctor';
+                            }
+                            return null;
+                          },
                         ),
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        style: TextStyle(
-                          fontSize: 16,
-                          height: 1.5,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some information about the doctor';
-                          }
-                          return null;
-                        },
                       ),
                     ),
                   ],

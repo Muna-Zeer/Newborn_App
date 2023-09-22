@@ -66,8 +66,8 @@ class _GuidelineEditState extends State<GuidelineEdit> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Success'),
-              content: Text('Guideline updated successfully.'),
+              title: Text('تم'),
+              content: Text('تم التحديث يتجاح.'),
               actions: <Widget>[
                 TextButton(
                   child: Text('OK'),
@@ -89,8 +89,8 @@ class _GuidelineEditState extends State<GuidelineEdit> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
-            content: Text('Failed to update guideline.'),
+            title: Text('خطا'),
+            content: Text('لم يام التحديث'),
             actions: <Widget>[
               TextButton(
                 child: Text('OK'),
@@ -109,7 +109,14 @@ class _GuidelineEditState extends State<GuidelineEdit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Guildline Form'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              ' تحديث الاراشادات الصحية',
+            ),
+          ],
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -119,7 +126,8 @@ class _GuidelineEditState extends State<GuidelineEdit> {
             children: [
               TextFormField(
                 controller: preventionMethodController,
-                decoration: InputDecoration(labelText: 'prevent Method'),
+                textAlign: TextAlign.right,
+                decoration: InputDecoration(labelText: 'طريقةالوفاية'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter the prevent Method';
@@ -129,7 +137,8 @@ class _GuidelineEditState extends State<GuidelineEdit> {
               ),
               TextFormField(
                 controller: careInstructionsController,
-                decoration: InputDecoration(labelText: 'care Instruction'),
+                textAlign: TextAlign.right,
+                decoration: InputDecoration(labelText: 'التعليمات الصحية'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter the care Instruction';
@@ -139,7 +148,8 @@ class _GuidelineEditState extends State<GuidelineEdit> {
               ),
               TextFormField(
                 controller: sideEffectsController,
-                decoration: InputDecoration(labelText: 'Side Effect'),
+                textAlign: TextAlign.right,
+                decoration: InputDecoration(labelText: 'الاثارا الجانبية'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter the Side Effect';
@@ -149,7 +159,8 @@ class _GuidelineEditState extends State<GuidelineEdit> {
               ),
               TextFormField(
                 controller: vaccineNameController,
-                decoration: InputDecoration(labelText: 'Vaccine Name'),
+                textAlign: TextAlign.right,
+                decoration: InputDecoration(labelText: 'اسم التطعيم'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter the Vaccine Name';
@@ -162,7 +173,7 @@ class _GuidelineEditState extends State<GuidelineEdit> {
                   submitForm();
                 },
                 child: Text(
-                  'Update guildline',
+                  'تحديث',
                   style: TextStyle(
                     color: Colors.white,
                   ),
@@ -176,7 +187,7 @@ class _GuidelineEditState extends State<GuidelineEdit> {
                   );
                 },
                 child: Text(
-                  'View Table',
+                  'مشاعدة الجدول',
                   style: TextStyle(
                     color: Colors.white,
                   ),

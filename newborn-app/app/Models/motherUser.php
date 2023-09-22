@@ -18,4 +18,8 @@ class MotherUser extends Model
     {
         return $this->belongsTo(Role::class);
     }
+    public function mother()
+    {
+        return $this->belongsTo(Mother::class, 'identity_number', 'identity_number');
+    }
 }

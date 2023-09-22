@@ -55,45 +55,192 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Newborn Details'),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                'معلومات عن الطفل ',
+              ),
+            ],
+          ),
         ),
         body: SingleChildScrollView(
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Newborn Identity Number: ${widget.newbornData['identity_number']}',
+            child: Padding(
+              padding: EdgeInsets.only(top: 60),
+              child: Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
-                Text('ID: ${widget.newbornData['id']}'),
-                Text('First Name: ${widget.newbornData['firstName']}'),
-                Text('Last Name: ${widget.newbornData['lastName']}'),
-                Text('Date of Birth: ${widget.newbornData['date_of_birth']}'),
-                Text('Gender: ${widget.newbornData['gender']}'),
-                Text('Mother Name: ${widget.newbornData['motherName']}'),
-                SizedBox(height: 20),
-                Text(
-                  'Vaccine Details:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => VaccineTable(
-                          identityNumber: widget.newbornData['identity_number'],
-                          newbornName: widget.newbornData['firstName'] +
-                              ' ' +
-                              widget.newbornData['lastName'],
+                color: Colors.blue[50],
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: 100, right: 100, top: 30, bottom: 70),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 350.0,
+                        height: 40.0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Text(
+                              'رقم هوية الطفل: ${widget.newbornData['identity_number']}',
+                              textAlign: TextAlign.right),
                         ),
                       ),
-                    );
-                  },
-                  child: Text('Vaccines Table'),
+                      SizedBox(height: 8.0),
+                      SizedBox(
+                        width: 350,
+                        height: 40.0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Text('الرقم: ${widget.newbornData['id']}',
+                              textAlign: TextAlign.right),
+                        ),
+                      ),
+                      SizedBox(height: 8.0),
+                      SizedBox(
+                        width: 350,
+                        height: 40.0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Text(
+                              'الاسم الاول: ${widget.newbornData['firstName']}',
+                              textAlign: TextAlign.right),
+                        ),
+                      ),
+                      SizedBox(height: 8.0),
+                      SizedBox(
+                        width: 350,
+                        height: 40.0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Text(
+                              'الاسم الاخير: ${widget.newbornData['lastName']}',
+                              textAlign: TextAlign.right),
+                        ),
+                      ),
+                      SizedBox(height: 8.0),
+                      SizedBox(
+                        width: 350,
+                        height: 40.0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Text(
+                              'تاريخ الميلاد: ${widget.newbornData['date_of_birth']}',
+                              textAlign: TextAlign.right),
+                        ),
+                      ),
+                      SizedBox(height: 8.0),
+                      SizedBox(
+                        width: 350,
+                        height: 40.0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Text('الجنس: ${widget.newbornData['gender']}',
+                              textAlign: TextAlign.right),
+                        ),
+                      ),
+                      SizedBox(height: 8.0),
+                      // SizedBox(
+                      //   width: 350,
+                      //   height: 40.0,
+                      //   child: Container(
+                      //     decoration: BoxDecoration(
+                      //       border: Border.all(
+                      //         color: Colors.grey,
+                      //         width: 1.0,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8.0),
+                      //     ),
+                      //     child: Text(
+                      //         'اسم الام: ${widget.newbornData['motherName']}',
+                      //         textAlign: TextAlign.right),
+                      //   ),
+                      // ),
+                      // SizedBox(height: 8.0),
+                      // SizedBox(
+                      //   width: 350,
+                      //   height: 40.0,
+                      //   child: Container(
+                      //     decoration: BoxDecoration(
+                      //       border: Border.all(
+                      //         color: Colors.grey,
+                      //         width: 1.0,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(8.0),
+                      //     ),
+                      //     child: Text(
+                      //       'معلومات عن التطعيم:',
+                      //       style: TextStyle(
+                      //           fontSize: 18, fontWeight: FontWeight.bold),
+                      //     ),
+                      //   ),
+                      // ),
+                      SizedBox(height: 8.0),
+                      Container(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => VaccineTable(
+                                  identityNumber:
+                                      widget.newbornData['identity_number'],
+                                  newbornName: widget.newbornData['firstName'] +
+                                      ' ' +
+                                      widget.newbornData['lastName'],
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text('معلومات التطعيم',
+                              textAlign:
+                                  TextAlign.right), // Add a child widget here
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
           ),
         ),

@@ -15,7 +15,7 @@ import 'package:my_vaccine_app/screens/sidebar.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccineForm.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccineList.dart';
 
-class RoleScreen extends StatelessWidget {
+class DoctorTask extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -49,12 +49,12 @@ class RoleScreen extends StatelessWidget {
               SizedBox(
                 height: size.height * 0.01,
               ),
-              // Image.asset(
-              //   '/images.jpeg', // Replace with the URL of your image
-              //   width: size.width * 0.3, // Set the desired width
-              //   height: size.height * 0.3, // Set the desired height
-              //   fit: BoxFit.contain,
-              // ),
+              Image.asset(
+                '/images.jpeg', // Replace with the URL of your image
+                width: size.width * 0.8, // Set the desired width
+                height: size.height * 0.3, // Set the desired height
+                fit: BoxFit.contain,
+              ),
               SizedBox(height: size.height * 0.01),
               Text(
                 'أهلاً بكم في تطبيق التطعيمات', // Replace with your desired text
@@ -85,113 +85,9 @@ class RoleScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              // SizedBox(height: size.height * 0.01),
-              // SizedBox(
-              //   width: size.width * 0.6,
-              //   height: size.height * 0.08,
-              //   child: Container(
-              //     decoration: BoxDecoration(
-              //       color: Colors.lightBlue, // Set the desired background color
-              //       borderRadius: BorderRadius.circular(10),
-              //       boxShadow: [
-              //         BoxShadow(
-              //           color: Colors.grey.withOpacity(0.5),
-              //           spreadRadius: 2,
-              //           blurRadius: 5,
-              //           offset: Offset(0, 3), // changes position of shadow
-              //         ),
-              //       ],
-              //     ),
-              //     child: ElevatedButton(
-              //       onPressed: () {
-              //         Navigator.push(
-              //           context,
-              //           MaterialPageRoute(
-              //               builder: (context) => PreventiveExaminationForm()),
-              //         );
-              //       },
-              //       style: ElevatedButton.styleFrom(
-              //         primary: Colors
-              //             .transparent, // Set the button background color to transparent
-              //         elevation: 0, // Remove the button's elevation
-              //       ),
-              //       child: Text(
-              //         'الفحوصات الوقائية',
-              //         style: TextStyle(
-              //           color: Colors.white,
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(height: size.height * 0.01),
-              // SizedBox(
-              //   width: size.width * 0.6, // Set the desired width
-              //   height: size.height * 0.08, // Set the desired height
-              //   child: ElevatedButton(
-              //     onPressed: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //           builder: (context) => PreventiveExaminationCenter(),
-              //         ),
-              //       );
-              //     },
-              //     child: Text(
-              //       'Preventive Examination Center',
-              //       style: TextStyle(
-              //         color: Colors.white,
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              SizedBox(height: size.height * 0.01),
-              // SizedBox(
-              //   width: size.width * 0.6,
-              //   height: size.height * 0.08,
-              //   child: ElevatedButton(
-              //     onPressed: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(builder: (context) => FeedingForm()),
-              //       );
-              //     },
-              //     style: ElevatedButton.styleFrom(
-              //       primary:
-              //           Colors.lightGreen, // Set the desired background color
-              //     ),
-              //     child: Text(
-              //       'تغذية الطفل',
-              //       style: TextStyle(
-              //         color: Colors.white,
-              //       ),
-              //     ),
-              //   ),
-              // ),
               SizedBox(
                 height: size.height * 0.01,
               ),
-              // SizedBox(
-              //   width: size.width * 0.6,
-              //   height: size.height * 0.08,
-              //   child: ElevatedButton(
-              //     onPressed: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(builder: (context) => GuildlineForm()),
-              //       );
-              //     },
-              //     style: ElevatedButton.styleFrom(
-              //       primary: Colors.pink, // Set the desired background color
-              //     ),
-              //     child: Text(
-              //       'الإرشادات الصحية',
-              //       style: TextStyle(
-              //         color: Colors.white,
-              //       ),
-              //     ),
-              //   ),
-              // ),
               Column(
                 children: [
                   SizedBox(height: size.height * 0.01),

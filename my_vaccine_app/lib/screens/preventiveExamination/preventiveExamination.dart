@@ -33,8 +33,7 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
       };
       final baseUrl = ApiService.getBaseUrl();
 
-      final url =
-          Uri.parse('$baseUrl/preventiveExaminationsMinistry');
+      final url = Uri.parse('$baseUrl/preventiveExaminationsMinistry');
       final headers = <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       };
@@ -125,7 +124,14 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Preventive Examination Form'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              ' اضافة الفحوصات الوقائية',
+            ),
+          ],
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -135,8 +141,9 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
             children: <Widget>[
               TextFormField(
                 controller: _examTypeController,
+                textAlign: TextAlign.right,
                 decoration: InputDecoration(
-                  labelText: 'Exam Type',
+                  labelText: 'نوع الفحص ',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -147,8 +154,9 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
               ),
               TextFormField(
                 controller: _dateController,
+                textAlign: TextAlign.right,
                 decoration: InputDecoration(
-                  labelText: 'Date',
+                  labelText: 'التاريخ',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -173,8 +181,9 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
               ),
               TextFormField(
                 controller: _timeController,
+                textAlign: TextAlign.right,
                 decoration: InputDecoration(
-                  labelText: 'Time',
+                  labelText: 'الوقت',
                 ),
                 onTap: () async {
                   final initialTime = TimeOfDay.now();
@@ -196,7 +205,7 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
               TextFormField(
                 controller: _ministryIdController,
                 decoration: InputDecoration(
-                  labelText: 'Ministry ID',
+                  labelText: 'رقم وزارة الصحة ',
                 ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -207,7 +216,7 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
                 },
               ),
               ElevatedButton(
-                child: Text('Submit'),
+                child: Text('ارسال', textAlign: TextAlign.right),
                 onPressed: submitForm,
               ),
             ],

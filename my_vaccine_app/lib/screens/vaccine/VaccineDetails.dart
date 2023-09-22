@@ -135,25 +135,39 @@ class _VaccineTableState extends State<VaccineTable> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vaccine Table'),
-      ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Text('Newborn Name: ${widget.newbornName}'),
-            Text('Identity Number: ${widget.identityNumber}'),
-            SizedBox(height: 16),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
+            Text(
+              'جدول التطعيمات',
+            ),
+          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 16),
+              Text('اسم الطفل: ${widget.newbornName}',
+                  textAlign: TextAlign.right),
+              Text('رقم الهوية: ${widget.identityNumber}',
+                  textAlign: TextAlign.right),
+              SizedBox(height: 16),
+              DataTable(
                 columns: [
-                  DataColumn(label: Text('Vaccine Name')),
-                  DataColumn(label: Text('Month')),
-                  DataColumn(label: Text('Vaccine Date')),
-                  DataColumn(label: Text('Doctor Name')),
-                  DataColumn(label: Text('Vaccine Taken')),
-                  DataColumn(label: Text('Actions')),
+                  DataColumn(
+                      label: Text('اسم التطعيم', textAlign: TextAlign.right)),
+                  DataColumn(label: Text('الشهر', textAlign: TextAlign.right)),
+                  DataColumn(
+                      label: Text('تاريخ التطعيم', textAlign: TextAlign.right)),
+                  DataColumn(
+                      label: Text('اسم الدكتور', textAlign: TextAlign.right)),
+                  DataColumn(
+                      label: Text('اخذ التطعيم', textAlign: TextAlign.right)),
+                  DataColumn(
+                      label: Text('الوظيفة', textAlign: TextAlign.right)),
                 ],
                 rows: vaccineData.map((vaccine) {
                   final index = vaccineData.indexOf(vaccine);
@@ -167,9 +181,11 @@ class _VaccineTableState extends State<VaccineTable> {
                             });
                           },
                           initialValue: vaccine['name'],
+                          textAlign: TextAlign.right,
                         ),
                       ),
-                      DataCell(Text(vaccine['month'])),
+                      DataCell(
+                          Text(vaccine['month'], textAlign: TextAlign.right)),
                       DataCell(
                         InkWell(
                           onTap: () async {
@@ -194,8 +210,8 @@ class _VaccineTableState extends State<VaccineTable> {
                             controller: TextEditingController(
                                 text: vaccine['vaccinationDate']),
                             decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.calendar_today),
-                            ),
+                                suffixIcon: Icon(Icons.calendar_today)),
+                            textAlign: TextAlign.right,
                           ),
                         ),
                       ),
@@ -207,6 +223,7 @@ class _VaccineTableState extends State<VaccineTable> {
                             });
                           },
                           initialValue: vaccine['doctorName'],
+                          textAlign: TextAlign.right,
                         ),
                       ),
                       DataCell(
@@ -224,15 +241,15 @@ class _VaccineTableState extends State<VaccineTable> {
                           onPressed: () {
                             insertNewbornVaccine(vaccineData[index]);
                           },
-                          child: Text('Done'),
+                          child: Text('تم'),
                         ),
                       ),
                     ],
                   );
                 }).toList(),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

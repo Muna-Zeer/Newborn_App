@@ -59,6 +59,9 @@ class Mother extends Model
         return $this->belongsTo(Nurse::class);
     }
 
-
+    public function motherUser()
+    {
+        return $this->hasOne(MotherUser::class, 'identity_number', 'identity_number');
+    }
 
 }

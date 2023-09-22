@@ -90,7 +90,7 @@ class _VaccineFormState extends State<VaccineForm> {
   }
 
   Future<void> createVaccine(Vaccine vaccine, BuildContext context) async {
-          final baseUrl = ApiService.getBaseUrl();
+    final baseUrl = ApiService.getBaseUrl();
 
     final url = Uri.parse('$baseUrl/storeVaccine');
     final headers = <String, String>{
@@ -180,7 +180,14 @@ class _VaccineFormState extends State<VaccineForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vaccine Form'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              ' اضافة التطعيم',
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -192,7 +199,11 @@ class _VaccineFormState extends State<VaccineForm> {
                 children: [
                   TextFormField(
                     controller: _nameController,
-                    decoration: InputDecoration(labelText: 'Name'),
+                    textAlignVertical: TextAlignVertical.center,
+                    textAlign: TextAlign.right,
+                    decoration: InputDecoration(
+                      labelText: 'اسم التطعيم',
+                    ),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Please enter the name';
@@ -202,7 +213,8 @@ class _VaccineFormState extends State<VaccineForm> {
                   ),
                   TextFormField(
                     controller: _dosesController,
-                    decoration: InputDecoration(labelText: 'Doses'),
+                    textAlign: TextAlign.right,
+                    decoration: InputDecoration(labelText: 'عدد الجرعات'),
                     keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -213,7 +225,8 @@ class _VaccineFormState extends State<VaccineForm> {
                   ),
                   TextFormField(
                     controller: _placeController,
-                    decoration: InputDecoration(labelText: 'Place'),
+                    textAlign: TextAlign.right,
+                    decoration: InputDecoration(labelText: 'المكان'),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Please enter the place';
@@ -223,7 +236,9 @@ class _VaccineFormState extends State<VaccineForm> {
                   ),
                   TextFormField(
                       controller: _diseasesController,
-                      decoration: InputDecoration(labelText: 'Diseases'),
+                      textAlign: TextAlign.right,
+                      decoration:
+                          InputDecoration(labelText: 'الامراض الوقاءية'),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter the disease';
@@ -232,7 +247,9 @@ class _VaccineFormState extends State<VaccineForm> {
                       }),
                   TextFormField(
                       controller: _monthVaccinationsController,
-                      decoration: InputDecoration(labelText: 'Month Vaccine'),
+                      textAlign: TextAlign.right,
+                      decoration:
+                          InputDecoration(labelText: 'شهر التطعيم الارقام'),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter the disease';
@@ -241,7 +258,7 @@ class _VaccineFormState extends State<VaccineForm> {
                       }),
                   DropdownButtonFormField<Method>(
                     decoration: InputDecoration(
-                        labelText: 'method', hintText: 'select an option'),
+                        labelText: 'الطريقة', hintText: 'select an option'),
                     value: _method,
                     onChanged: (newValue) {
                       setState(() {
@@ -255,30 +272,39 @@ class _VaccineFormState extends State<VaccineForm> {
                       );
                     }).toList(),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      submitForm(context); // Call the submitForm function
-                    },
-                    child: Text(
-                      'Vaccine',
-                      style: TextStyle(
-                        color: Colors.white,
+                  SizedBox(height: 4.0),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          submitForm(context); // Call the submitForm function
+                        },
+                        child: Text(
+                          'اضافة التطعيم',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => VaccinePage()),
-                      );
-                    },
-                    child: Text(
-                      'View Table',
-                      style: TextStyle(
-                        color: Colors.white,
+                      SizedBox(width: 4.0), // Add spacing between the buttons
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => VaccinePage()),
+                            );
+                          },
+                          child: Text(
+                            'مشاهدة الجدول',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ]),
           ),

@@ -10,7 +10,7 @@ class VaccineList extends StatefulWidget {
 }
 
 class _VaccineListState extends State<VaccineList> {
-        final baseUrl = ApiService.getBaseUrl();
+  final baseUrl = ApiService.getBaseUrl();
 
   late TextEditingController _searchController;
   List<dynamic> vaccineList = [];
@@ -59,42 +59,63 @@ class _VaccineListState extends State<VaccineList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vaccine List'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              'قائمة التطعيمات',
+            ),
+          ],
+        ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              onChanged: filterVaccines,
-              decoration: InputDecoration(
-                labelText: 'Search',
-                prefixIcon: Icon(Icons.search),
+      body: Container(
+        color: Colors.grey[200], // Set the background color
+        padding: EdgeInsets.all(16.0), // Add padding around the list
+        child: Column(
+          mainAxisAlignment:
+              MainAxisAlignment.end, // Align the column at the end of the page
+          children: [
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _searchController,
+                textAlign: TextAlign.right,
+                onChanged: filterVaccines,
+                decoration: InputDecoration(
+                  labelText: 'بحث',
+                  prefixIcon: Icon(Icons.search),
+                ),
+                textDirection: TextDirection.rtl, // For Arabic text input
               ),
-              textDirection: TextDirection.rtl, // For Arabic text input
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredList.length,
-              itemBuilder: (context, index) {
-                final vaccine = filteredList[index];
-                return ListTile(
-                  title: Text(vaccine['name'].toString()),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Doses: ${vaccine['doses']}'),
-                      Text('Place: ${vaccine['place']}'),
-                      Text('Diseases: ${vaccine['diseases']}'),
-                    ],
-                  ),
-                );
-              },
+            Expanded(
+              child: ListView.builder(
+                itemCount: filteredList.length,
+                itemBuilder: (context, index) {
+                  final vaccine = filteredList[index];
+                  return Container(
+                    margin: EdgeInsets.only(
+                        bottom: 8.0), // Add margin between the lists
+                    color: Colors.white, // Set the background color of the list
+                    child: ListTile(
+                      title: Text(
+                        vaccine['name'].toString(),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text('جرعة: ${vaccine['doses']}'),
+                          Text('المكان: ${vaccine['place']}'),
+                          Text('الامراض : ${vaccine['diseases']}'),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

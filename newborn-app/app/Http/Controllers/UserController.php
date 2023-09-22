@@ -42,20 +42,20 @@ class UserController extends Controller
             'password' => 'required|string|min:8',
             'role_id' => 'required|exists:roles,id'
         ]);
-    
+
         $user = User::create($validatedData);
-    
+
         // Associate the user with the given role
         $user->role()->associate(Role::find($validatedData['role_id']));
         $user->save();
-    
+
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
             'data' => $user
         ], 201);
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -95,7 +95,7 @@ class UserController extends Controller
                               'message' => 'user id record not found',
                           ], 404);
                       }
-              
+
                       // If the record exists, return the record data in JSON format with a success message
                       return response()->json([
                           'status' => 'success',
@@ -110,22 +110,22 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-    
+
         $validatedData = $request->validate([
             'name' => 'nullable|string',
             'email' => 'nullable|email|unique:users,email,'.$user->id,
             'password' => 'nullable|string|min:8',
             'role_id' => 'nullable|exists:roles,id'
         ]);
-    
+
         $user->update($validatedData);
-    
+
         // Associate the user with the given role, if provided
         if (isset($validatedData['role_id'])) {
             $user->role()->associate(Role::find($validatedData['role_id']));
             $user->save();
         }
-    
+
         return response()->json([
             'status' => 'success',
             'message' => 'User updated successfully',
@@ -149,10 +149,10 @@ class UserController extends Controller
                         'message' => 'user record not found',
                     ], 404);
                 }
-        
+
                 // Delete the user record
                 $user->delete();
-        
+
                 // Return a success message
                 return response()->json([
                     'status' => 'success',

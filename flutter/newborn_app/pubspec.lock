@@ -301,6 +301,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  vtable:
+    dependency: "direct main"
+    description:
+      name: vtable
+      sha256: "850840a807a7475c373dbc915caf87a3c47eba8877ff9f22dc8556498c68da2f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
 sdks:
-  dart: ">=3.0.0-0 <4.0.0"
-  flutter: ">=3.3.0"
+  dart: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"

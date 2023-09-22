@@ -6,16 +6,17 @@ import 'package:http/http.dart' as http;
 import 'package:my_vaccine_app/Auth/register.dart';
 import 'package:my_vaccine_app/Methods/Auth_api.dart';
 import 'package:my_vaccine_app/controller/simpleController.dart';
+import 'package:my_vaccine_app/doctorTAsk.dart';
 import 'package:my_vaccine_app/screens/amintask.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+class LoginViewDoctor extends StatefulWidget {
+  const LoginViewDoctor({Key? key}) : super(key: key);
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<LoginViewDoctor> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginViewState extends State<LoginViewDoctor> {
   // TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -95,18 +96,18 @@ class _LoginViewState extends State<LoginView> {
   ) {
     return Row(
       children: [
-        Expanded(
-          flex: 4,
-          child: RotatedBox(
-            quarterTurns: 3,
-            child: Center(
-              child: CircleAvatar(
-                radius: size.width > 600 ? 100.0 : 50.0,
-                backgroundImage: AssetImage('/newborn.png'),
-              ),
-            ),
-          ),
-        ),
+        // Expanded(
+        //   flex: 4,
+        //   child: RotatedBox(
+        //     quarterTurns: 3,
+        //     child: Center(
+        //       child: CircleAvatar(
+        //         radius: size.width > 600 ? 100.0 : 50.0,
+        //         backgroundImage: AssetImage('/images.jpeg'),
+        //       ),
+        //     ),
+        //   ),
+        // ),
         SizedBox(width: size.width * 0.06),
         Expanded(
           flex: 5,
@@ -142,14 +143,14 @@ class _LoginViewState extends State<LoginView> {
       mainAxisAlignment:
           size.width > 600 ? MainAxisAlignment.center : MainAxisAlignment.start,
       children: [
-        size.width > 600
-            ? Container()
-            : Center(
-                child: CircleAvatar(
-                  radius: size.width > 600 ? 100.0 : 50.0,
-                  backgroundImage: AssetImage('/newborn.png'),
-                ),
-              ),
+        // size.width > 600
+        //     ? Container()
+        //     : Center(
+        //         child: CircleAvatar(
+        //           radius: size.width > 600 ? 100.0 : 50.0,
+        //           // backgroundImage: AssetImage('/images.jpeg'),
+        //         ),
+        //       ),
         SizedBox(
           height: size.height * 0.03,
         ),
@@ -301,7 +302,7 @@ class _LoginViewState extends State<LoginView> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AdnminTask()),
+            MaterialPageRoute(builder: (context) => DoctorTask()),
           );
         },
         child: Text('تسجيل الدخول'),

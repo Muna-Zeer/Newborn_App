@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:newborn_app/apiService.dart';
 import 'dart:convert';
 import 'package:newborn_app/constant/models/postnatalExaminations.dart';
+final baseUrl = ApiService.getBaseUrl();
 
 Future<bool> createPostnatalExamination(
     PostnatalExaminations examination) async {
   final response = await http.post(
-    Uri.parse('http://127.0.0.1:8000/api/postnatalExaminations'),
+    Uri.parse('$baseUrl/postnatalExaminations'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -23,7 +25,7 @@ Future<bool> createPostnatalExamination(
 
 Future<void> deletePostnatalExamination(int id, BuildContext context) async {
   final response = await http
-      .delete(Uri.parse('http://127.0.0.1:8000/api/postnatalExamination/$id'));
+      .delete(Uri.parse('$baseUrl/postnatalExamination/$id'));
 
   if (response.statusCode == 200) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -42,7 +44,7 @@ Future<void> deletePostnatalExamination(int id, BuildContext context) async {
 
 Future<PostnatalExaminations> fetchPostnatalEdit(int postnatalId) async {
   final response = await http.get(Uri.parse(
-      'http://127.0.0.1:8000/api/postnatalExaminations/$postnatalId'));
+      '$baseUrl/postnatalExaminations/$postnatalId'));
   if (response.statusCode == 200) {
     return PostnatalExaminations.fromJson(jsonDecode(response.body));
   } else {
@@ -52,7 +54,7 @@ Future<PostnatalExaminations> fetchPostnatalEdit(int postnatalId) async {
 
 Future<bool> editPostnatal(int id, BuildContext context) async {
   final response = await http
-      .put(Uri.parse('http://127.0.0.1:8000/api/postnatalExamination/$id'));
+      .put(Uri.parse('$baseUrl/postnatalExamination/$id'));
   print('ide: $id');
 
   if (response.statusCode == 200) {
@@ -65,7 +67,7 @@ Future<bool> editPostnatal(int id, BuildContext context) async {
 Future<void> updatePostnatalExamination(
     PostnatalExaminations postnatalExamination) async {
   final url =
-      'http://127.0.0.1:8000/api/postnatalExamination/${postnatalExamination.id}';
+     '$baseUrl/postnatalExamination/${postnatalExamination.id}';
   final headers = {'Content-Type': 'application/json'};
 
   // Specify the columns to update in the JSON body

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:newborn_app/apiService.dart';
 import 'dart:convert';
 import 'package:newborn_app/constant/models/mother.dart';
 import 'package:newborn_app/constant/models/motherExamination.dart';
 import 'package:newborn_app/constant/models/newbornAssessments.dart';
-
+final baseUrl = ApiService.getBaseUrl();
 //create new record
 Future<bool> createMotherExamination(MotherExaminations examination) async {
   final response = await http.post(
-    Uri.parse('http://127.0.0.1:8000/api/motherExaminations'),
+    Uri.parse('$baseUrl/motherExaminations'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

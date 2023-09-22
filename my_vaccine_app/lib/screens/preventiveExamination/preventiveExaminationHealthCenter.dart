@@ -38,8 +38,7 @@ class _PreventiveExaminationCenterState
       };
       final baseUrl = ApiService.getBaseUrl();
 
-      final url =
-          Uri.parse('$baseUrl/preventiveExaminationsMinistry');
+      final url = Uri.parse('$baseUrl/preventiveExaminationsMinistry');
       final headers = <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       };
@@ -133,7 +132,7 @@ class _PreventiveExaminationCenterState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Preventive Examination Form'),
+        title: Text('اضافة الفحوصات الوقائية'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -144,7 +143,7 @@ class _PreventiveExaminationCenterState
               TextFormField(
                 controller: _examTypeController,
                 decoration: InputDecoration(
-                  labelText: 'Exam Type',
+                  labelText: 'نوع الفحص',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -156,7 +155,7 @@ class _PreventiveExaminationCenterState
               TextFormField(
                 controller: _dateController,
                 decoration: InputDecoration(
-                  labelText: 'Date',
+                  labelText: 'التاريخ',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -182,7 +181,7 @@ class _PreventiveExaminationCenterState
               TextFormField(
                 controller: _timeController,
                 decoration: InputDecoration(
-                  labelText: 'Time',
+                  labelText: 'الوقت',
                 ),
                 onTap: () async {
                   final initialTime = TimeOfDay.now();
@@ -204,7 +203,7 @@ class _PreventiveExaminationCenterState
               TextFormField(
                 controller: _resultController,
                 decoration: InputDecoration(
-                  labelText: 'Result',
+                  labelText: 'النتيجة',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -216,7 +215,7 @@ class _PreventiveExaminationCenterState
               TextFormField(
                 controller: _newbornIdController,
                 decoration: InputDecoration(
-                  labelText: 'Newborn ID',
+                  labelText: 'رقم هوية الطفل',
                 ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -229,7 +228,7 @@ class _PreventiveExaminationCenterState
               TextFormField(
                 controller: _healthCenterIdController,
                 decoration: InputDecoration(
-                  labelText: 'Health Center ID',
+                  labelText: 'ؤقم المركو الصحة',
                 ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -242,7 +241,7 @@ class _PreventiveExaminationCenterState
               TextFormField(
                 controller: _ministryIdController,
                 decoration: InputDecoration(
-                  labelText: 'Ministry ID',
+                  labelText: 'وزارى الصحة 1',
                 ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -255,7 +254,7 @@ class _PreventiveExaminationCenterState
               TextFormField(
                 controller: _nurseIdController,
                 decoration: InputDecoration(
-                  labelText: 'Nurse ID',
+                  labelText: 'اسم الممرضة',
                 ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -266,7 +265,7 @@ class _PreventiveExaminationCenterState
                 },
               ),
               ElevatedButton(
-                child: Text('Submit'),
+                child: Text('ارسال'),
                 onPressed: submitForm,
               ),
             ],

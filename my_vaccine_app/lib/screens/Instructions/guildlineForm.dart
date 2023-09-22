@@ -22,7 +22,7 @@ class _GuildlineFormState extends State<GuildlineForm> {
 
   Future<void> submitForm() async {
     if (_formKey.currentState!.validate()) {
-            final baseUrl = ApiService.getBaseUrl();
+      final baseUrl = ApiService.getBaseUrl();
 
       final url = Uri.parse('$baseUrl/guidelines');
       final response = await http.post(
@@ -84,7 +84,14 @@ class _GuildlineFormState extends State<GuildlineForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('GuildlineForm Form'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              ' اضافة ارشادات صحية',
+            ),
+          ],
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -92,76 +99,146 @@ class _GuildlineFormState extends State<GuildlineForm> {
           key: _formKey,
           child: Column(
             children: [
-              TextFormField(
-                controller: vaccineNameController,
-                decoration: InputDecoration(labelText: 'Vaccine Name'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter the vaccine name';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: sideEffectsController,
-                decoration: InputDecoration(labelText: 'sideEffects'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter the sideEffects';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: careInstructionsController,
-                decoration: InputDecoration(
-                  labelText: 'care Instructions',
+              Container(
+                padding: EdgeInsets.all(8.0), // Set padding for all sides
+                decoration: BoxDecoration(
+                  border: Border.all(), // Add border
+                  borderRadius: BorderRadius.circular(8.0), // Set border radius
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a careInstructions';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: preventionMethodController,
-                decoration: InputDecoration(labelText: 'preventionMethod'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter the preventionMethod';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: ministryIdController,
-                decoration: InputDecoration(labelText: 'Ministry ID'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter the ministry ID';
-                  }
-                  return null;
-                },
+
+                child: TextFormField(
+                  controller: vaccineNameController,
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(
+                    labelText: 'اسم التطعيم',
+                    border: InputBorder.none, // Remove default border
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the vaccine name';
+                    }
+                    return null;
+                  },
+                ),
               ),
               SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: submitForm,
-                child: Text('Submit'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => GuildlineTable()),
-                  );
-                },
-                child: Text(
-                  'View Table',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
+              Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
+                child: TextFormField(
+                  controller: sideEffectsController,
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(
+                    labelText: 'الاثار الجانبية',
+                    border: InputBorder.none,
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the side effects';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: TextFormField(
+                  controller: careInstructionsController,
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(
+                    labelText: 'التتعليمات الصحية',
+                    border: InputBorder.none,
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the care instructions';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: TextFormField(
+                  controller: preventionMethodController,
+                  decoration: InputDecoration(
+                    labelText: 'طريقة الوفاية',
+                    border: InputBorder.none,
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the prevention method';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: TextFormField(
+                  controller: ministryIdController,
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(
+                    labelText: 'ووارة الصحة1',
+                    border: InputBorder.none,
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the ministry ID';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              SizedBox(height: 8.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                        onPressed: submitForm,
+                        child: Text(
+                          'ارسال',
+                          textAlign: TextAlign.right,
+                        )),
+                  ),
+                  SizedBox(width: 4.0), // Add spacing between the buttons
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => GuildlineTable()),
+                        );
+                      },
+                      child: Text(
+                        'مشاهدة الجدول',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

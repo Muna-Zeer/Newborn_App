@@ -21,7 +21,7 @@ class Newborn extends Model
     }
     public function mother()
     {
-        return $this->belongsTo(Mother::class, 'identity_number', 'identity_number');
+        return $this->belongsTo(Mother::class, 'mother_id', 'identity_number');
     }
     public function newbornVaccines()
 {

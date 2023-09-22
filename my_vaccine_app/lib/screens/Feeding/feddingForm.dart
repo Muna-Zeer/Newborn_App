@@ -22,7 +22,7 @@ class _FeedingFormState extends State<FeedingForm> {
 
   Future<void> submitForm() async {
     if (_formKey.currentState!.validate()) {
-       final baseUrl = ApiService.getBaseUrl();
+      final baseUrl = ApiService.getBaseUrl();
       final url = Uri.parse('$baseUrl/feedings');
       final response = await http.post(
         url,
@@ -84,7 +84,7 @@ class _FeedingFormState extends State<FeedingForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Feeding Form'),
+        title: Text('اضافة تطام غذائي جديد'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -94,7 +94,7 @@ class _FeedingFormState extends State<FeedingForm> {
             children: [
               TextFormField(
                 controller: feedingTypeController,
-                decoration: InputDecoration(labelText: 'Feeding Type'),
+                decoration: InputDecoration(labelText: 'توع الطعام'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter the feeding type';
@@ -104,7 +104,7 @@ class _FeedingFormState extends State<FeedingForm> {
               ),
               TextFormField(
                 controller: quantityController,
-                decoration: InputDecoration(labelText: 'Quantity'),
+                decoration: InputDecoration(labelText: 'الكمية'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter the quantity';
@@ -115,7 +115,7 @@ class _FeedingFormState extends State<FeedingForm> {
               TextFormField(
                 controller: dateController,
                 decoration: InputDecoration(
-                  labelText: 'Date',
+                  labelText: 'التاريخ',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -140,7 +140,7 @@ class _FeedingFormState extends State<FeedingForm> {
               ),
               TextFormField(
                 controller: monthController,
-                decoration: InputDecoration(labelText: 'Month'),
+                decoration: InputDecoration(labelText: 'الشهر'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter the month';
@@ -150,7 +150,7 @@ class _FeedingFormState extends State<FeedingForm> {
               ),
               TextFormField(
                 controller: instructionsController,
-                decoration: InputDecoration(labelText: 'Instructions'),
+                decoration: InputDecoration(labelText: 'التعليمات'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter the instructions';
@@ -160,7 +160,7 @@ class _FeedingFormState extends State<FeedingForm> {
               ),
               TextFormField(
                 controller: ministryIdController,
-                decoration: InputDecoration(labelText: 'Ministry ID'),
+                decoration: InputDecoration(labelText: 'وزارة الصحة1'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter the ministry ID';
@@ -168,24 +168,34 @@ class _FeedingFormState extends State<FeedingForm> {
                   return null;
                 },
               ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: submitForm,
-                child: Text('Submit'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FeedingTable()),
-                  );
-                },
-                child: Text(
-                  'View Table',
-                  style: TextStyle(
-                    color: Colors.white,
+              SizedBox(height: 8.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: submitForm,
+                      child: Text('ارسال'),
+                    ),
                   ),
-                ),
+                  SizedBox(width: 4.0), // Add spacing between the buttons
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FeedingTable()),
+                        );
+                      },
+                      child: Text(
+                        'مشاهدة الجدول',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

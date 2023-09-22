@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_vaccine_app/screens/role.dart';
 // import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
-
-import 'package:my_vaccine_app/screens/role.dart';
 
 import './Auth/register.dart';
 
@@ -41,7 +40,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: DropdownPage(),
+      home: RoleScreen(),
     );
   }
 }

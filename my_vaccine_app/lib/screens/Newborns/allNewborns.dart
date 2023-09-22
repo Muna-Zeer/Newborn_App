@@ -1,106 +1,4 @@
-// import 'package:flutter/material.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
 
-// class NewbornVaccinePage extends StatefulWidget {
-//   @override
-//   _VaccinePageState createState() => _VaccinePageState();
-// }
-
-// class _VaccinePageState extends State<NewbornVaccinePage> {
-//   List<Map<String, dynamic>> vaccineNames = [];
-//   int? selectedVaccineId;
-//   List<String> newbornNames = [];
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     fetchVaccineNames();
-//   }
-
-//   Future<void> fetchVaccineNames() async {
-//     final response =
-//         await http.get(Uri.parse('http://127.0.0.1:8000/api/allVaccines'));
-
-//     if (response.statusCode == 200) {
-//       final data = jsonDecode(response.body);
-//       final jsonData = data['data'];
-
-//       setState(() {
-//         vaccineNames = List<Map<String, dynamic>>.from(jsonData.map((item) => {
-//               'id': item['id'],
-//               'name': item['name'],
-//             }));
-//       });
-//     }
-//   }
-
-//   Future<void> fetchNewbornNames() async {
-//     final response =
-//         await http.get(Uri.parse('http://127.0.0.1:8000/api/newborn'));
-
-//     if (response.statusCode == 200) {
-//       try {
-//         final data = jsonDecode(response.body);
-//         final jsonData = data['data'];
-
-//         setState(() {
-//           newbornNames =
-//               List<String>.from(jsonData.map((item) => item['firstName']));
-//         });
-//       } catch (e) {
-//         print('Error parsing JSON: $e');
-//       }
-//     } else {
-//       print('Request failed with status: ${response.statusCode}');
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Vaccine Page'),
-//       ),
-//       body: Padding(
-//         padding: EdgeInsets.all(16.0),
-//         child: Column(
-//           children: [
-//             DropdownButton<int>(
-//               value: selectedVaccineId,
-//               hint: Text('Select a vaccine name'),
-//               items: vaccineNames.map((vaccine) {
-//                 return DropdownMenuItem<int>(
-//                   value: vaccine['id'],
-//                   child: Text(vaccine['name']),
-//                 );
-//               }).toList(),
-//               onChanged: (int? newValue) {
-//                 setState(() {
-//                   selectedVaccineId = newValue;
-//                   newbornNames = [];
-//                   fetchNewbornNames();
-//                 });
-//               },
-//             ),
-//             SizedBox(height: 16.0),
-//             Text('Newborn Names:'),
-//             Expanded(
-//               child: ListView.builder(
-//                 itemCount: newbornNames.length,
-//                 itemBuilder: (BuildContext context, int index) {
-//                   return ListTile(
-//                     title: Text(newbornNames[index]),
-//                   );
-//                 },
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -126,10 +24,9 @@ class _VaccinePageState extends State<NewbornVaccinePage> {
   }
 
   Future<void> fetchNewbornRecords({String? selectedVaccine}) async {
-          final baseUrl = ApiService.getBaseUrl();
+    final baseUrl = ApiService.getBaseUrl();
 
-    final response = await http
-        .get(Uri.parse('$baseUrl/compare-newborn-age'));
+    final response = await http.get(Uri.parse('$baseUrl/compare-newborn-age'));
 
     if (response.statusCode == 200) {
       try {
@@ -150,10 +47,9 @@ class _VaccinePageState extends State<NewbornVaccinePage> {
   }
 
   Future<void> fetchVaccineNames() async {
-          final baseUrl = ApiService.getBaseUrl();
+    final baseUrl = ApiService.getBaseUrl();
 
-    final response =
-        await http.get(Uri.parse('$baseUrl/allVaccines'));
+    final response = await http.get(Uri.parse('$baseUrl/allVaccines'));
 
     if (response.statusCode == 200) {
       try {
@@ -191,7 +87,14 @@ class _VaccinePageState extends State<NewbornVaccinePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vaccine Page'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              'قائمة التطعيمات',
+            ),
+          ],
+        ),
       ),
       body: Center(
         child: Padding(
@@ -201,12 +104,12 @@ class _VaccinePageState extends State<NewbornVaccinePage> {
             children: [
               SizedBox(height: 16.0),
               Text(
-                'Newborn Records:',
+                'معلومات الطفل:',
                 style: TextStyle(fontSize: 18),
               ),
               DropdownButton<String>(
                 value: selectedVaccine,
-                hint: Text('Select Vaccine'),
+                hint: Text('اختر اسم التطعيم'),
                 items: vaccineNames.map((String vaccineName) {
                   return DropdownMenuItem<String>(
                     value: vaccineName,
@@ -251,9 +154,14 @@ class _VaccinePageState extends State<NewbornVaccinePage> {
                                 ),
                                 SizedBox(height: 8.0),
                                 Text(
-                                    'Identity Number: ${record['identity_number']}'),
-                                Text('Birth Date: ${record['date_of_birth']}'),
-                                Text('Gender: ${record['gender']}'),
+                                  'رقم الهوية : ${record['identity_number']}',
+                                  textAlign: TextAlign.right,
+                                ),
+                                Text(
+                                    'تاريخ الميلاد: ${record['date_of_birth']}',
+                                    textAlign: TextAlign.right),
+                                Text('الجنس: ${record['gender']}',
+                                    textAlign: TextAlign.right),
                               ],
                             ),
                           ),

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:my_vaccine_app/Auth/login.dart';
+import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/controller/simpleController.dart';
 
 class SignUpView extends StatefulWidget {
@@ -39,37 +41,25 @@ class _SignUpViewState extends State<SignUpView> {
     final name = nameController.text;
     final email = emailController.text;
     final password = passwordController.text;
-    final role = _role;
 
     // Create a map with the user data
     final userData = {
       'name': name,
       'email': email,
       'password': password,
-      'role': role,
+      'role': _role,
     };
 
     try {
-      // Send a request to the backend to save the user data
+      final baseUrl = ApiService.getBaseUrl();
       final response = await http.post(
-          Uri.parse('http://127.0.0.1:8000/api/register'),
-          body: jsonEncode(userData),
-          headers: {'Content-Type': 'application/json'});
+        Uri.parse('$baseUrl/register'), // Replace with your Laravel server URL
+        body: jsonEncode(userData),
+        headers: {'Content-Type': 'application/json'},
+      );
 
-      // Check if the request was successful
-      if (response.statusCode == 200) {
-        // ScaffoldMessenger.of(context)
-        //     .showSnackBar(SnackBar(
-        //       content: Text('Sign up successful!'),
-        //       backgroundColor: Colors.green,
-        //     ))
-        //     .closed
-        //     .then((value) {
-        //   Navigator.pushReplacement(
-        //       context, MaterialPageRoute(builder: (context) => HomeScreen()));
-        // });
-
-// Clear the form fields
+      if (response.statusCode == 201) {
+        // Registration successful
         nameController.clear();
         emailController.clear();
         passwordController.clear();
@@ -77,26 +67,36 @@ class _SignUpViewState extends State<SignUpView> {
           _role = null;
         });
 
-        // Clear the form fields
-        nameController.clear();
-        emailController.clear();
-        passwordController.clear();
-        setState(() {
-          _role = null;
-        });
+        // Show a success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Registration successful'),
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        // Navigate to the login page or any other desired page
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginView()),
+        );
       } else {
         // Display an error message
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Sign up failed. Please try again.'),
-          backgroundColor: Colors.red,
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('لقد فشلت عملية التسجيل.'),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     } catch (e) {
       // Display an error message
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Error: $e'),
-        backgroundColor: Colors.red,
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
@@ -197,20 +197,6 @@ class _SignUpViewState extends State<SignUpView> {
                         color: Colors.white,
                       ),
                     ),
-                    // SizedBox(
-                    //   width: 120.0,
-                    //   child: Center(
-                    //     child: ElevatedButton(
-                    //       onPressed: () {
-                    //         // handle button press
-                    //       },
-                    //       child: Text(
-                    //         'logIn Mother',
-                    //         style: TextStyle(fontSize: 16.0),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // )
                   ],
                 ),
               ),
@@ -318,21 +304,6 @@ class _SignUpViewState extends State<SignUpView> {
               SizedBox(
                 height: size.height * 0.03,
               ),
-//               Padding(
-//                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-//                 child: TextButton(
-//                   onPressed: () {
-// // handle button press
-//                   },
-//                   child: Text(
-//                     'Already have an account? Sign in',
-//                     style: TextStyle(fontSize: 16.0, color: theme.accentColor),
-//                   ),
-//                 ),
-//               ),
-//               SizedBox(
-//                 height: size.height * 0.05,
-//               ),
             ]),
       ),
     );

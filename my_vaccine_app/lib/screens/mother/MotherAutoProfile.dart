@@ -26,10 +26,9 @@ class _MotherAutoProfileState extends State<MotherAutoProfile> {
 
   void createAutoProfile() async {
     final identityNumber = widget.motherData['identity_number'];
-          final baseUrl = ApiService.getBaseUrl();
+    final baseUrl = ApiService.getBaseUrl();
 
-    final url = Uri.parse(
-        '$baseUrl/autoProfileMother/$identityNumber');
+    final url = Uri.parse('$baseUrl/autoProfileMother/$identityNumber');
     final response = await http.get(url);
     print('Response status code: ${response.statusCode}');
     print('Response body: ${response.body}');
@@ -54,55 +53,279 @@ class _MotherAutoProfileState extends State<MotherAutoProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mother Auto Profile'),
+        title: Text('معلومات عن الأم'),
       ),
       body: autoProfile != null
           ? SingleChildScrollView(
               child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    GestureDetector(
-                      // onTap: () {
-                      //   NewbornDetailsPage(autoProfile!['newborn_id']);
-                      // },
-                      child: Text(
-                        'Identity Number Newborn: ${autoProfile!['newborn_id']}',
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.blue,
-                        ),
+              child: Padding(
+                padding: EdgeInsets.only(top: 60),
+                child: Column(children: [
+                  Text(
+                    'معلومات عن الأم',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    color: Colors.blue[50],
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 30, right: 30, top: 30, bottom: 70),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 8.0),
+                          SizedBox(
+                            width: 750,
+                            height: 40.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                ' ${autoProfile!['first_name']} ${autoProfile!['last_name']} اسم الام: ',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          SizedBox(
+                            width: 750,
+                            height: 40.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                'رقم الهوية: ${autoProfile!['identity_number']}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          SizedBox(
+                            width: 750,
+                            height: 40.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                'رقم الهاتف: ${autoProfile!['phone_number']}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 750.0,
+                            height: 40.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                'عنوان: ${autoProfile!['address']}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          SizedBox(
+                            width: 750,
+                            height: 40.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                'ايميل: ${autoProfile!['email']}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          SizedBox(
+                            width: 750,
+                            height: 40.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                'تاريخ الميلاد: ${autoProfile!['date_of_birth']}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          SizedBox(
+                            width: 750,
+                            height: 40.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                'اسم الزوج: ${autoProfile!['husband_name']}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          SizedBox(
+                            width: 750,
+                            height: 40.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                'عدد الاطفال: ${autoProfile!['number_of_newborns']}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          SizedBox(
+                            width: 750,
+                            height: 40.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                'مدينة: ${autoProfile!['city']}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          SizedBox(
+                            width: 750,
+                            height: 40.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                'بلد: ${autoProfile!['country']}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          SizedBox(
+                            width: 750,
+                            height: 40.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                '  عمر: ${autoProfile!['age']}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          SizedBox(
+                            width: 750,
+                            height: 40.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                '  فصيلة دم: الأم ${autoProfile!['blood_type']}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          SizedBox(
+                            width: 750,
+                            height: 40.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                ' العامل:الريزبسي  ${autoProfile!['rhesusFactor']}',
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          SizedBox(height: 8.0),
+                          NewbornsWidget(
+                            motherIdentityNumber:
+                                autoProfile!['identity_number'],
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Text('Address: ${autoProfile!['address']}'),
-                    Text('Phone Number: ${autoProfile!['phone_number']}'),
-                    Text('Identity Number: ${autoProfile!['identity_number']}'),
-                    Text('Email: ${autoProfile!['email']}'),
-                    Text('Date of Birth: ${autoProfile!['date_of_birth']}'),
-                    Text('Husband Name: ${autoProfile!['husband_name']}'),
-                    Text(
-                        'Number of Newborns: ${autoProfile!['number_of_newborns']}'),
-                    Text('City: ${autoProfile!['city']}'),
-                    Text('Country: ${autoProfile!['country']}'),
-                    Text('Blood Type: ${autoProfile!['blood_type']}'),
-                    Text('Age: ${autoProfile!['age']}'),
-                    Text('Rhesus Factor: ${autoProfile!['rhesusFactor']}'),
-                    SizedBox(height: 20),
-                    Text(
-                      'Newborns:',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                    NewbornsWidget(
-                      motherIdentityNumber: autoProfile!['identity_number'],
-                    ),
-                  ],
-                ),
+                  ),
+                ]),
               ),
-            )
+            ))
           : CircularProgressIndicator(),
     );
   }
