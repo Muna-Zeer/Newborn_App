@@ -63,6 +63,7 @@ class _SignUpViewState extends State<SignUpView> {
         nameController.clear();
         emailController.clear();
         passwordController.clear();
+
         setState(() {
           _role = null;
         });
@@ -176,7 +177,8 @@ class _SignUpViewState extends State<SignUpView> {
                   radius: size.width > 600
                       ? 150.0
                       : 80.0, // Adjust the width of the image
-                  backgroundImage: AssetImage('lib/assets/newborn.png'),
+                  backgroundImage: NetworkImage(
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsVSOS2Cjzz0gwoQ6MuypqVVaKfj6ERqLzTg&usqp=CAU'),
                 ),
               ),
 

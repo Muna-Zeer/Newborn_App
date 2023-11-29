@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:my_vaccine_app/screens/mother/motherAlert.dart';
+import 'package:my_vaccine_app/Alert_Dialog/motherAlert.dart';
 import 'package:my_vaccine_app/screens/mother/motherClass.dart';
 import 'package:my_vaccine_app/screens/mother/motherUser.dart';
 import 'package:my_vaccine_app/screens/mother/mother_api.dart';

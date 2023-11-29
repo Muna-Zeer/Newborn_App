@@ -102,7 +102,8 @@ class _LoginViewState extends State<LoginView> {
             child: Center(
               child: CircleAvatar(
                 radius: size.width > 600 ? 100.0 : 50.0,
-                backgroundImage: AssetImage('/newborn.png'),
+                backgroundImage: NetworkImage(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsVSOS2Cjzz0gwoQ6MuypqVVaKfj6ERqLzTg&usqp=CAU'),
               ),
             ),
           ),
@@ -141,35 +142,76 @@ class _LoginViewState extends State<LoginView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment:
           size.width > 600 ? MainAxisAlignment.center : MainAxisAlignment.start,
+      //create header here
       children: [
-        size.width > 600
-            ? Container()
-            : Center(
-                child: CircleAvatar(
-                  radius: size.width > 600 ? 100.0 : 50.0,
-                  backgroundImage: AssetImage('/newborn.png'),
-                ),
+        Container(
+          padding: EdgeInsets.all(16.0),
+          color: Colors.blue, // Customize the color as needed
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Icon(
+                Icons.arrow_back,
+                size: 24.0,
+                color: Colors.white,
               ),
+              Text(
+                'تسجيل الدخول',
+                style: kLoginSubtitleStyle.copyWith(color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: size.width <= 600 ? 20.0 : 0.0),
+          child: Center(
+            child: size.width > 600
+                ? Container() // Handle the case when size.width > 600
+                : CircleAvatar(
+                    radius: size.width > 600 ? 100.0 : 50.0,
+                    backgroundImage: NetworkImage(
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsVSOS2Cjzz0gwoQ6MuypqVVaKfj6ERqLzTg&usqp=CAU',
+                    ),
+                  ),
+          ),
+        ),
         SizedBox(
           height: size.height * 0.03,
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20.0),
-          child: Text(
-            'تسجيل الدخول',
-            style: kLoginSubtitleStyle,
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(left: 20.0),
+        //   child: Text(
+        //     'تسجيل الدخول',
+        //     textAlign: TextAlign.right,
+        //     textDirection: TextDirection.rtl,
+        //     style: kLoginSubtitleStyle,
+        //   ),
+        // ),
+
         const SizedBox(
           height: 10,
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20.0),
-          child: Text(
-            'اهلا بك في تطبيق التطعيمات',
-            style: kLoginSubtitleStyle,
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'اهلا بك في تطبيق التطعيمات',
+                textAlign: TextAlign.center,
+                style: kLoginSubtitleStyle.copyWith(
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.03,
+              ),
+            ],
           ),
         ),
+
         SizedBox(
           height: size.height * 0.03,
         ),
@@ -182,9 +224,11 @@ class _LoginViewState extends State<LoginView> {
                 /// username or Gmail
                 TextFormField(
                   style: kLoginSubtitleStyle,
+                  textAlign: TextAlign.right,
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.email),
                     hintText: 'الايميل',
+                    hintStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
@@ -212,6 +256,7 @@ class _LoginViewState extends State<LoginView> {
                   () => TextFormField(
                     style: kLoginSubtitleStyle,
                     controller: passwordController,
+                    textAlign: TextAlign.right,
                     obscureText: simpleUIController.isObscure.value,
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.lock_open),
@@ -226,9 +271,11 @@ class _LoginViewState extends State<LoginView> {
                         },
                       ),
                       hintText: 'الرقم السري',
+                      hintStyle: TextStyle(color: Colors.black),
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                       ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
                     ),
                     // The validator receives the text that the user has entered.
                     validator: (value) {
@@ -268,10 +315,13 @@ class _LoginViewState extends State<LoginView> {
                   child: RichText(
                     text: TextSpan(
                       text: 'لا تملك حساب?',
-                      style: kLoginSubtitleStyle,
+                      style: kLoginSubtitleStyle.copyWith(color: Colors.black),
                       children: [
                         TextSpan(
-                            text: "انشاء حساب", style: kLoginSubtitleStyle),
+                            text: "انشاء حساب",
+                            style: kLoginSubtitleStyle.copyWith(
+                              color: Colors.black,
+                            )),
                       ],
                     ),
                   ),
@@ -291,7 +341,8 @@ class _LoginViewState extends State<LoginView> {
       height: 55,
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.deepPurpleAccent),
+          backgroundColor:
+              MaterialStateProperty.all(Color.fromARGB(255, 2, 178, 247)),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),

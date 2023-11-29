@@ -49,18 +49,18 @@ class RoleScreen extends StatelessWidget {
               SizedBox(
                 height: size.height * 0.01,
               ),
-              // Image.asset(
-              //   '/images.jpeg', // Replace with the URL of your image
-              //   width: size.width * 0.3, // Set the desired width
-              //   height: size.height * 0.3, // Set the desired height
-              //   fit: BoxFit.contain,
-              // ),
+              Image.network(
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqZtjK7tQrLG7dPlYyK3d5oD4XM1Utwd1v4A&usqp=CAU', // Replace with the URL of your image
+                width: size.width * 0.3, // Set the desired width
+                height: size.height * 0.3, // Set the desired height
+                fit: BoxFit.contain,
+              ),
               SizedBox(height: size.height * 0.01),
               Text(
                 'أهلاً بكم في تطبيق التطعيمات', // Replace with your desired text
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: size.height * 0.01),
+
               SizedBox(height: size.height * 0.01),
               SizedBox(
                 width: size.width * 0.6,

@@ -25,6 +25,7 @@ class AdnminTask extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.lightBlue,
           title: GestureDetector(
             onTap: () {
               Navigator.push(
@@ -49,8 +50,8 @@ class AdnminTask extends StatelessWidget {
               SizedBox(
                 height: size.height * 0.01,
               ),
-              Image.asset(
-                '/images.jpeg', // Replace with the URL of your image
+              Image.network(
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRieYY9PeLO3Q36el6jjPsR_7S5S4hf7E8jxw&usqp=CAU.jpg',
                 width: size.width * 0.8, // Set the desired width
                 height: size.height * 0.3, // Set the desired height
                 fit: BoxFit.contain,
@@ -62,7 +63,7 @@ class AdnminTask extends StatelessWidget {
               ),
               SizedBox(height: size.height * 0.01),
               SizedBox(
-                width: size.width * 0.6,
+                width: size.width * 0.7,
                 height: size.height * 0.08,
                 child: ElevatedButton(
                   onPressed: () {
@@ -75,17 +76,24 @@ class AdnminTask extends StatelessWidget {
                     primary:
                         Colors.redAccent, // Set the desired background color
                   ),
-                  child: Text(
-                    'قائمة التطعيمات',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(Icons.vaccines, color: Colors.white),
+                      Text(
+                        'قائمة التطعيمات',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
               SizedBox(height: size.height * 0.01),
               SizedBox(
-                width: size.width * 0.6,
+                width: size.width * 0.7,
                 height: size.height * 0.08,
                 child: Container(
                   decoration: BoxDecoration(
@@ -101,213 +109,273 @@ class AdnminTask extends StatelessWidget {
                     ],
                   ),
                   child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  PreventiveExaminationForm()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors
+                            .transparent, // Set the button background color to transparent
+                        elevation: 0, // Remove the button's elevation
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(
+                            Icons.medical_services,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            'الفحوصات الوقائية',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+              ),
+              SizedBox(height: size.height * 0.01),
+              SizedBox(
+                width: size.width * 0.7, // Set the desired width
+                height: size.height * 0.08, // Set the desired height
+                child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PreventiveExaminationForm()),
+                          builder: (context) => PreventiveExaminationCenter(),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors
-                          .transparent, // Set the button background color to transparent
-                      elevation: 0, // Remove the button's elevation
-                    ),
-                    child: Text(
-                      'الفحوصات الوقائية',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+                        primary: Color.fromARGB(255, 118, 78, 97)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(Icons.local_hospital, color: Colors.white),
+                        Text(
+                          'مركز الفحوصات الوقائية',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    )),
               ),
               SizedBox(height: size.height * 0.01),
               SizedBox(
-                width: size.width * 0.6, // Set the desired width
-                height: size.height * 0.08, // Set the desired height
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PreventiveExaminationCenter(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'مركز الفحوصات الوقائية',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: size.height * 0.01),
-              SizedBox(
-                width: size.width * 0.6,
+                width: size.width * 0.7,
                 height: size.height * 0.08,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => FeedingForm()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary:
-                        Colors.lightGreen, // Set the desired background color
-                  ),
-                  child: Text(
-                    'تغذية الطفل',
-                    style: TextStyle(
-                      color: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => FeedingForm()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary:
+                          Colors.lightGreen, // Set the desired background color
                     ),
-                  ),
-                ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(Icons.child_care, color: Colors.white),
+                        Text(
+                          'تغذية الطفل',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    )),
               ),
               SizedBox(
                 height: size.height * 0.01,
               ),
               SizedBox(
-                width: size.width * 0.6,
+                width: size.width * 0.7,
                 height: size.height * 0.08,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => GuildlineForm()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.pink, // Set the desired background color
-                  ),
-                  child: Text(
-                    'الإرشادات الصحية',
-                    style: TextStyle(
-                      color: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GuildlineForm()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.pink, // Set the desired background color
                     ),
-                  ),
-                ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(Icons.feedback, color: Colors.white),
+                        Text(
+                          'الإرشادات الصحية',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    )),
               ),
               Column(
                 children: [
                   SizedBox(height: size.height * 0.01),
                   SizedBox(
-                    width: size.width * 0.6, // Set the desired width
-                    height: size.height * 0.08, // Set the desired height
+                    width: size.width * 0.7,
+                    height: size.height * 0.08,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => VaccineList()),
-                        );
-                      },
-                      child: Text(
-                        'تطعيمات الاطفال',
-                        style: TextStyle(
-                          color: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VaccineList()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 229, 84,
+                              88), // Set the desired background color
                         ),
-                      ),
-                    ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.vaccines_rounded, color: Colors.white),
+                            Text(
+                              'تطعيمات الاطفال',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )),
                   ),
                   SizedBox(height: size.height * 0.01),
                   SizedBox(
-                    width: size.width * 0.6,
+                    width: size.width * 0.7,
                     height: size.height * 0.08,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => VaccineInstructionScreen()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary:
-                            Colors.purple, // Set the desired background color
-                      ),
-                      child: Text(
-                        'تعليمات التطعيم',
-                        style: TextStyle(
-                          color: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    VaccineInstructionScreen()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: const Color.fromARGB(255, 145, 46,
+                              163), // Set the desired background color
                         ),
-                      ),
-                    ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.integration_instructions,
+                                color: Colors.white),
+                            Text(
+                              'تعليمات التطعيم',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )),
                   ),
                   SizedBox(height: size.height * 0.01),
                   SizedBox(
-                    width: size.width * 0.6,
+                    width: size.width * 0.7,
                     height: size.height * 0.08,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => FeedingListView()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors
-                            .lightBlue, // Set the desired background color
-                      ),
-                      child: Text(
-                        'قائمة تطعيمات الاطفال',
-                        style: TextStyle(
-                          color: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FeedingListView()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors
+                              .lightBlue, // Set the desired background color
                         ),
-                      ),
-                    ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.list_alt, color: Colors.white),
+                            Text(
+                              'قائمة تطعيمات الاطفال',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )),
                   ),
                   SizedBox(height: size.height * 0.01),
                   SizedBox(
-                    width: size.width * 0.6,
+                    width: size.width * 0.7,
                     height: size.height * 0.08,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => FeedingListView()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary:
-                            Colors.lime, // Set the desired background color
-                      ),
-                      child: Text(
-                        'قائمة تغذية الاطفال',
-                        style: TextStyle(
-                          color: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FeedingListView()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary:
+                              Colors.lime, // Set the desired background color
                         ),
-                      ),
-                    ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.feed_rounded, color: Colors.white),
+                            Text(
+                              'قائمة تغذية الاطفال',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )),
                   ),
                   SizedBox(height: size.height * 0.01),
                   SizedBox(
-                    width: size.width * 0.6,
+                    width: size.width * 0.7,
                     height: size.height * 0.08,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => GuidelineList()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary:
-                            Colors.pink, // Set the desired background color
-                      ),
-                      child: Text(
-                        'قائمة ارشادات الاطفال',
-                        style: TextStyle(
-                          color: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => GuidelineList()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary:
+                              Colors.pink, // Set the desired background color
                         ),
-                      ),
-                    ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.assignment, color: Colors.white),
+                            Text(
+                              'قائمة ارشادات الاطفال',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )),
                   ),
+                  SizedBox(height: 20.0)
                 ],
               ),
             ],

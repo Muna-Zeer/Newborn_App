@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_vaccine_app/Auth/login.dart';
-import 'package:my_vaccine_app/Auth/register.dart';
-import 'package:my_vaccine_app/screens/Feeding/feddingForm.dart';
 import 'package:my_vaccine_app/screens/Feeding/feddingView.dart';
 import 'package:my_vaccine_app/screens/Instructions/guidlineList.dart';
-import 'package:my_vaccine_app/screens/Instructions/guildlineForm.dart';
 import 'package:my_vaccine_app/screens/Newborns/allNewborns.dart';
 import 'package:my_vaccine_app/screens/instruction.dart';
-import 'package:my_vaccine_app/screens/mother/motherLogin.dart';
-import 'package:my_vaccine_app/screens/mother/motherRegister.dart';
-import 'package:my_vaccine_app/screens/preventiveExamination/preventiveExamination.dart';
-import 'package:my_vaccine_app/screens/preventiveExamination/preventiveExaminationHealthCenter.dart';
 import 'package:my_vaccine_app/screens/sidebar.dart';
-import 'package:my_vaccine_app/screens/vaccine/vaccineForm.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccineList.dart';
 
 class DoctorTask extends StatelessWidget {
@@ -49,15 +40,19 @@ class DoctorTask extends StatelessWidget {
               SizedBox(
                 height: size.height * 0.01,
               ),
-              Image.asset(
-                '/images.jpeg', // Replace with the URL of your image
-                width: size.width * 0.8, // Set the desired width
-                height: size.height * 0.3, // Set the desired height
-                fit: BoxFit.contain,
+              Align(
+                alignment: Alignment.centerRight,
+                child: Image.network(
+                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsVSOS2Cjzz0gwoQ6MuypqVVaKfj6ERqLzTg&usqp=CAU',
+                  width: size.width * 0.8,
+                  height: size.height * 0.3,
+                  fit: BoxFit.contain,
+                ),
               ),
               SizedBox(height: size.height * 0.01),
               Text(
-                'أهلاً بكم في تطبيق التطعيمات', // Replace with your desired text
+                'أهلاً بكم في تطبيق التطعيمات',
+                textAlign: TextAlign.right,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: size.height * 0.01),

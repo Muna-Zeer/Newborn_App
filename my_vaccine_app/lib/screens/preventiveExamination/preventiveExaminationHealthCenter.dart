@@ -140,11 +140,22 @@ class _PreventiveExaminationCenterState
           key: _formKey,
           child: ListView(
             children: <Widget>[
+              SizedBox(height: 8.0),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'نوع الفحص',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               TextFormField(
                 controller: _examTypeController,
                 decoration: InputDecoration(
-                  labelText: 'نوع الفحص',
+                  alignLabelWithHint: true,
                 ),
+                textAlign: TextAlign.right,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter an exam type';
@@ -152,11 +163,20 @@ class _PreventiveExaminationCenterState
                   return null;
                 },
               ),
+              SizedBox(height: 8.0),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 8.0),
+                    child: Text(
+                      'التاريخ',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  )),
+              SizedBox(height: 8.0),
               TextFormField(
                 controller: _dateController,
-                decoration: InputDecoration(
-                  labelText: 'التاريخ',
-                ),
+                textAlign: TextAlign.right,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a date';
@@ -165,10 +185,11 @@ class _PreventiveExaminationCenterState
                 },
                 onTap: () async {
                   final DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime.now());
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                  );
                   if (pickedDate != null) {
                     final formattedDate =
                         DateFormat('yyyy-MM-dd').format(pickedDate);
@@ -178,11 +199,20 @@ class _PreventiveExaminationCenterState
                   }
                 },
               ),
+              SizedBox(height: 8.0),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    'الوقت',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
               TextFormField(
                 controller: _timeController,
-                decoration: InputDecoration(
-                  labelText: 'الوقت',
-                ),
+                textAlign: TextAlign.right,
                 onTap: () async {
                   final initialTime = TimeOfDay.now();
                   final selectedTime = await showTimePicker(
@@ -200,11 +230,20 @@ class _PreventiveExaminationCenterState
                   return null;
                 },
               ),
+              SizedBox(height: 8.0),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 4.0),
+                  child: Text(
+                    'النتيجة',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
               TextFormField(
                 controller: _resultController,
-                decoration: InputDecoration(
-                  labelText: 'النتيجة',
-                ),
+                textAlign: TextAlign.right,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a result';
@@ -212,11 +251,20 @@ class _PreventiveExaminationCenterState
                   return null;
                 },
               ),
+              SizedBox(height: 8.0),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    'رقم هوية الطفل',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
               TextFormField(
                 controller: _newbornIdController,
-                decoration: InputDecoration(
-                  labelText: 'رقم هوية الطفل',
-                ),
+                textAlign: TextAlign.right,
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -225,11 +273,20 @@ class _PreventiveExaminationCenterState
                   return null;
                 },
               ),
+              SizedBox(height: 8.0),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    ' رقم المركز الصحة',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
               TextFormField(
                 controller: _healthCenterIdController,
-                decoration: InputDecoration(
-                  labelText: 'ؤقم المركو الصحة',
-                ),
+                textAlign: TextAlign.right,
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -238,11 +295,18 @@ class _PreventiveExaminationCenterState
                   return null;
                 },
               ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    'وزارة الصحة 1',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
               TextFormField(
                 controller: _ministryIdController,
-                decoration: InputDecoration(
-                  labelText: 'وزارى الصحة 1',
-                ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -251,11 +315,21 @@ class _PreventiveExaminationCenterState
                   return null;
                 },
               ),
+              SizedBox(height: 8.0),
+              SizedBox(height: 8.0),
+              SizedBox(height: 8.0),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    'اسم الممرضة',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
               TextFormField(
                 controller: _nurseIdController,
-                decoration: InputDecoration(
-                  labelText: 'اسم الممرضة',
-                ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -264,6 +338,7 @@ class _PreventiveExaminationCenterState
                   return null;
                 },
               ),
+              SizedBox(height: 8.0),
               ElevatedButton(
                 child: Text('ارسال'),
                 onPressed: submitForm,
