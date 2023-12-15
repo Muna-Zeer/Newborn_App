@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_vaccine_app/screens/Feeding/feddingView.dart';
 import 'package:my_vaccine_app/screens/Instructions/guidlineList.dart';
+import 'package:my_vaccine_app/screens/Instructions/guildlineTable.dart';
 import 'package:my_vaccine_app/screens/Newborns/allNewborns.dart';
 import 'package:my_vaccine_app/screens/instruction.dart';
 import 'package:my_vaccine_app/screens/sidebar.dart';
@@ -65,12 +66,11 @@ class DoctorTask extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NewbornVaccinePage()),
+                          builder: (context) => FeedingListView()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary:
-                        Colors.lightBlue, // Set the desired background color
+                    primary: Colors.black, // Set the desired background color
                   ),
                   child: Text(
                     'قائمة تطعيمات الاطفال',

@@ -302,6 +302,7 @@ class _GuildlineFormState extends State<GuildlineForm> {
                   ),
                 ],
               ),
+              SizedBox(height: 8.0),
               Row(
                 children: [
                   Expanded(

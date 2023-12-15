@@ -18,7 +18,7 @@ class GuildlineTable extends StatefulWidget {
 }
 
 class _GuildlineTableState extends State<GuildlineTable> {
-  List<Guideline> Guildlines = [];
+  List<Guideline> guidelines = [];
   List<Guideline> filteredGuildline = [];
   String searchText = '';
   int _currentPage = 1;
@@ -29,6 +29,29 @@ class _GuildlineTableState extends State<GuildlineTable> {
   void initState() {
     super.initState();
     getGuildline();
+  }
+
+  void filterGuidelines(query) {
+    setState(() {
+      if (searchText.isEmpty) {
+        filteredGuildline = guidelines;
+      } else {
+        filteredGuildline = guidelines.where((guideline) {
+          final numVaccine = guideline.id.toString().toLowerCase();
+          final vaccineName = guideline.vaccineName.toString().toLowerCase();
+          final sideEffect = guideline.sideEffects.toString().toLowerCase();
+          final careInstructions =
+              guideline.careInstructions.toString().toLowerCase();
+          final preventiveMethod =
+              guideline.preventionMethod.toString().toLowerCase();
+          return vaccineName.contains(query.toLowerCase()) ||
+              careInstructions.contains(query.toLowerCase()) ||
+              sideEffect.contains(query.toString()) ||
+              preventiveMethod.contains(query.toLowerCase()) ||
+              numVaccine.contains(query.toLowerCase());
+        }).toList();
+      }
+    });
   }
 
   Future<void> getGuildline() async {
@@ -45,12 +68,12 @@ class _GuildlineTableState extends State<GuildlineTable> {
       print('$data');
 
       setState(() {
-        Guildlines = data.map((item) => Guideline.fromJson(item)).toList();
-        filteredGuildline = Guildlines;
-        print('guildline $Guildlines');
+        guidelines = data.map((item) => Guideline.fromJson(item)).toList();
+        filteredGuildline = guidelines;
+        print('guildline $guidelines');
       });
     } else {
-      throw Exception('Failed to load guildine');
+      throw Exception('Failed to load guidelines');
     }
   }
 
@@ -130,14 +153,12 @@ class _GuildlineTableState extends State<GuildlineTable> {
 
   void performAction(
       BuildContext context, Guideline guidline, String action) async {
-    // Navigate to another page based on the action
     if (action == 'insert') {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => GuildlineForm()),
       );
     } else if (action == 'edit') {
-      // Show edit confirmation dialog
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -197,12 +218,10 @@ class _GuildlineTableState extends State<GuildlineTable> {
         try {
           await deleteGuideline(guidline.id, context);
 
-          // Remove the deleted record from the list
           setState(() {
-            Guildlines.remove(guidline);
+            guidelines.remove(guidline);
           });
 
-          // Show alert dialog after deletion
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -232,7 +251,7 @@ class _GuildlineTableState extends State<GuildlineTable> {
     return Material(
       child: Center(
         child: Padding(
-          padding: EdgeInsets.all(20.0), // Add padding around the table
+          padding: EdgeInsets.all(20.0),
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(color: Color.fromARGB(255, 103, 120, 134)),
@@ -243,193 +262,232 @@ class _GuildlineTableState extends State<GuildlineTable> {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
-              Flexible(
+              Expanded(
                 child: ListView(shrinkWrap: true, children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 16.0), // Add horizontal padding
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DataTable(
-                        columns: [
-                          DataColumn(
-                            label: Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(color: Colors.blue),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'الرقم',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  if (_sortColumnIndex == 0)
-                                    Icon(
-                                      _sortAscending
-                                          ? Icons.arrow_upward
-                                          : Icons.arrow_downward,
-                                      size: 16,
-                                    ),
-                                ],
-                              ),
-                            ),
-                            numeric: true,
-                            onSort: (columnIndex, ascending) =>
-                                onSortColumn(columnIndex, ascending),
-                            tooltip: 'Sort by ID',
-                          ),
-                          DataColumn(
-                            label: Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(color: Colors.blue),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'اسم التطعيم',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  if (_sortColumnIndex == 1)
-                                    Icon(
-                                      _sortAscending
-                                          ? Icons.arrow_upward
-                                          : Icons.arrow_downward,
-                                      size: 16,
-                                    ),
-                                ],
-                              ),
-                            ),
-                            onSort: (columnIndex, ascending) =>
-                                onSortColumn(columnIndex, ascending),
-                            tooltip: 'Sort by vaccineName',
-                          ),
-                          DataColumn(
-                            label: Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(color: Colors.blue),
-                                ),
-                              ),
-                              child: Text(
-                                'الاثار الجانبية',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            onSort: (columnIndex, ascending) =>
-                                onSortColumn(columnIndex, ascending),
-                            tooltip: 'Sort by sideEffects',
-                          ),
-                          DataColumn(
-                            label: Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(color: Colors.blue),
-                                ),
-                              ),
-                              child: Text(
-                                'التعليمات الصحية',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            onSort: (columnIndex, ascending) =>
-                                onSortColumn(columnIndex, ascending),
-                            tooltip: 'Sort by careInstructions',
-                          ),
-                          DataColumn(
-                            label: Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(color: Colors.blue),
-                                ),
-                              ),
-                              child: Text(
-                                'طريقة الوفاية',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            onSort: (columnIndex, ascending) =>
-                                onSortColumn(columnIndex, ascending),
-                            tooltip: 'Sort by preventionMethod',
-                          ),
-                          DataColumn(
-                            label: Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(color: Colors.blue),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 8.0),
-                                child: Text(
-                                  'الوظيفة',
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: DataTable(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blue, width: 2.0),
+                      ),
+                      columns: [
+                        DataColumn(
+                          label: Container(
+                            child: Row(
+                              children: [
+                                Text(
+                                  'الرقم',
                                   style: TextStyle(fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
                                 ),
+                                if (_sortColumnIndex == 0)
+                                  Icon(
+                                    _sortAscending
+                                        ? Icons.arrow_upward
+                                        : Icons.arrow_downward,
+                                    size: 16,
+                                  ),
+                              ],
+                            ),
+                          ),
+                          numeric: true,
+                          onSort: (columnIndex, ascending) =>
+                              onSortColumn(columnIndex, ascending),
+                          tooltip: 'Sort by ID',
+                        ),
+                        DataColumn(
+                          label: Container(
+                            child: Row(
+                              children: [
+                                Text(
+                                  'اسم التطعيم',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
+                                if (_sortColumnIndex == 1)
+                                  Icon(
+                                    _sortAscending
+                                        ? Icons.arrow_upward
+                                        : Icons.arrow_downward,
+                                    size: 16,
+                                  ),
+                              ],
+                            ),
+                          ),
+                          onSort: (columnIndex, ascending) =>
+                              onSortColumn(columnIndex, ascending),
+                          tooltip: 'Sort by vaccineName',
+                        ),
+                        DataColumn(
+                          label: Container(
+                            width: 150.0,
+                            child: Text(
+                              'الاثار الجانبية',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          onSort: (columnIndex, ascending) =>
+                              onSortColumn(columnIndex, ascending),
+                          tooltip: 'Sort by sideEffects',
+                        ),
+                        DataColumn(
+                          label: Container(
+                            width: 100.0,
+                            child: Text(
+                              'التعليمات الصحية',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          onSort: (columnIndex, ascending) =>
+                              onSortColumn(columnIndex, ascending),
+                          tooltip: 'Sort by careInstructions',
+                        ),
+                        DataColumn(
+                          label: Container(
+                            width: 100.0,
+                            child: Text(
+                              'طريقة الوفاية',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          onSort: (columnIndex, ascending) =>
+                              onSortColumn(columnIndex, ascending),
+                          tooltip: 'Sort by preventionMethod',
+                        ),
+                        DataColumn(
+                          label: Container(
+                            width: 90.0,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 8.0),
+                              child: Text(
+                                'الوظيفة',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                          )
-                        ],
-                        rows: [
+                          ),
+                        )
+                      ],
+                      rows: [
+                        DataRow(cells: [
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(
+                            TextField(
+                              decoration: InputDecoration(
+                                hintText: 'بحث',
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.lightBlue),
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 20,
+                                ),
+                                isCollapsed: true,
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  searchText = value;
+                                  filterGuidelines(searchText);
+                                  _currentPage = 1;
+                                });
+                              },
+                            ),
+                          ),
+                        ]),
+                        for (var guidline in getCurrentPageItems())
                           DataRow(cells: [
+                            DataCell(Container(
+                                height: 60.0,
+                                width: 150.0,
+                                child: Text(
+                                  guidline.id?.toString() ?? '',
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  textAlign: TextAlign.center,
+                                ))),
+                            DataCell(Container(
+                                height: 60.0,
+                                width: 150.0,
+                                child: Text(
+                                  guidline.vaccineName ?? '',
+                                  overflow: TextOverflow.ellipsis,
+                                  textDirection: TextDirection.ltr,
+                                  maxLines: 2,
+                                  textAlign: TextAlign.left,
+                                ))),
+                            DataCell(Container(
+                                height: 60.0,
+                                width: 150.0,
+                                child: Text(
+                                  guidline.careInstructions ?? '',
+                                  overflow: TextOverflow.ellipsis,
+                                  textDirection: TextDirection.rtl,
+                                  maxLines: 2,
+                                  textAlign: TextAlign.center,
+                                ))),
+                            DataCell(Container(
+                                height: 60.0,
+                                width: 150.0,
+                                child: Text(
+                                  guidline.preventionMethod ?? '',
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  textDirection: TextDirection.rtl,
+                                  textAlign: TextAlign.center,
+                                ))),
                             DataCell(
-                              TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'بحث',
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    borderSide: BorderSide(),
+                              MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: Container(
+                                  height: 60.0,
+                                  width: 150.0,
+                                  child: Tooltip(
+                                    message: guidline.sideEffects ?? '',
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            guidline.sideEffects ?? '',
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            textDirection: TextDirection.rtl,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                  contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10,
-                                    horizontal: 20,
-                                  ),
-                                  isCollapsed: true,
                                 ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    searchText = value;
-                                    if (searchText.isEmpty) {
-                                      filteredGuildline = Guildlines;
-                                    }
-                                    _currentPage =
-                                        1; // Reset to first page when search changes
-                                  });
-                                },
                               ),
                             ),
-                            DataCell(Text('')),
-                            DataCell(Text('')),
-                            DataCell(Text('')),
-                            DataCell(Text('')),
-                            DataCell(Text('')),
-                          ]),
-                          for (var guidline in getCurrentPageItems())
-                            DataRow(cells: [
-                              DataCell(Text(guidline.id?.toString() ?? '')),
-                              DataCell(Text(guidline.vaccineName ?? '')),
-                              DataCell(Text(guidline.careInstructions ?? '')),
-                              DataCell(Text(guidline.preventionMethod ?? '')),
-                              DataCell(Text(guidline.sideEffects ?? '')),
-                              DataCell(
-                                Row(
+                            DataCell(
+                              Container(
+                                child: Row(
                                   children: [
                                     IconButton(
-                                      icon: Icon(Icons.edit),
+                                      icon:
+                                          Icon(Icons.edit, color: Colors.blue),
                                       onPressed: () {
-                                        // Perform the edit action
                                         performAction(
                                             context, guidline, 'edit');
                                       },
                                     ),
                                     IconButton(
-                                      icon: Icon(Icons.add),
+                                      icon: Icon(
+                                        Icons.add,
+                                        color: Colors.red,
+                                      ),
                                       onPressed: () {
-                                        // Perform the view action
                                         performAction(
                                             context, guidline, 'insert');
                                       },
@@ -439,53 +497,62 @@ class _GuildlineTableState extends State<GuildlineTable> {
                                         performAction(
                                             context, guidline, 'delete');
                                       },
-                                      icon: Icon(Icons.delete),
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Colors.green,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ]),
-                          DataRow(cells: [
-                            DataCell(Text('')),
-                            DataCell(Text('')),
-                            DataCell(Text('')),
-                            DataCell(Text('')),
-                            DataCell(Text('')),
-                            DataCell(Text('')),
+                            )
                           ]),
-                          DataRow(cells: [
-                            DataCell(Text('')),
-                            DataCell(Text('')),
-                            DataCell(Text('')),
-                            DataCell(Text('')),
-                            DataCell(Text('')),
-
-                            // DataCell(Text('')),
-                            DataCell(
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                      'رقم الصفحة $_currentPage من ${getTotalPages()}'),
-                                  Row(
-                                    children: [
-                                      IconButton(
-                                        onPressed: goToPreviousPage,
-                                        icon: Icon(Icons.arrow_back),
+                        DataRow(cells: [
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                        ]),
+                        DataRow(cells: [
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(
+                            Container(
+                              width: double.infinity,
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    IconButton(
+                                      onPressed: goToPreviousPage,
+                                      icon: Icon(
+                                        Icons.arrow_back,
+                                        color: Colors.blue,
                                       ),
-                                      IconButton(
-                                        onPressed: goToNextPage,
-                                        icon: Icon(Icons.arrow_forward),
+                                    ),
+                                    Text(
+                                      'رقم الصفحة $_currentPage من ${getTotalPages()}',
+                                    ),
+                                    IconButton(
+                                      onPressed: goToNextPage,
+                                      icon: Icon(
+                                        Icons.arrow_forward,
+                                        color: Colors.blue,
                                       ),
-                                    ],
-                                  ),
-                                ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ]),
-                        ],
-                      ),
+                          ),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                        ]),
+                      ],
                     ),
                   ),
                 ]),

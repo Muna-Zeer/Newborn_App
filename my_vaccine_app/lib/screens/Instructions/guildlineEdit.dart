@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-import 'package:intl/intl.dart';
 import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/Instructions/guildlineClass.dart';
 import 'package:my_vaccine_app/screens/Instructions/guildlineTable.dart';
@@ -90,7 +88,7 @@ class _GuidelineEditState extends State<GuidelineEdit> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('خطا'),
-            content: Text('لم يام التحديث'),
+            content: Text('لم يتم التحديث'),
             actions: <Widget>[
               TextButton(
                 child: Text('OK'),
