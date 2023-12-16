@@ -92,14 +92,14 @@ class _GuidelineListState extends State<GuidelineList> {
               ' الارشادات الصحية',
               textAlign: TextAlign.right,
             ),
-            const SizedBox(height: 8.0),
+            const SizedBox(height: 4.0),
           ],
         ),
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.all(25.0),
+            padding: EdgeInsets.all(5.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -112,9 +112,9 @@ class _GuidelineListState extends State<GuidelineList> {
                     color: Color.fromRGBO(35, 20, 120, 0.992),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 8.0),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: TextField(
                     controller: searchController,
                     onChanged: (query) {
@@ -125,12 +125,12 @@ class _GuidelineListState extends State<GuidelineList> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
                       ),
-                      contentPadding: EdgeInsets.all(10),
+                      contentPadding: EdgeInsets.all(5),
                     ),
                     textAlign: TextAlign.right,
                   ),
                 ),
-                SizedBox(height: 10.0),
+                // SizedBox(height: 10.0),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),

@@ -423,47 +423,170 @@ class _GuildlineTableState extends State<GuildlineTable> {
                                   maxLines: 2,
                                   textAlign: TextAlign.left,
                                 ))),
-                            DataCell(Container(
-                                height: 60.0,
-                                width: 150.0,
-                                child: Text(
-                                  guidline.careInstructions ?? '',
-                                  overflow: TextOverflow.ellipsis,
-                                  textDirection: TextDirection.rtl,
-                                  maxLines: 2,
-                                  textAlign: TextAlign.center,
-                                ))),
-                            DataCell(Container(
-                                height: 60.0,
-                                width: 150.0,
-                                child: Text(
-                                  guidline.preventionMethod ?? '',
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  textDirection: TextDirection.rtl,
-                                  textAlign: TextAlign.center,
-                                ))),
                             DataCell(
                               MouseRegion(
                                 cursor: SystemMouseCursors.click,
-                                child: Container(
-                                  height: 60.0,
-                                  width: 150.0,
-                                  child: Tooltip(
-                                    message: guidline.sideEffects ?? '',
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            guidline.sideEffects ?? '',
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            textDirection: TextDirection.rtl,
-                                            textAlign: TextAlign.center,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          content: Container(
+                                            width: 150,
+                                            height: 250,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  guidline.sideEffects ?? '',
+                                                  textDirection:
+                                                      TextDirection.rtl,
+                                                  maxLines: 2,
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 60.0,
+                                    width: 150.0,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          guidline.sideEffects ?? '',
+                                          overflow: TextOverflow.ellipsis,
+                                          textDirection: TextDirection.rtl,
+                                          maxLines: 2,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            DataCell(
+                              MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          content: Container(
+                                            height: 60.0,
+                                            width: 150.0,
+                                            child: Tooltip(
+                                              message:
+                                                  guidline.careInstructions,
+                                              child: SingleChildScrollView(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      guidline.careInstructions ??
+                                                          '',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 60,
+                                    width: 150,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          guidline.careInstructions ?? "",
+                                          overflow: TextOverflow.ellipsis,
+                                          textDirection: TextDirection.rtl,
+                                          maxLines: 2,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            DataCell(
+                              MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          content: Tooltip(
+                                            message:
+                                                guidline.preventionMethod ?? '',
+                                            child: SingleChildScrollView(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    guidline.preventionMethod ??
+                                                        '',
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    textDirection:
+                                                        TextDirection.rtl,
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 60.0,
+                                    width: 150.0,
+                                    child: Tooltip(
+                                      message: guidline.preventionMethod ?? '',
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              guidline.preventionMethod ?? '',
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              textDirection: TextDirection.rtl,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
