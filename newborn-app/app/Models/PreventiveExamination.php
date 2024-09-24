@@ -9,6 +9,10 @@ class PreventiveExamination extends Model
 {
     use HasFactory;
     protected $table = 'PreventiveExaminations';
+    protected $casts = [
+        'date' => 'date',
+        'time' => 'datetime:H:i:s',
+    ];
 
     protected $fillable = ['exam_type','date','time','result','newborn_id','hospital_id','health_center_id','ministry_id',  'nurse_id',];
 

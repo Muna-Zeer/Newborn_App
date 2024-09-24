@@ -38,11 +38,11 @@ class _GuildlineFormState extends State<GuildlineForm> {
 
       if (response.statusCode == 200 && responseData['status'] == 'error') {
         DialogHelper.showErrorDialog(context,
-            'Failed to create guidelineForm record: ${response.statusCode}');
+            'للأسف لم يتم اضافة التعليمات الصحية : ${response.statusCode}');
       } else {
         DialogHelper.showSuccessDialog(
           context,
-          'GuildlineForm record created successfully',
+          'لقد تم اضافة الارشادات الصحية بنجاح',
         );
       }
       vaccineNameController.clear();
@@ -92,7 +92,6 @@ class _GuildlineFormState extends State<GuildlineForm> {
               ),
               Container(
                 padding: EdgeInsets.all(8.0),
-                // Set padding for all sides
                 decoration: BoxDecoration(
                     border: Border.all(
                       width: 2.0,
@@ -106,7 +105,6 @@ class _GuildlineFormState extends State<GuildlineForm> {
                           blurRadius: 5.0,
                           offset: Offset(0, 3)),
                     ]),
-
                 child: Column(children: [
                   Align(
                     alignment: Alignment.centerRight,
@@ -313,6 +311,7 @@ class _GuildlineFormState extends State<GuildlineForm> {
                           MaterialPageRoute(
                               builder: (context) => GuildlineTable()),
                         );
+                   
                       },
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(

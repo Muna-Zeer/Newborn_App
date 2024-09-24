@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Feeding;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -108,19 +109,15 @@ class FeedingController extends Controller
      */
     public function edit(string $id)
     {
-            // Retrieve the Feeding record by ID
             $Feeding = Feeding::find($id);
 
-            // Check if the record exists
             if (!$Feeding) {
-                // If the Feeding record doesn't exist, return an error message
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Feeding id record not found',
                 ], 404);
             }
 
-            // If the record exists, return the record data in JSON format with a success message
             return response()->json([
                 'status' => 'success',
                 'message' => 'Feeding id record found',
@@ -133,18 +130,22 @@ class FeedingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Validate the request data
+        $feeding = Feeding::find($id);
+
+        if (!$feeding) {
+            return response()->json(['error' => 'Feeding record not found.'], 404);
+        }
+
         $validator = Validator::make($request->all(), [
             'feeding_type' => 'nullable|string|max:255',
             'quantity' => 'nullable|numeric',
             'date' => 'nullable|date',
-            'time' => 'nullable|date_format:H:i:s',
-            'newborn_id' => [
-                'nullable',
-                Rule::exists('newborns', 'id')->where(function ($query) use ($request) {
-                    $query->where('ministry_id', $request->input('ministry_id'));
-                }),
-            ],
+            // 'newborn_id' => [
+            //     'nullable',
+            //     Rule::exists('newborns', 'id')->where(function ($query) use ($request) {
+            //         $query->where('ministry_id', $request->input('ministry_id'));
+            //     }),
+            // ],
             'month' => 'nullable|string|max:255',
             'instructions' => 'nullable|string',
             'ministry_id' => [
@@ -153,24 +154,25 @@ class FeedingController extends Controller
             ],
         ]);
 
-        // If validation fails, return the errors
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // Find the feeding record by ID
-        $feeding = Feeding::find($id);
+        $feeding->update([
+            'feeding_type' => $request->input('feeding_type', $feeding->feeding_type),
+            'quantity' => $request->input('quantity', $feeding->quantity),
+            'date' => $request->input('date', $feeding->date),
+            // 'newborn_id' => $request->input('newborn_id', $feeding->newborn_id),
+            'month' => $request->input('month', $feeding->month),
+            'instructions' => $request->input('instructions', $feeding->instructions),
+            'ministry_id' => $request->input('ministry_id', $feeding->ministry_id),
+        ]);
 
-        // If the feeding record doesn't exist, return an error
-        if (!$feeding) {
-            return response()->json(['error' => 'Feeding record not found.'], 404);
-        }
-
-        // Update the feeding record with the new data
-        $feeding->update($request->all());
-
-        // Return the updated feeding record
-        return response()->json(['feeding' => $feeding]);
+        return response()->json([
+            'feeding successfully has been changed' => $feeding,
+            'status' => 'success',
+            'data' => $feeding,
+        ]);
     }
 
 
@@ -179,10 +181,8 @@ class FeedingController extends Controller
      */
     public function destroy(string $id)
     {
-         // Retrieve the Feeding table record with the given ID
          $Feeding = Feeding::find($id);
 
-         // Check if the Feeding table record exists
          if (!$Feeding) {
              return response()->json([
                  'status' => 'error',
@@ -190,7 +190,6 @@ class FeedingController extends Controller
              ], 404);
          }
 
-         // Delete the Feeding  record record
          $Feeding->delete();
 
          // Return a success message

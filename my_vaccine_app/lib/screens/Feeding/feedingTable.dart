@@ -128,14 +128,12 @@ class _FeedingTableState extends State<FeedingTable> {
 
   void performAction(
       BuildContext context, Feeding feeding, String action) async {
-    // Navigate to another page based on the action
     if (action == 'insert') {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => FeedingForm()),
       );
     } else if (action == 'edit') {
-      // Show edit confirmation dialog
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -195,12 +193,10 @@ class _FeedingTableState extends State<FeedingTable> {
         try {
           await deletefeeding(feeding.id, context);
 
-          // Remove the deleted record from the list
           setState(() {
             Feedings.remove(feeding);
           });
 
-          // Show alert dialog after deletion
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -225,13 +221,36 @@ class _FeedingTableState extends State<FeedingTable> {
     }
   }
 
+//search text
+  void filterFeedings(query) {
+    setState(() {
+      if (searchText.isEmpty) {
+        filteredFeeding = Feedings;
+      } else {
+        filteredFeeding = Feedings.where((feeding) {
+          final feedingNum = feeding.id.toString().toLowerCase();
+          final quantity = feeding.quantity.toString().toLowerCase();
+          final instruction = feeding.instructions.toString().toLowerCase();
+          final feeding_type = feeding.feedingType.toString().toLowerCase();
+          final month = feeding.month.toString().toLowerCase();
+          return feedingNum.contains(query.toLowerCase()) ||
+              quantity.contains(query.toLowerCase()) ||
+              instruction.contains(query.toString()) ||
+              feeding_type.contains(query.toLowerCase()) ||
+              month.contains(query.toLowerCase());
+        }).toList();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 20),
         decoration: BoxDecoration(
-          border: Border.all(color: Color.fromARGB(255, 103, 120, 134)),
+          border:
+              Border.all(color: Color.fromARGB(255, 103, 120, 134), width: 3.0),
         ),
         child: Column(children: [
           Text(
@@ -246,7 +265,7 @@ class _FeedingTableState extends State<FeedingTable> {
                 child: Center(
                   child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blue),
+                      border: Border.all(color: Colors.blue, width: 3.0),
                     ),
                     child: DataTable(
                       columns: [
@@ -254,8 +273,8 @@ class _FeedingTableState extends State<FeedingTable> {
                           label: Container(
                             decoration: BoxDecoration(
                               border: Border(
-                                bottom: BorderSide(color: Colors.blue),
-                              ),
+                                  // bottom: BorderSide(color: Colors.blue),
+                                  ),
                             ),
                             child: Row(
                               children: [
@@ -282,8 +301,24 @@ class _FeedingTableState extends State<FeedingTable> {
                           label: Container(
                             decoration: BoxDecoration(
                               border: Border(
-                                bottom: BorderSide(color: Colors.blue),
-                              ),
+                                  // bottom: BorderSide(color: Colors.blue),
+                                  ),
+                            ),
+                            child: Text(
+                              'نوع الطعام',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          onSort: (columnIndex, ascending) =>
+                              onSortColumn(columnIndex, ascending),
+                          tooltip: 'Sort by feedingType',
+                        ),
+                        DataColumn(
+                          label: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                  // bottom: BorderSide(color: Colors.blue),
+                                  ),
                             ),
                             child: Row(
                               children: [
@@ -305,44 +340,29 @@ class _FeedingTableState extends State<FeedingTable> {
                               onSortColumn(columnIndex, ascending),
                           tooltip: 'Sort by quantity',
                         ),
+                        // DataColumn(
+                        //   label: Container(
+                        //     decoration: BoxDecoration(
+                        //       border: Border(
+                        //           // bottom: BorderSide(color: Colors.blue),
+                        //           ),
+                        //     ),
+                        //     child: Text(
+                        //       'نوع الطعام',
+                        //       style: TextStyle(fontWeight: FontWeight.bold),
+                        //     ),
+                        //   ),
+                        //   onSort: (columnIndex, ascending) =>
+                        //       onSortColumn(columnIndex, ascending),
+                        //   tooltip: 'Sort by feedingType',
+                        // ),
+
                         DataColumn(
                           label: Container(
                             decoration: BoxDecoration(
                               border: Border(
-                                bottom: BorderSide(color: Colors.blue),
-                              ),
-                            ),
-                            child: Text(
-                              'نوع الطعام',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          onSort: (columnIndex, ascending) =>
-                              onSortColumn(columnIndex, ascending),
-                          tooltip: 'Sort by feedingType',
-                        ),
-                        DataColumn(
-                          label: Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(color: Colors.blue),
-                              ),
-                            ),
-                            child: Text(
-                              'الشهر',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          onSort: (columnIndex, ascending) =>
-                              onSortColumn(columnIndex, ascending),
-                          tooltip: 'Sort by month',
-                        ),
-                        DataColumn(
-                          label: Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(color: Colors.blue),
-                              ),
+                                  // bottom: BorderSide(color: Colors.blue),
+                                  ),
                             ),
                             child: Text(
                               'التعليمات',
@@ -357,8 +377,24 @@ class _FeedingTableState extends State<FeedingTable> {
                           label: Container(
                             decoration: BoxDecoration(
                               border: Border(
-                                bottom: BorderSide(color: Colors.blue),
-                              ),
+                                  // bottom: BorderSide(color: Colors.blue),
+                                  ),
+                            ),
+                            child: Text(
+                              'الشهر',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          onSort: (columnIndex, ascending) =>
+                              onSortColumn(columnIndex, ascending),
+                          tooltip: 'Sort by month',
+                        ),
+                        DataColumn(
+                          label: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                  // bottom: BorderSide(color: Colors.blue),
+                                  ),
                             ),
                             child: Padding(
                               padding: EdgeInsets.only(right: 8.0),
@@ -372,13 +408,20 @@ class _FeedingTableState extends State<FeedingTable> {
                       ],
                       rows: [
                         DataRow(cells: [
-                          DataCell(
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Column(children: [
+                            Padding(padding: const EdgeInsets.only(top: 4.0)),
                             TextField(
                               decoration: InputDecoration(
                                 hintText: 'بحث',
+                                hintTextDirection: TextDirection.rtl,
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(),
+                                  borderSide:
+                                      BorderSide(color: Colors.lightBlue),
                                 ),
                                 contentPadding: EdgeInsets.symmetric(
                                   vertical: 10,
@@ -389,27 +432,133 @@ class _FeedingTableState extends State<FeedingTable> {
                               onChanged: (value) {
                                 setState(() {
                                   searchText = value;
-                                  if (searchText.isEmpty) {
-                                    filteredFeeding = Feedings;
-                                  }
-                                  _currentPage =
-                                      1; // Reset to first page when search changes
+                                  filterFeedings(searchText);
+                                  _currentPage = 1;
                                 });
                               },
                             ),
-                          ),
-                          DataCell(Text('')),
-                          DataCell(Text('')),
-                          DataCell(Text('')),
-                          DataCell(Text('')),
-                          DataCell(Text('')),
+                          ])),
                         ]),
                         for (var feeding in getCurrentPageItems())
                           DataRow(cells: [
                             DataCell(Text(feeding.id?.toString() ?? '')),
-                            DataCell(Text(feeding.feedingType ?? '')),
+                            DataCell(
+                              MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              content: Container(
+                                                height: 100.0,
+                                                width: 60,
+                                                child: Tooltip(
+                                                  message: feeding.feedingType,
+                                                  child: SingleChildScrollView(
+                                                      child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                        feeding.feedingType ??
+                                                            '',
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 2,
+                                                        textDirection:
+                                                            TextDirection.rtl,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      )
+                                                    ],
+                                                  )),
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                    },
+                                    child: Container(
+                                      height: 60.0,
+                                      width: 150.0,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            feeding.feedingType ?? '',
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            textDirection: TextDirection.rtl,
+                                            textAlign: TextAlign.center,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )),
+                            ),
                             DataCell(Text(feeding.quantity?.toString() ?? '')),
-                            DataCell(Text(feeding.instructions ?? '')),
+                            DataCell(MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          content: Container(
+                                            height: 100.0,
+                                            width: 60.0,
+                                            child: Tooltip(
+                                              message: feeding.instructions,
+                                              child: SingleChildScrollView(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      feeding.instructions ??
+                                                          '',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      });
+                                },
+                                child: Container(
+                                  height: 60.0,
+                                  width: 150.0,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        feeding.instructions ?? '',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        textDirection: TextDirection.rtl,
+                                        textAlign: TextAlign.center,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+
+                                // Text(feeding.instructions ?? '')
+
+                                ),
                             DataCell(Text(feeding.month ?? '')),
 
                             // DataCell(Text(
@@ -419,16 +568,22 @@ class _FeedingTableState extends State<FeedingTable> {
                               Row(
                                 children: [
                                   IconButton(
-                                    icon: Icon(Icons.edit),
+                                    icon: Icon(Icons.edit,
+                                        color: Colors.lightGreen),
                                     onPressed: () {
-                                      // Perform the edit action
-                                      performAction(context, feeding, 'edit');
+                                      performAction(
+                                        context,
+                                        feeding,
+                                        'edit',
+                                      );
                                     },
                                   ),
                                   IconButton(
-                                    icon: Icon(Icons.add),
+                                    icon: Icon(
+                                      Icons.add,
+                                      color: Colors.red,
+                                    ),
                                     onPressed: () {
-                                      // Perform the view action
                                       performAction(context, feeding, 'insert');
                                     },
                                   ),
@@ -436,7 +591,8 @@ class _FeedingTableState extends State<FeedingTable> {
                                     onPressed: () async {
                                       performAction(context, feeding, 'delete');
                                     },
-                                    icon: Icon(Icons.delete),
+                                    icon: Icon(Icons.delete,
+                                        color: Colors.lightBlueAccent),
                                   ),
                                 ],
                               ),
@@ -454,31 +610,40 @@ class _FeedingTableState extends State<FeedingTable> {
                           DataCell(Text('')),
                           DataCell(Text('')),
                           DataCell(Text('')),
+                          DataCell(
+                            Container(
+                              width: double.infinity,
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    IconButton(
+                                      onPressed: goToPreviousPage,
+                                      icon: Icon(
+                                        Icons.arrow_back,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                    Text(
+                                      'رقم الصفحة $_currentPage من ${getTotalPages()}',
+                                    ),
+                                    IconButton(
+                                      onPressed: goToNextPage,
+                                      icon: Icon(
+                                        Icons.arrow_forward,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                           DataCell(Text('')),
                           DataCell(Text('')),
 
                           // DataCell(Text('')),
-                          DataCell(
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                    'ؤقم الصفحة $_currentPage من ${getTotalPages()}'),
-                                Row(
-                                  children: [
-                                    IconButton(
-                                      onPressed: goToPreviousPage,
-                                      icon: Icon(Icons.arrow_back),
-                                    ),
-                                    IconButton(
-                                      onPressed: goToNextPage,
-                                      icon: Icon(Icons.arrow_forward),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
                         ]),
                       ],
                     ),

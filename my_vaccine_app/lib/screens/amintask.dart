@@ -9,8 +9,11 @@ import 'package:my_vaccine_app/screens/Newborns/allNewborns.dart';
 import 'package:my_vaccine_app/screens/instruction.dart';
 import 'package:my_vaccine_app/screens/mother/motherLogin.dart';
 import 'package:my_vaccine_app/screens/mother/motherRegister.dart';
+import 'package:my_vaccine_app/screens/preventiveExamination/adminAdd.dart';
+import 'package:my_vaccine_app/screens/preventiveExamination/adminTable.dart';
 import 'package:my_vaccine_app/screens/preventiveExamination/preventiveExamination.dart';
 import 'package:my_vaccine_app/screens/preventiveExamination/preventiveExaminationHealthCenter.dart';
+import 'package:my_vaccine_app/screens/preventiveExamination/preventiveList.dart';
 import 'package:my_vaccine_app/screens/sidebar.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccineForm.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccineList.dart';
@@ -118,9 +121,8 @@ class AdnminTask extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors
-                            .transparent, // Set the button background color to transparent
-                        elevation: 0, // Remove the button's elevation
+                        primary: Colors.transparent,
+                        elevation: 0,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -142,8 +144,8 @@ class AdnminTask extends StatelessWidget {
               ),
               SizedBox(height: size.height * 0.01),
               SizedBox(
-                width: size.width * 0.7, // Set the desired width
-                height: size.height * 0.08, // Set the desired height
+                width: size.width * 0.7,
+                height: size.height * 0.08,
                 child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -375,7 +377,92 @@ class AdnminTask extends StatelessWidget {
                           ],
                         )),
                   ),
-                  SizedBox(height: 20.0)
+                  SizedBox(height: 8.0),
+                  SizedBox(
+                    width: size.width * 0.7,
+                    height: size.height * 0.08,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PreventiveListView()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 241, 55, 3),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.assignment, color: Colors.white),
+                            Text(
+                              'قائمة الفحوصات الوقائية ',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
+                  SizedBox(height: 16.0),
+                  SizedBox(
+                    width: size.width * 0.7,
+                    height: size.height * 0.08,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AdminAddPrevExam()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 86, 21, 239),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.assignment, color: Colors.white),
+                            Text(
+                              'اضافةمعلومات الفحوصات الوقائية ',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
+                  SizedBox(height: 16.0),
+                  SizedBox(
+                    width: size.width * 0.7,
+                    height: size.height * 0.08,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    AdminPreventiveListView()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 251, 33, 5),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.assignment, color: Colors.white),
+                            Text(
+                              'ةمعلومات الفحوصات الوقائية',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
+                  SizedBox(height: 16.0),
                 ],
               ),
             ],

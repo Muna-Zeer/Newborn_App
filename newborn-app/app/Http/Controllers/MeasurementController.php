@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Measurements;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -35,65 +36,95 @@ class MeasurementController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'height' => 'nullable|numeric',
+    //         'weight' => 'nullable|numeric',
+    //         'head_circumference' => 'nullable|numeric',
+    //         'date' => 'nullable|date',
+    //         'time' => 'nullable|date_format:H:i',
+    //         'nurse_name' => 'nullable|string|max:255',
+    //         'remarks' => 'nullable|string',
+    //         'age' => 'nullable|integer|min:0',
+    //         'tonics' => 'nullable|string|max:255',
+    //         'newborn_id' => 'nullable|exists:newborns,id',
+    //         'nurse_id' => 'nullable|exists:nurses,id',
+    //         'midwife_id' => 'nullable|exists:midwives,id',
+    //         'health_center_id' => 'nullable|exists:health_centers,id',
+    //         'ministry_id' => [
+    //             'nullable',
+    //             Rule::exists('ministries_of_health', 'id')->where(function ($query) use ($request) {
+    //                 $query->where('country', $request->input('country'));
+    //             }),
+    //         ],
+    //         'hospital_id' => 'nullable|exists:hospitals,id',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Validation failed',
+    //             'errors' => $validator->errors(),
+    //         ], 422);
+    //     }
+
+    //     $measurement = new Measurements([
+    //         'height' => $request->input('height'),
+    //         'weight' => $request->input('weight'),
+    //         'head_circumference' => $request->input('head_circumference'),
+    //         'date' => $request->input('date'),
+    //         'time' => $request->input('time'),
+    //         'nurse_name' => $request->input('nurse_name'),
+    //         'remarks' => $request->input('remarks'),
+    //         'age' => $request->input('age'),
+    //         'tonics' => $request->input('tonics'),
+    //         'newborn_id' => $request->input('newborn_id'),
+    //         'nurse_id' => $request->input('nurse_id'),
+    //         'midwife_id' => $request->input('midwife_id'),
+    //         'health_center_id' => $request->input('health_center_id'),
+    //         'ministry_id' => $request->input('ministry_id'),
+    //         'hospital_id' => $request->input('hospital_id'),
+    //     ]);
+
+    //     if (!$measurement->save()) {
+    //         Log::error('Failed to save measurement', ['data' => $measurement]);
+    //         return response()->json(['success' => false, 'message' => 'Failed to save measurement'], 500);
+    //     }
+
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Measurement created successfully',
+    //         'measurement' => $measurement,
+    //     ], 201);
+    // }
+
     public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'height' => 'nullable|numeric',
-            'weight' => 'nullable|numeric',
-            'head_circumference' => 'nullable|numeric',
-            'date' => 'nullable|date',
-            'time' => 'nullable|date_format:H:i',
-            'nurse_name' => 'nullable|string|max:255',
+{
+    try {
+        $validated = $request->validate([
+            'height' => 'required|numeric',
+            'weight' => 'required|numeric',
+            'head_circumference' => 'required|numeric',
+            'date' => 'required|date',
+            'nurse_name' => 'required|string',
             'remarks' => 'nullable|string',
-            'age' => 'nullable|integer|min:0',
-            'tonics' => 'nullable|string|max:255',
-            'newborn_id' => 'nullable|exists:newborns,id',
-            'nurse_id' => 'nullable|exists:nurses,id',
-            'midwife_id' => 'nullable|exists:midwives,id',
-            'health_center_id' => 'nullable|exists:health_centers,id',
-            'ministry_id' => [
-                'nullable',
-                Rule::exists('ministries_of_health', 'id')->where(function ($query) use ($request) {
-                    $query->where('country', $request->input('country'));
-                }),
-            ],
-            'hospital_id' => 'nullable|exists:hospitals,id',
+            'age' => 'required|numeric',
+            'tonics' => 'nullable|string',
         ]);
-    
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-    
-        $measurement = new Measurements([
-            'height' => $request->input('height'),
-            'weight' => $request->input('weight'),
-            'head_circumference' => $request->input('head_circumference'),
-            'date' => $request->input('date'),
-            'time' => $request->input('time'),
-            'nurse_name' => $request->input('nurse_name'),
-            'remarks' => $request->input('remarks'),
-            'age' => $request->input('age'),
-            'tonics' => $request->input('tonics'),
-            'newborn_id' => $request->input('newborn_id'),
-            'nurse_id' => $request->input('nurse_id'),
-            'midwife_id' => $request->input('midwife_id'),
-            'health_center_id' => $request->input('health_center_id'),
-            'ministry_id' => $request->input('ministry_id'),
-            'hospital_id' => $request->input('hospital_id'),
-        ]);
-    
-        $measurement->save();
-    
+
+        Measurements::create($validated);
+        return response()->json(['message' => 'Measurement created successfully'], 201);
+    } catch (\Illuminate\Validation\ValidationException $e) {
         return response()->json([
-            'success' => true,
-            'message' => 'Measurement created successfully',
-            'measurement' => $measurement,
-        ], 201);
+            'message' => 'Validation errors',
+            'errors' => $e->errors()
+        ], 422);
     }
+}
+
+
 
     /**
      * Display the specified resource.
@@ -133,7 +164,7 @@ class MeasurementController extends Controller
                     'message' => 'Measurement id record not found',
                 ], 404);
             }
-    
+
             // If the record exists, return the record data in JSON format with a success message
             return response()->json([
                 'status' => 'success',
@@ -149,7 +180,7 @@ class MeasurementController extends Controller
     {
         // Retrieve the Measurement record by ID
         $measurement = Measurements::find($id);
-    
+
         // Check if the record exists
         if (!$measurement) {
             return response()->json([
@@ -157,7 +188,7 @@ class MeasurementController extends Controller
                 'message' => 'Measurement record not found',
             ], 404);
         }
-    
+
         // Validate the request data
         $validator = Validator::make($request->all(), [
             'height' => 'nullable|numeric',
@@ -198,7 +229,7 @@ class MeasurementController extends Controller
                 }),
             ],
         ]);
-    
+
         // Check if the validation fails
         if ($validator->fails()) {
             return response()->json([
@@ -208,17 +239,17 @@ class MeasurementController extends Controller
                 'data' => [],
             ], 400);
         }
-    
+
         // Update the Measurement record with the new data
         $measurement->update($request->all());
-    
+
         return response()->json([
             'status' => 'success',
             'message' => 'Measurement record updated successfully',
             'data' => $measurement,
         ]);
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -235,10 +266,10 @@ class MeasurementController extends Controller
                  'message' => 'Measurement record record not found',
              ], 404);
          }
- 
+
          // Delete the Measurement  record record
          $Measurement->delete();
- 
+
          // Return a success message
          return response()->json([
              'status' => 'success',

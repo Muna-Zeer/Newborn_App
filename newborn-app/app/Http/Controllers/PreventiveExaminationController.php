@@ -205,12 +205,13 @@ class PreventiveExaminationController extends Controller
         $validator = Validator::make($request->all(), [
             'exam_type' => 'nullable|string',
             'date' => 'nullable|date',
-            'time' => 'nullable|date_format:H:i',
+          'time' => 'nullable|string',
+
             'result' => 'nullable|string',
             'newborn_id' => 'nullable|integer|exists:newborns,id',
             'hospital_id' => 'nullable|integer|exists:hospitals,id',
             'health_center_id' => 'nullable|integer|exists:health_centers,id',
-            'ministry_id' => 'nullable|integer|exists:ministries,id',
+            'ministry_id' => 'nullable|integer|exists:ministryofhealths,id',
             'nurse_id' => 'nullable|integer|exists:nurses,id',
         ]);
 
@@ -225,14 +226,19 @@ class PreventiveExaminationController extends Controller
         }
 
         // Update the PreventiveExamination record with the validated data
-        $preventiveExamination->update($request->all());
+        if ($preventiveExamination->update($request->all())) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Preventive Examination record updated successfully',
+                'data' => $preventiveExamination,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to update Preventive Examination record',
+            ], 500); // Internal Server Error
+        }
 
-        // Return a success response with the updated record data
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Preventive Examination record updated successfully',
-            'data' => $preventiveExamination,
-        ]);
     }
 
     /**

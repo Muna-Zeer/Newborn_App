@@ -4,6 +4,8 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 import 'package:my_vaccine_app/apiServer.dart';
+import 'package:my_vaccine_app/screens/Instructions/guildlineTable.dart';
+import 'package:my_vaccine_app/screens/preventiveExamination/preventiveExamintationTable.dart';
 
 class PreventiveExaminationForm extends StatefulWidget {
   @override
@@ -25,10 +27,12 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
 
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
+      print("_timeController.text: ${_timeController.text}");
       final preventiveExamination = {
         'exam_type': _examTypeController.text,
         'date': _dateController.text,
         'time': _timeController.text,
+        'result': _resultController.text,
         'ministry_id': int.parse(_ministryIdController.text),
       };
       final baseUrl = ApiService.getBaseUrl();
@@ -43,7 +47,6 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
         final response = await http.post(url, headers: headers, body: body);
         if (response.statusCode == 201) {
           final responseData = json.decode(response.body);
-          // Handle the created preventive examination object as needed
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -124,6 +127,7 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.lightBlue,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -139,85 +143,289 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
           key: _formKey,
           child: ListView(
             children: <Widget>[
-              TextFormField(
-                controller: _examTypeController,
-                textAlign: TextAlign.right,
-                decoration: InputDecoration(
-                  labelText: 'نوع الفحص ',
+              Container(
+                width: 200.0,
+                height: 200.0,
+                child: Image.asset(
+                  'assets/examination.jpg',
+                  width: 300.0,
+                  height: 300.0,
+                  fit: BoxFit.cover,
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an exam type';
-                  }
-                  return null;
-                },
               ),
-              TextFormField(
-                controller: _dateController,
-                textAlign: TextAlign.right,
-                decoration: InputDecoration(
-                  labelText: 'التاريخ',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a date';
-                  }
-                  return null;
-                },
-                onTap: () async {
-                  final DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime.now());
-                  if (pickedDate != null) {
-                    final formattedDate =
-                        DateFormat('yyyy-MM-dd').format(pickedDate);
-                    setState(() {
-                      _dateController.text = formattedDate;
-                    });
-                  }
-                },
+              SizedBox(
+                height: 16.0,
               ),
-              TextFormField(
-                controller: _timeController,
-                textAlign: TextAlign.right,
-                decoration: InputDecoration(
-                  labelText: 'الوقت',
-                ),
-                onTap: () async {
-                  final initialTime = TimeOfDay.now();
-                  final selectedTime = await showTimePicker(
-                    context: context,
-                    initialTime: initialTime,
-                  );
-                  if (selectedTime != null) {
-                    _timeController.text = selectedTime.format(context);
-                  }
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter time of delivery';
-                  }
-                  return null;
-                },
+              Container(
+                  padding: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 2.0,
+                        color: const Color.fromARGB(255, 2, 31, 54),
+                      ),
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2.0,
+                            blurRadius: 5.0,
+                            offset: Offset(0, 3)),
+                      ]),
+                  child: Column(children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          'نوع الفحص ',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _examTypeController,
+                      textAlign: TextAlign.right,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter an exam type';
+                        }
+                        return null;
+                      },
+                    ),
+                  ])),
+              SizedBox(
+                height: 16.0,
               ),
-              TextFormField(
-                controller: _ministryIdController,
-                decoration: InputDecoration(
-                  labelText: 'رقم وزارة الصحة ',
-                ),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a ministry ID';
-                  }
-                  return null;
-                },
+              Container(
+                  padding: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 2.0,
+                        color: const Color.fromARGB(255, 2, 31, 54),
+                      ),
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2.0,
+                            blurRadius: 5.0,
+                            offset: Offset(0, 3)),
+                      ]),
+                  child: Column(children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          'التاريخ',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _dateController,
+                      textAlign: TextAlign.right,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a date';
+                        }
+                        return null;
+                      },
+                      onTap: () async {
+                        final DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now());
+                        if (pickedDate != null) {
+                          final formattedDate =
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
+                          setState(() {
+                            _dateController.text = formattedDate;
+                          });
+                        }
+                      },
+                    ),
+                  ])),
+              SizedBox(
+                height: 16.0,
               ),
-              ElevatedButton(
-                child: Text('ارسال', textAlign: TextAlign.right),
-                onPressed: submitForm,
+              Container(
+                  padding: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 2.0,
+                        color: const Color.fromARGB(255, 2, 31, 54),
+                      ),
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2.0,
+                            blurRadius: 5.0,
+                            offset: Offset(0, 3)),
+                      ]),
+                  child: Column(children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          'الوقت',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _timeController,
+                      textAlign: TextAlign.right,
+                      onTap: () async {
+                        final initialTime = TimeOfDay.now();
+                        final selectedTime = await showTimePicker(
+                          context: context,
+                          initialTime: initialTime,
+                        );
+                        if (selectedTime != null) {
+                          _timeController.text = selectedTime.format(context);
+                        }
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter time of delivery';
+                        }
+                        return null;
+                      },
+                    ),
+                  ])),
+              SizedBox(
+                height: 16.0,
+              ),
+              Container(
+                  padding: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 2.0,
+                        color: const Color.fromARGB(255, 2, 31, 54),
+                      ),
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2.0,
+                            blurRadius: 5.0,
+                            offset: Offset(0, 3)),
+                      ]),
+                  child: Column(children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          'النتيجة',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _resultController,
+                      // keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a ministry ID';
+                        }
+                        return null;
+                      },
+                    ),
+                  ])),
+              SizedBox(
+                height: 16.0,
+              ),
+              Container(
+                  padding: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 2.0,
+                        color: const Color.fromARGB(255, 2, 31, 54),
+                      ),
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2.0,
+                            blurRadius: 5.0,
+                            offset: Offset(0, 3)),
+                      ]),
+                  child: Column(children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          'رقم وزارة الصحة ',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _ministryIdController,
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a ministry ID';
+                        }
+                        return null;
+                      },
+                    ),
+                  ])),
+              SizedBox(
+                height: 16.0,
+              ),
+              // ElevatedButton(
+              //   child: Text('ارسال', textAlign: TextAlign.right),
+              //   onPressed: submitForm,
+              // ),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                        onPressed: submitForm,
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.lightBlue)),
+                        child: Text(
+                          'ارسال',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  ),
+                ],
+              ),
+              SizedBox(height: 8.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  PreventiveExaminationTable()),
+                        );
+                      },
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.lightBlue)),
+                      child: Text(
+                        'مشاهدة الجدول',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

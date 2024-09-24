@@ -16,7 +16,7 @@ class _MeasurementFormState extends State<MeasurementForm> {
   late double _weight;
   late double _headCircumference;
   late DateTime _date;
-  late TimeOfDay _time;
+  late String _time;
   late String _nurseName;
   late String _remarks;
   late int _age;
@@ -75,7 +75,8 @@ class _MeasurementFormState extends State<MeasurementForm> {
                       onSaved: (value) => _weight = double.parse(value!),
                     ),
                     TextFormField(
-                      decoration: InputDecoration(labelText: 'Head Circumference'),
+                      decoration:
+                          InputDecoration(labelText: 'Head Circumference'),
                       keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -83,7 +84,8 @@ class _MeasurementFormState extends State<MeasurementForm> {
                         }
                         return null;
                       },
-                      onSaved: (value) => _headCircumference = double.parse(value!),
+                      onSaved: (value) =>
+                          _headCircumference = double.parse(value!),
                     ),
                     // Add more TextFormField widgets for other attributes
                     ElevatedButton(

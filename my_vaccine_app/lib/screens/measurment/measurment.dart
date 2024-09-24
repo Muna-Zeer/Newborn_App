@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
 class Measurement {
-  final double height;
-  final double weight;
-  final double headCircumference;
-  final DateTime date;
-  final TimeOfDay time;
-  final String nurseName;
-  final String remarks;
-  final int age;
-  final String tonics;
-  final int newbornId;
-  final int nurseId;
-  final int midwifeId;
-  final int healthCenterId;
-  final int ministryId;
-  final int hospitalId;
+   double height;
+   double weight;
+   double headCircumference;
+   DateTime date;
+   String time;
+   String nurseName;
+   String remarks;
+   int age;
+   String tonics;
+   int newbornId;
+   int nurseId;
+   int midwifeId;
+   int healthCenterId;
+   int ministryId;
+   int hospitalId;
 
   Measurement({
     required this.height,
@@ -41,7 +41,7 @@ class Measurement {
       'weight': weight,
       'head_circumference': headCircumference,
       'date': date.toIso8601String(),
-      'time': _formatTimeOfDay(time), // Convert TimeOfDay to a string format
+      'time': time, 
       'nurse_name': nurseName,
       'remarks': remarks,
       'age': age,
@@ -61,7 +61,7 @@ class Measurement {
       weight: json['weight'],
       headCircumference: json['head_circumference'],
       date: DateTime.parse(json['date']),
-      time: _parseTimeOfDay(json['time']), 
+      time: json['time'], 
       nurseName: json['nurse_name'],
       remarks: json['remarks'],
       age: json['age'],

@@ -38,7 +38,7 @@ class _GuidelineListState extends State<GuidelineList> {
           guidelineList = guidelines.map<Widget>((guidelineData) {
             final guideline = Guideline.fromJson(guidelineData);
 
-            //add icon card
+          
 
             return ListTile(
               title: Column(

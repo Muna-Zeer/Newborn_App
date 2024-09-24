@@ -7,6 +7,7 @@ import 'package:my_vaccine_app/screens/Instructions/guidlineList.dart';
 import 'package:my_vaccine_app/screens/Instructions/guildlineForm.dart';
 import 'package:my_vaccine_app/screens/Newborns/allNewborns.dart';
 import 'package:my_vaccine_app/screens/instruction.dart';
+import 'package:my_vaccine_app/screens/measurment/measurementHome.dart';
 import 'package:my_vaccine_app/screens/mother/motherLogin.dart';
 import 'package:my_vaccine_app/screens/mother/motherRegister.dart';
 import 'package:my_vaccine_app/screens/preventiveExamination/preventiveExamination.dart';
@@ -199,6 +200,10 @@ class RoleScreen extends StatelessWidget {
                     width: size.width * 0.6, // Set the desired width
                     height: size.height * 0.08, // Set the desired height
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(255, 72, 59,
+                            145), // Set the desired background color
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -219,6 +224,10 @@ class RoleScreen extends StatelessWidget {
                     width: size.width * 0.6,
                     height: size.height * 0.08,
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(255, 176, 60,
+                            39), // Set the desired background color
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -226,10 +235,10 @@ class RoleScreen extends StatelessWidget {
                               builder: (context) => VaccineInstructionScreen()),
                         );
                       },
-                      style: ElevatedButton.styleFrom(
-                        primary:
-                            Colors.purple, // Set the desired background color
-                      ),
+                      // style: ElevatedButton.styleFrom(
+                      //   primary:
+                      //       Colors.purple, // Set the desired background color
+                      // ),
                       child: Text(
                         'تعليمات التطعيم',
                         style: TextStyle(
@@ -310,6 +319,30 @@ class RoleScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  SizedBox(height: size.height * 0.01),
+                  SizedBox(
+                    width: size.width * 0.6,
+                    height: size.height * 0.08,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MeasurementHome()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(255, 14, 3, 81),
+                      ),
+                      child: Text(
+                        'قياسات الاطفال',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.01),
                 ],
               ),
             ],

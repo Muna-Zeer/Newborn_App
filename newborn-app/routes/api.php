@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\adminPrevExamination;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\DateOfImmunizationController;
 use App\Http\Controllers\DoctorController;
@@ -136,14 +137,14 @@ Route::delete('/ministry/{id}', [MinnistryOfHealthController::class, 'destroy'])
     Route::delete('/midwives/{id}', [MidwifeController::class, 'destroy']);
 // });
 //Route of MeasurementController
-Route::middleware('auth:api')->group(function () {
+// Route::middleware('auth:api')->group(function () {
 
     Route::get('/measurements', [MeasurementController::class, 'index']);
     Route::get('/measurements/{id}', [MeasurementController::class, 'show']);
-    Route::post('/measurements', [MeasurementController::class, 'store']);
+    Route::post('/measurement', [MeasurementController::class, 'store']);
     Route::put('/measurements/{id}', [MeasurementController::class, 'update']);
     Route::delete('/measurements/{id}', [MeasurementController::class, 'destroy']);
-});
+// });
 //Route of LocationController
 Route::middleware('auth:api')->group(function () {
 
@@ -321,6 +322,14 @@ Route::post('/preventiveExaminationsMinistry', [PreventiveExaminationController:
 Route::put('/preventiveExamination/{id}', [PreventiveExaminationController::class, 'update']);
 Route::delete('/preventiveExamination/{id}', [PreventiveExaminationController::class, 'destroy']);
 // });
+//make some routes for admin
+
+Route::get('/admin_prevExaminations', [adminPrevExamination::class, 'index']);
+Route::get('/admin_prevExamination/{id}', [adminPrevExamination::class, 'show']);
+Route::post('/admin_prevExamination', [adminPrevExamination::class, 'store']);
+Route::put('/admin_prevExamination/{id}', [adminPrevExamination::class, 'update']);
+Route::delete('/admin_prevExamination/{id}', [adminPrevExamination::class, 'destroy']);
+
 //Route of RoleController
 Route::middleware('auth:api')->group(function () {
 
