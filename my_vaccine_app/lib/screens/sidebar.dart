@@ -218,15 +218,15 @@ class RoleUser extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    width: 80.0, // Adjust the width as desired
-                    height: 50.0, // Adjust the height as desired
+                    width: 80.0, 
+                    height: 50.0, 
                     decoration: BoxDecoration(
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     padding: EdgeInsets.all(10.0),
                     alignment: Alignment
-                        .center, // Center the text within the container
+                        .center, 
                     child: Directionality(
                       textDirection: TextDirection.rtl,
                       child: Text(

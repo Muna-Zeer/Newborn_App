@@ -254,7 +254,7 @@ class _MeasurementFormState extends State<MeasurementWeight> {
             SizedBox(height: 24.0),
             Row(
               mainAxisAlignment:
-                  MainAxisAlignment.center, // Center the button horizontally
+                  MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                   onPressed: submitForm,

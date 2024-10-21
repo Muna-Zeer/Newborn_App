@@ -48,19 +48,23 @@ class Newborn {
 
   factory Newborn.fromJson(Map<String, dynamic> json) {
     return Newborn(
-      identityNumber: json['identity_number'],
+      identityNumber: json['identity_number'] ?? "",
       id: json['id'],
-      firstName: json['firstName'],
-      lastName: json['lastName'],
-      dateOfBirth: json['date_of_birth'],
-      timeOfBirth: json['time_of_birth'],
-      gender: json['gender'],
-      weight: json['weight'],
-      length: json['length'],
-      status: json['status'],
-      deliveryMethod: json['delivery_method'],
-      motherId: json['mother_id'],
-      locationId: json['location_id'],
+      firstName: json['firstName'] ?? "",
+      lastName: json['lastName'] ?? "",
+      dateOfBirth: json['date_of_birth'] ?? "",
+      timeOfBirth: json['time_of_birth'] ?? "",
+      gender: json['gender'] ?? "",
+      weight: json['weight'] ?? "",
+      length: json['length'] ?? "",
+      status: json['status'] ?? "",
+      deliveryMethod: json['delivery_method'] ?? "",
+      motherId: json['mother_id'] != null
+          ? (json['mother_id'] is String
+              ? int.tryParse(json['mother_id']) ?? 0
+              : json['mother_id'])
+          : 0,
+      locationId: json['location_id'] ?? 0,
       healthCenterId: json['health_center_id'],
       hospitalCenterId: json['hospital_center_id'],
       measurementId: json['measurement_id'],
@@ -69,8 +73,33 @@ class Newborn {
       nurseId: json['nurse_id'],
       midwifeId: json['midwife_id'],
       newbornHospitalNurseryId: json['newborn_hospital_nursery_id'],
-      vaccineReceived: json['vaccine_received'] ??
-          false, // Initialize with default value from JSON, or false if not present
+      vaccineReceived: json['vaccine_received'] is bool
+          ? json['vaccine_received']
+          : (json['vaccine_received'] == 1),
     );
+  }
+  factory Newborn.empty() {
+    return Newborn(
+        identityNumber: "",
+        id: 0,
+        firstName: "",
+        lastName: "",
+        dateOfBirth: "",
+        timeOfBirth: "",
+        gender: "",
+        weight: "",
+        length: "",
+        status: "",
+        deliveryMethod: "",
+        motherId: 0,
+        locationId: 0,
+        healthCenterId: 0,
+        hospitalCenterId: 0,
+        measurementId: 0,
+        ministryCenterId: 0,
+        doctorId: 0,
+        nurseId: 0,
+        midwifeId: 0,
+        newbornHospitalNurseryId: 0);
   }
 }

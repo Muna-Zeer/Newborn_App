@@ -23,10 +23,10 @@ class Newborn extends Model
     {
         return $this->belongsTo(Mother::class, 'mother_id', 'identity_number');
     }
-    public function newbornVaccines()
-{
-    return $this->hasMany(NewbornVaccine::class, 'newborn_id');
-}
+//     public function newbornVaccines()
+// {
+//     return $this->hasMany(newbornVaccines::class, 'newborn_id');
+// }
 
 
     public function location()

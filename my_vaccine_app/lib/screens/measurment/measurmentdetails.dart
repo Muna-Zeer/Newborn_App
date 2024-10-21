@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_vaccine_app/screens/Newborns/NewbornClass.dart';
 import 'package:my_vaccine_app/screens/measurment/measurment.dart';
 
 class MeasurementForm extends StatefulWidget {
@@ -27,6 +28,7 @@ class _MeasurementFormState extends State<MeasurementForm> {
   late int _healthCenterId;
   late int _ministryId;
   late int _hospitalId;
+  late Newborn _newborn;
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +110,7 @@ class _MeasurementFormState extends State<MeasurementForm> {
                             healthCenterId: _healthCenterId,
                             ministryId: _ministryId,
                             hospitalId: _hospitalId,
+                            newborn:_newborn,
                           );
                           widget.onSubmit(measurement);
                         }

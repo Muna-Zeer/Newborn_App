@@ -142,7 +142,7 @@ Route::delete('/ministry/{id}', [MinnistryOfHealthController::class, 'destroy'])
     Route::get('/measurements', [MeasurementController::class, 'index']);
     Route::get('/measurements/{id}', [MeasurementController::class, 'show']);
     Route::post('/measurement', [MeasurementController::class, 'store']);
-    Route::put('/measurements/{id}', [MeasurementController::class, 'update']);
+    Route::put('/measurement/{id}', [MeasurementController::class, 'update']);
     Route::delete('/measurements/{id}', [MeasurementController::class, 'destroy']);
 // });
 //Route of LocationController
@@ -270,7 +270,7 @@ Route::middleware('auth:api')->group(function () {
 Route::get('/newborn', [NewbornController::class, 'index']);
 Route::get('/newborns/{id}', [NewbornController::class, 'show']);
 Route::get('/fetchNewbornsWithDetails', [NewbornController::class, 'fetchNewbornsWithDetails']);
-Route::post('/newborns', [NewbornController::class, 'store']);
+Route::post('/newborn', [NewbornController::class, 'store']);
 Route::put('/newborns/{id}', [NewbornController::class, 'update']);
 Route::delete('/newborns/{id}', [NewbornController::class, 'destroy']);
 // });

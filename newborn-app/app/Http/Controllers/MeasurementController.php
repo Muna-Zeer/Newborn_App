@@ -16,7 +16,7 @@ class MeasurementController extends Controller
     public function index()
     {
         //
-        $measurement = Measurements::all();
+        $measurement = Measurements::with('newborn')->get();
 
         return response()->json([
             'status' => 'success',
@@ -218,9 +218,10 @@ class MeasurementController extends Controller
             ],
             'ministry_id' => [
                 'nullable',
-                Rule::exists('MinistryOfHealths', 'id')->where(function ($query) use ($request) {
-                    $query->where('country', $request->input('country'));
-                }),
+                Rule::exists('MinistryOfHealths', 'id')
+                // ->where(function ($query) use ($request) {
+                //     $query->where('country', $request->input('country'));
+                // }),
             ],
             'hospital_id' => [
                 'nullable',

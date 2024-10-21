@@ -1,21 +1,22 @@
-import 'package:flutter/material.dart';
+import 'package:my_vaccine_app/screens/Newborns/NewbornClass.dart';
 
 class Measurement {
-   double height;
-   double weight;
-   double headCircumference;
-   DateTime date;
-   String time;
-   String nurseName;
-   String remarks;
-   int age;
-   String tonics;
-   int newbornId;
-   int nurseId;
-   int midwifeId;
-   int healthCenterId;
-   int ministryId;
-   int hospitalId;
+  double height;
+  double weight;
+  double headCircumference;
+  DateTime date;
+  String time;
+  String nurseName;
+  String remarks;
+  int age;
+  String tonics;
+  int newbornId;
+  int nurseId;
+  int midwifeId;
+  int healthCenterId;
+  int ministryId;
+  int hospitalId;
+  final Newborn newborn;
 
   Measurement({
     required this.height,
@@ -33,58 +34,80 @@ class Measurement {
     required this.healthCenterId,
     required this.ministryId,
     required this.hospitalId,
+    required this.newborn,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'height': height,
-      'weight': weight,
-      'head_circumference': headCircumference,
+      'height': height.toString(),
+      'weight': weight.toString(),
+      'head_circumference': headCircumference.toString(),
       'date': date.toIso8601String(),
-      'time': time, 
+      'time': time,
       'nurse_name': nurseName,
       'remarks': remarks,
       'age': age,
       'tonics': tonics,
-      'newborn_id': newbornId,
-      'nurse_id': nurseId,
-      'midwife_id': midwifeId,
-      'health_center_id': healthCenterId,
-      'ministry_id': ministryId,
-      'hospital_id': hospitalId,
+      'newborn_id': newbornId.toString(),
+      'nurse_id': nurseId.toString(),
+      'midwife_id': midwifeId.toString(),
+      'health_center_id': healthCenterId.toString(),
+      'ministry_id': ministryId.toString(),
+      'hospital_id': hospitalId.toString(),
     };
   }
 
   factory Measurement.fromJson(Map<String, dynamic> json) {
     return Measurement(
-      height: json['height'],
-      weight: json['weight'],
-      headCircumference: json['head_circumference'],
-      date: DateTime.parse(json['date']),
-      time: json['time'], 
-      nurseName: json['nurse_name'],
-      remarks: json['remarks'],
-      age: json['age'],
-      tonics: json['tonics'],
-      newbornId: json['newborn_id'],
-      nurseId: json['nurse_id'],
-      midwifeId: json['midwife_id'],
-      healthCenterId: json['health_center_id'],
-      ministryId: json['ministry_id'],
-      hospitalId: json['hospital_id'],
+      height: _toDouble(json['height'] ?? 0.0),
+      weight: _toDouble(json['weight'] ?? 0.0),
+      headCircumference: _toDouble(json['head_circumference'] ?? 0.0),
+      date:
+          json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
+      time: json['time'] ?? '',
+      nurseName: json['nurse_name'] ?? '',
+      remarks: json['remarks'] ?? '',
+      age: json['age'] ?? 0,
+      tonics: json['tonics'] ?? '',
+      newbornId: json['newborn_id'] != null
+          ? (json['newborn_id'] is String
+              ? int.tryParse(json['newborn_id']) ?? 0
+              : json['newborn_id'])
+          : 0,
+      nurseId: json['nurse_id'] != null
+          ? (json['nurse_id'] is String
+              ? int.tryParse(json['nurse_id']) ?? 0
+              : json['nurse_id'])
+          : 0,
+      midwifeId: json['midwife_id'] != null
+          ? (json['midwife_id'] is String
+              ? int.tryParse(json['midwife_id']) ?? 0
+              : json['midwife_id'])
+          : 0,
+      healthCenterId: json['health_center_id'] != null
+          ? (json['health_center_id'] is String
+              ? int.tryParse(json['health_center_id']) ?? 0
+              : json['health_center_id'])
+          : 0,
+      ministryId: json['ministry_id'] != null
+          ? (json['ministry_id'] is String
+              ? int.tryParse(json['ministry_id']) ?? 0
+              : json['ministry_id'])
+          : 0,
+      hospitalId: json['hospital_id'] != null
+          ? (json['hospital_id'] is String
+              ? int.tryParse(json['hospital_id']) ?? 0
+              : json['hospital_id'])
+          : 0,
+      newborn: json['newborn'] != null
+          ? Newborn.fromJson(json['newborn'])
+          : Newborn.empty(),
     );
   }
 
-  static String _formatTimeOfDay(TimeOfDay timeOfDay) {
-    final String hour = timeOfDay.hour.toString().padLeft(2, '0');
-    final String minute = timeOfDay.minute.toString().padLeft(2, '0');
-    return '$hour:$minute';
-  }
-
-  static TimeOfDay _parseTimeOfDay(String timeString) {
-    final List<String> parts = timeString.split(':');
-    final int hour = int.parse(parts[0]);
-    final int minute = int.parse(parts[1]);
-    return TimeOfDay(hour: hour, minute: minute);
+  static double _toDouble(dynamic value) {
+    if (value is double) return value;
+    if (value is String) return double.tryParse(value) ?? 0.0;
+    return 0.0;
   }
 }

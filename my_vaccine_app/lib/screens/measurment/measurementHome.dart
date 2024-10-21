@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:collapsible_sidebar/collapsible_sidebar.dart';
+import 'package:my_vaccine_app/screens/measurment/measurementView.dart';
 import 'package:my_vaccine_app/screens/measurment/weightofBoys.dart';
 import 'package:my_vaccine_app/screens/measurment/weighttogirls.dart';
 
@@ -73,9 +74,7 @@ class _MeasurementHomeState extends State<MeasurementHome> {
         onPressed: () {
           try {
             Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) =>
-                     MeasurementWeightGirls()), 
+              MaterialPageRoute(builder: (context) => MeasurementWeightGirls()),
             );
           } catch (e) {
             print('Navigation Error: $e');
@@ -83,6 +82,33 @@ class _MeasurementHomeState extends State<MeasurementHome> {
         },
         onHold: () => ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: const Text("Length/height-for-age Girls")),
+        ),
+      ),
+      // Measurement Table Section
+      CollapsibleItem(
+        
+        text: 'MeasurementTable',
+        icon: Icons.ac_unit,
+        onPressed: () => setState(() => _headline = 'Measurement'),
+        onHold: () => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: const Text("MeasurementTable")),
+        ),
+      ),
+      CollapsibleItem(
+        text: 'Measurement Table View',
+        badgeCount: 7,
+        icon: Icons.assessment,
+        onPressed: () {
+          try {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => MeasurementTable()),
+            );
+          } catch (e) {
+            print('Navigation Error: $e');
+          }
+        },
+        onHold: () => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: const Text("Measurement Table Views")),
         ),
       ),
     ];
