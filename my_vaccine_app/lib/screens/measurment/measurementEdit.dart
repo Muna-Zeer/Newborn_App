@@ -70,9 +70,6 @@ class _MeasurementEditState extends State<MeasurementEdit> {
           dateController.text = measurementData['date'] ??
               "DateFormat('yyyy-MM-dd').format(DateTime.now())";
         });
-      } else {
-        DialogHelper.showErrorDialog(
-            context, "Invalid Fetching measurement Data");
       }
     } catch (e) {
       DialogHelper.showErrorDialog(

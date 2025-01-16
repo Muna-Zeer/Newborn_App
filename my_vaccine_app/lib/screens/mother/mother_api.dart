@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_vaccine_app/apiServer.dart';
 import 'dart:convert';
@@ -128,4 +127,21 @@ Future<Mother> fetchMother(int motherId) async {
   } else {
     throw Exception('Failed to load mother');
   }
+}
+
+Future<int> calculateAge(DateTime? birthDate) async {
+  if (birthDate == null) {
+    throw ArgumentError("birthDate cannot be null");
+  }
+
+  final currentDate = DateTime.now();
+  int age = currentDate.year - birthDate.year;
+
+  if (currentDate.month < birthDate.month ||
+      (currentDate.month == birthDate.month &&
+          currentDate.day < birthDate.day)) {
+    age--;
+  }
+
+  return Future.value(age);
 }

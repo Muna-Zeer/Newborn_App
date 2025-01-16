@@ -25,20 +25,32 @@ class _MotherAutoProfileState extends State<MotherAutoProfile> {
   }
 
   void createAutoProfile() async {
-    final identityNumber = widget.motherData['identity_number'];
-    final baseUrl = ApiService.getBaseUrl();
+    try {
+      final identityNumber = widget.motherData['identity_number'];
+      print('Identity Number: $identityNumber');
 
-    final url = Uri.parse('$baseUrl/autoProfileMother/$identityNumber');
-    final response = await http.get(url);
-    print('Response status code: ${response.statusCode}');
-    print('Response body: ${response.body}');
-    if (response.statusCode == 200) {
-      setState(() {
+      final baseUrl = ApiService.getBaseUrl();
+      final url = Uri.parse('$baseUrl/autoProfileMother/$identityNumber');
+
+      print('Requesting: $url');
+
+      final response = await http.get(url);
+      print('Response status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
-        autoProfile = responseData['mother'];
-      });
-    } else {
-      throw Exception('Failed to retrieve auto profile.');
+        setState(() {
+          autoProfile = responseData['mother'];
+        });
+      } else {
+        final errorData = jsonDecode(response.body);
+        throw Exception('Error: ${errorData['message']}');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to retrieve auto profile: $e')),
+      );
     }
   }
 
@@ -53,7 +65,7 @@ class _MotherAutoProfileState extends State<MotherAutoProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('معلومات عن الأم'),
+        title: const Text('معلومات عن الأم'),
       ),
       body: autoProfile != null
           ? SingleChildScrollView(
@@ -61,272 +73,442 @@ class _MotherAutoProfileState extends State<MotherAutoProfile> {
               child: Padding(
                 padding: EdgeInsets.only(top: 60),
                 child: Column(children: [
-                  Text(
+                  const Text(
                     'معلومات عن الأم',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    color: Colors.blue[50],
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 30, right: 30, top: 30, bottom: 70),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 8.0),
-                          SizedBox(
-                            width: 750,
-                            height: 40.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.0,
+                  SizedBox(
+                      width: 1000,
+                      child: Card(
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        color: const Color.fromARGB(255, 0, 9, 15),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 8.0),
+                              Container(
+                                width: 900,
+                                height: 80.0,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 238, 245, 252),
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: Text(
-                                ' ${autoProfile!['first_name']} ${autoProfile!['last_name']} اسم الام: ',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          SizedBox(
-                            width: 750,
-                            height: 40.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'اسم الام: ${autoProfile!['first_name']}   ${autoProfile!['last_name']}  ',
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.grey[800],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              child: Text(
-                                'رقم الهوية: ${autoProfile!['identity_number']}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          SizedBox(
-                            width: 750,
-                            height: 40.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.0,
+                              const SizedBox(height: 16.0),
+                              SizedBox(
+                                child: Container(
+                                  width: 900,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 238, 245, 252),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'رقم الهوية: ${autoProfile!['identity_number']}',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey[800],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              child: Text(
-                                'رقم الهاتف: ${autoProfile!['phone_number']}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 750.0,
-                            height: 40.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.0,
+                              const SizedBox(height: 8.0),
+                              SizedBox(
+                                child: Container(
+                                  width: 900,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 238, 245, 252),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'رقم الهاتف: ${autoProfile!['phone_number']}',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey[800],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              child: Text(
-                                'عنوان: ${autoProfile!['address']}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          SizedBox(
-                            width: 750,
-                            height: 40.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.0,
+                              const SizedBox(height: 8.0),
+                              SizedBox(
+                                child: Container(
+                                  width: 900,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 238, 245, 252),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'عنوان: ${autoProfile!['address']}',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey[800],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              child: Text(
-                                'ايميل: ${autoProfile!['email']}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          SizedBox(
-                            width: 750,
-                            height: 40.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.0,
+                              const SizedBox(height: 8.0),
+                              SizedBox(
+                                child: Container(
+                                  width: 900,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 238, 245, 252),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          ' ${autoProfile!['email']} الايميل',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey[800],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              child: Text(
-                                'تاريخ الميلاد: ${autoProfile!['date_of_birth']}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          SizedBox(
-                            width: 750,
-                            height: 40.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.0,
+                              const SizedBox(height: 8.0),
+                              SizedBox(
+                                child: Container(
+                                  width: 900,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 238, 245, 252),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'تاريخ الميلاد: ${autoProfile!['date_of_birth']}',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey[800],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              child: Text(
-                                'اسم الزوج: ${autoProfile!['husband_name']}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          SizedBox(
-                            width: 750,
-                            height: 40.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.0,
+                              const SizedBox(height: 8.0),
+                              SizedBox(
+                                child: Container(
+                                  width: 900,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 238, 245, 252),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'اسم الزوج: ${autoProfile!['husband_name']}',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey[800],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              child: Text(
-                                'عدد الاطفال: ${autoProfile!['number_of_newborns']}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          SizedBox(
-                            width: 750,
-                            height: 40.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.0,
+                              SizedBox(height: 8.0),
+                              SizedBox(
+                                child: Container(
+                                  width: 900,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 238, 245, 252),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'عدد الاطفال: ${autoProfile!['number_of_newborns']}',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey[800],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              child: Text(
-                                'مدينة: ${autoProfile!['city']}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          SizedBox(
-                            width: 750,
-                            height: 40.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.0,
+                              const SizedBox(height: 8.0),
+                              SizedBox(
+                                child: Container(
+                                  width: 900,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 238, 245, 252),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'مدينة: ${autoProfile!['city']}',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey[800],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              child: Text(
-                                'بلد: ${autoProfile!['country']}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          SizedBox(
-                            width: 750,
-                            height: 40.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.0,
+                              SizedBox(height: 8.0),
+                              SizedBox(
+                                child: Container(
+                                  width: 900,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 238, 245, 252),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        autoProfile!['date_of_birth'] != null
+                                            ? FutureBuilder<int>(
+                                                future: calculateAge(
+                                                    DateTime.parse(autoProfile![
+                                                        'date_of_birth'])),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return Text(
+                                                      'جاري الحساب...',
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.grey[800],
+                                                      ),
+                                                    );
+                                                  } else if (snapshot
+                                                      .hasError) {
+                                                    return Text(
+                                                      'حدث خطأ في الحساب',
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.red,
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    return Text(
+                                                      'العمر: ${snapshot.data} سنة',
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.grey[800],
+                                                      ),
+                                                    );
+                                                  }
+                                                },
+                                              )
+                                            : Text(
+                                                'تاريخ الميلاد غير متوفر',
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey[800],
+                                                ),
+                                              ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              child: Text(
-                                '  عمر: ${autoProfile!['age']}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          SizedBox(
-                            width: 750,
-                            height: 40.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.0,
+                              const SizedBox(height: 8.0),
+                              SizedBox(
+                                  child: Container(
+                                width: 900,
+                                height: 80.0,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 238, 245, 252),
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: Text(
-                                '  فصيلة دم: الأم ${autoProfile!['blood_type']}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          SizedBox(
-                            width: 750,
-                            height: 40.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        ' ${autoProfile!['blood_type']}  : فصيلة الدم   ',
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.grey[800],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
+                              )),
+                              const SizedBox(height: 16.0),
+                              NewbornsWidget(
+                                motherIdentityNumber:
+                                    autoProfile!['identity_number'],
+                                  motherName:autoProfile!['first_name'] +
+                                      ' ' +
+                                      autoProfile!['last_name'],
                               ),
-                              child: Text(
-                                ' العامل:الريزبسي  ${autoProfile!['rhesusFactor']}',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
+                              const SizedBox(height: 32.0),
+                            ],
                           ),
-                          SizedBox(height: 8.0),
-                          SizedBox(height: 8.0),
-                          NewbornsWidget(
-                            motherIdentityNumber:
-                                autoProfile!['identity_number'],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                        ),
+                      )),
                 ]),
               ),
             ))
-          : CircularProgressIndicator(),
+          : const CircularProgressIndicator(),
     );
   }
 }

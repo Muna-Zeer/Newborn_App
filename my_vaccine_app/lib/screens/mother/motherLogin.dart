@@ -93,99 +93,142 @@ class MotherLoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              ' تسجيل دخول الام',
-            ),
-          ],
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: TextFormField(
-                    controller: _firstNameController,
-                    decoration: InputDecoration(
-                      labelText: 'الاسم الاول',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your first name';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'الرقم السري',
-                    ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: TextFormField(
-                    controller: _identityNumberController,
-                    decoration: InputDecoration(
-                      labelText: 'رقم الهوية',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your identity number';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: TextFormField(
-                    controller: _phoneController,
-                    decoration: InputDecoration(
-                      labelText: 'رقم الهاتف',
-                      hintText: '(000) 000-0000',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Please enter a phone number';
-                      }
-                      final phoneRegExp = RegExp(r'^\d{10}$');
-                      if (!phoneRegExp.hasMatch(value)) {
-                        return 'Please enter a valid phone number';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () => _login(context),
-                  child: Text('تسجيل الدخول'),
-                ),
-              ],
-            ),
+        appBar: AppBar(
+          backgroundColor: Colors.lightBlue,
+          title: const Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                ' تسجيل دخول الام',
+              ),
+            ],
           ),
         ),
-      ),
-    );
+        body: Padding(
+            padding: const EdgeInsets.all(48.0),
+            child: SingleChildScrollView(
+              child: Center(
+                child: Container(
+                  width: 500,
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 30.0),
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color.fromARGB(255, 7, 26, 48)
+                              .withOpacity(0.5),
+                          spreadRadius: 8,
+                          blurRadius: 15,
+                          offset: const Offset(0, 2),
+                        )
+                      ]),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: TextFormField(
+                            controller: _firstNameController,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0),
+                            decoration: const InputDecoration(
+                              labelText: 'الاسم الاول',
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your first name';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: TextFormField(
+                            controller: _passwordController,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0),
+                            decoration: const InputDecoration(
+                              labelText: 'الرقم السري',
+                            ),
+                            obscureText: true,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your password';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: TextFormField(
+                            controller: _identityNumberController,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0),
+                            decoration: const InputDecoration(
+                              labelText: 'رقم الهوية',
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your identity number';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: TextFormField(
+                            controller: _phoneController,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0),
+                            decoration: const InputDecoration(
+                              labelText: 'رقم الهاتف',
+                              hintText: '(000) 000-0000',
+                            ),
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return 'Please enter a phone number';
+                              }
+                              final phoneRegExp = RegExp(r'^\d{10}$');
+                              if (!phoneRegExp.hasMatch(value)) {
+                                return 'Please enter a valid phone number';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () => _login(context),
+                          child: Text('تسجيل الدخول',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0)),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.lightBlue),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )));
   }
 }

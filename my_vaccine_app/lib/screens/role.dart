@@ -15,6 +15,7 @@ import 'package:my_vaccine_app/screens/preventiveExamination/preventiveExaminati
 import 'package:my_vaccine_app/screens/sidebar.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccineForm.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccineList.dart';
+import 'package:my_vaccine_app/screens/Newborns/newbornView.dart';
 
 class RoleScreen extends StatelessWidget {
   @override
@@ -343,6 +344,30 @@ class RoleScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: size.height * 0.01),
+                  SizedBox(
+                    width: size.width * 0.6,
+                    height: size.height * 0.08,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => NewbornDetailsPage(),
+                        //   ),
+                        // );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(255, 14, 3, 81),
+                      ),
+                      child: Text(
+                        'معلومات الطفل',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],

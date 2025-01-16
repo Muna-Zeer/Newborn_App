@@ -71,21 +71,24 @@ return response()->json([
 
 
     public function getNewbornsByMotherIdentityNumber($motherIdentityNumber)
-    {
-        $newborns = DB::table('newborns')
-            ->join('mothers', 'newborns.mother_id', '=', 'mothers.identity_number')
-            ->select('newborns.*', 'newborns.identity_number')
-            ->where('mothers.identity_number', $motherIdentityNumber)
-            ->get();
+{
+    // Fetch newborns along with the mother's first_name and last_name
+    $newborns = DB::table('newborns')
+        ->join('mothers', 'newborns.mother_id', '=', 'mothers.identity_number')
+        ->select('newborns.*', 'mothers.first_name as mother_first_name', 'mothers.last_name as mother_last_name')
+        ->where('mothers.identity_number', $motherIdentityNumber)
+        ->get();
 
-        // Debugging statements
-        // dd($newborns); // Dump and die - displays the value and stops the execution
+    $mother = Mother::where('identity_number', $motherIdentityNumber)->first();
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $newborns,
-        ]);
-    }
+    return response()->json([
+        'status' => $newborns->isEmpty() ? 'error' : 'success',
+        'data' => $newborns,
+        'mother' => $mother ?? (object)[],
+    ]);
+}
+
+
 
     public function checkIdentityNumber($enteredIdentityNumber)
     {
@@ -109,14 +112,18 @@ public function getAutoProfileMother($identityNumber)
     $mother = Mother::where('identity_number', $identityNumber)->first();
 
     if ($mother) {
-        // Retrieve the auto profile data for the mother
         $autoProfile = $mother->autoProfile;
 
-        return response()->json(['mother' => $mother, 'autoProfile' => $autoProfile], 200);
+       return response()->json([
+        'mother'=>$mother,
+        'autoProfile'=>$autoProfile,
+        'message'=>$autoProfile ? 'Auto profile created successfully':'Auto profile not found',
+       ],200);
     }
 
     return response()->json(['message' => 'Mother not found.'], 404);
 }
+
 
 
     //search about mother by these filter name or their newborns
