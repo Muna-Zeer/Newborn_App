@@ -17,7 +17,7 @@ class Newborn extends Model
 
     public function vaccinationTable()
     {
-        return $this->hasOne(VaccinationTabel::class, 'newborn_id');
+        return $this->hasOne(VaccinationTable::class, 'newborn_id');
     }
     public function mother()
     {
@@ -49,6 +49,13 @@ class Newborn extends Model
     {
         return $this->belongsTo(MinistryOfHealth::class);
     }
+
+
+    public function vaccines()
+    {
+        return $this->hasMany(NewbornVaccine::class, 'identity_number', 'identity_number');
+    }
+
 
 
 

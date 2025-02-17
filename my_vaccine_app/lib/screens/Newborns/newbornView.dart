@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:my_vaccine_app/apiServer.dart';
+import 'package:my_vaccine_app/screens/provider/newbornProvider.dart';
+import 'package:my_vaccine_app/screens/vaccine/VaccineDetails.dart';
+import 'package:my_vaccine_app/screens/vaccine/newbornVaccine.dart';
+import 'package:provider/provider.dart';
 
 class NewbornDetailsPage extends StatefulWidget {
   final Map<String, dynamic> newbornData;
   final String motherName;
-
-  const NewbornDetailsPage(
-      {required this.newbornData, required this.motherName});
+  const NewbornDetailsPage({
+    required this.newbornData,
+    required this.motherName,
+  });
 
   @override
   _NewbornDetailsPageState createState() => _NewbornDetailsPageState();
@@ -20,12 +25,18 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
   @override
   void initState() {
     super.initState();
-    fetchVaccines();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<NewbornProvider>(context, listen: false)
+          .setIdentityNumber(widget.newbornData['identity_number']);
+      fetchVaccines();
+    });
   }
 
   Future<void> fetchVaccines() async {
     final baseUrl = ApiService.getBaseUrl();
-    final url = Uri.parse('$baseUrl/vaccines/${widget.newbornData['id']}');
+    final url =
+        Uri.parse('$baseUrl/vaccines/${widget.newbornData['identity_number']}');
 
     try {
       final response = await http.get(url);
@@ -33,12 +44,14 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
-        // Check if the 'vaccines' field is null
-        if (data['vaccines'] == null) {
-          throw Exception("Received null value for 'vaccines'");
+        // Ensure vaccines data exists and is a list
+        if (data['data'] == null ||
+            data['data'][0]['vaccines'] == null ||
+            data['data'][0]['vaccines'] is! List) {
+          throw Exception("Invalid 'vaccines' data format in the response");
         }
 
-        final vaccinesData = data['vaccines'];
+        final vaccinesData = data['data'][0]['vaccines'];
 
         setState(() {
           vaccines = List<Map<String, dynamic>>.from(vaccinesData);
@@ -47,14 +60,15 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
         throw Exception('Request failed with status: ${response.statusCode}');
       }
     } catch (error) {
+      // Debugging error
+      print('FetchVaccines Error: $error');
       throw Exception('Request failed with error: $error');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final mother = widget.newbornData['mother'];
-    print(mother);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Newborn Details"),
@@ -69,7 +83,7 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
             Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(
-                  maxWidth: 600,
+                  maxWidth: 800,
                 ),
                 child: Card(
                   elevation: 6,
@@ -133,51 +147,103 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Vaccination Schedule",
-                        style: Theme.of(context).textTheme.headline6),
-                    SizedBox(height: 8),
-                    Table(
-                      border: TableBorder.all(),
-                      children: [
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Vaccine"),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Date"),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Hepatitis B"),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("24-Dec-2024"),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("BCG"),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("01-Jan-2025"),
-                          ),
-                        ]),
-                      ],
-                    ),
-                  ],
-                ),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                          child: Text("Vaccination Schedule",
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.headline6)),
+                      const SizedBox(height: 8),
+                      DataTable(
+                        border: TableBorder.all(),
+                        columns: const [
+                          DataColumn(label: Text('ID')),
+                          DataColumn(label: Text('Name')),
+                          DataColumn(label: Text('Doses')),
+                          DataColumn(label: Text('Place')),
+                          DataColumn(label: Text('Diseases')),
+                          DataColumn(label: Text('Method')),
+                          DataColumn(label: Text('Months')),
+                        ],
+                        rows: vaccines.map((vaccine) {
+                          return DataRow(
+                            cells: [
+                              DataCell(
+                                  Text(vaccine['id']?.toString() ?? 'N/A')),
+                              DataCell(Flexible(
+                                  child: Text(vaccine['name'] ?? 'N/A'))),
+                              DataCell(Flexible(
+                                  child: Text(
+                                      vaccine['doses']?.toString() ?? 'N/A'))),
+                              DataCell(Flexible(
+                                  child: Text(vaccine['place'] ?? 'N/A'))),
+                              DataCell(
+                                ConstrainedBox(
+                                  constraints: const BoxConstraints(
+                                    maxWidth: 350,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16),
+                                    child: Text(
+                                      vaccine['diseases'] ?? 'N/A',
+                                      overflow: TextOverflow.visible,
+                                      softWrap: true,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              DataCell(Flexible(
+                                  child: Text(vaccine['method'] ?? 'N/A'))),
+                              DataCell(Flexible(
+                                  child: Text(vaccine['month_vaccinations']
+                                          ?.toString() ??
+                                      'N/A'))),
+                            ],
+                          );
+                        }).toList(),
+                      )
+                    ]),
               ),
             ),
-            SizedBox(height: 16),
+
+            Container(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => VaccineTable(
+                        identityNumber: widget.newbornData['identity_number'],
+                        newbornName: widget.newbornData['firstName'] +
+                            ' ' +
+                            widget.newbornData['lastName'],
+                      ),
+                    ),
+                  );
+                },
+                child:
+                    const Text('معلومات التطعيم', textAlign: TextAlign.right),
+              ),
+            ),
+
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Other newborn details here
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Vaccination Records",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                          ),
+                          
+                ),
+                NewbornVaccineScreen()
+              ],
+            ),
+            const SizedBox(height: 16),
             // Medical Team
             Card(
               elevation: 4,
@@ -188,14 +254,14 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
                   children: [
                     Text("Medical Team",
                         style: Theme.of(context).textTheme.headline6),
-                    SizedBox(height: 8),
-                    Text("Midwife: Jane Doe"),
-                    Text("Pediatrician: Dr. Smith"),
+                    const SizedBox(height: 8),
+                    const Text("Midwife: Jane Doe"),
+                    const Text("Pediatrician: Dr. Smith"),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             // Parent Notes
             Card(
               elevation: 4,
@@ -206,8 +272,9 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
                   children: [
                     Text("Parent Notes",
                         style: Theme.of(context).textTheme.headline6),
-                    SizedBox(height: 8),
-                    Text("Remember to book the next vaccine appointment."),
+                    const SizedBox(height: 8),
+                    const Text(
+                        "Remember to book the next vaccine appointment."),
                   ],
                 ),
               ),

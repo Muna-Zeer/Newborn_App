@@ -1,6 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'dart:core';
 
 enum Method { Oral, Drops }
@@ -16,7 +14,7 @@ class Vaccine {
   String monthVaccinations;
   int? newbornId;
   int? ministryId;
-
+  bool? isSent;
   Vaccine({
     required this.id,
     required this.name,
@@ -25,6 +23,7 @@ class Vaccine {
     required this.diseases,
     required this.method,
     required this.monthVaccinations,
+    this.isSent,
     this.newbornId,
     this.ministryId,
   });

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class VaccinationTabel extends Model
+class VaccinationTable extends Model
 {
     use HasFactory;
     protected $table='VaccinationTables';
@@ -21,6 +21,10 @@ class VaccinationTabel extends Model
 
     public function ministry()
     {
-        return $this->belongsTo(Ministry::class);
+        return $this->belongsTo(MinistryOfHealth::class);
     }
+
+
+
+
 }

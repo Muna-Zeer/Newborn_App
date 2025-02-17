@@ -33,6 +33,7 @@ use App\Http\Controllers\VaccinationTabelController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\motherUserController;
 use App\Http\Controllers\NewbornVaccineController;
+use App\Http\Controllers\VaccinationTableController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -363,33 +364,34 @@ Route::middleware('auth:api')->group(function () {
 
 // });
 
-Route::get('/vaccines/{identityNumber}', [VaccinationTabelController::class, 'index']);
-Route::get('/vaccines/{identity_number}', [VaccinationTabelController::class, 'show']);
-Route::post('/vaccine', [VaccinationTabelController::class, 'store']);
-// Route::post('/NewbornVaccine', [VaccinationTabelController::class, 'storeNewbornVaccine']);
-// Route::post('/storeVaccine', [VaccinationTabelController::class, 'storeVaccine']);
-Route::post('/storeVaccine', [VaccinationTabelController::class, 'store']);
-Route::put('/vaccine/{id}', [VaccinationTabelController::class, 'update']);
-Route::delete('/vaccines/{id}', [VaccinationTabelController::class, 'destroy']);
-Route::post('/vaccines/create', [VaccinationTabelController::class, 'create']);
+Route::get('/vaccines/{identityNumber}', [VaccinationTableController::class, 'index']);
+Route::get('/vaccines/{identity_number}', [VaccinationTableController::class, 'show']);
+Route::post('/vaccine', [VaccinationTableController::class, 'store']);
+// Route::post('/NewbornVaccine', [VaccinationTableController::class, 'storeNewbornVaccine']);
+// Route::post('/storeVaccine', [VaccinationTableController::class, 'storeVaccine']);
+Route::post('/storeVaccine', [VaccinationTableController::class, 'store']);
+Route::put('/vaccine/{id}', [VaccinationTableController::class, 'update']);
+Route::delete('/vaccines/{id}', [VaccinationTableController::class, 'destroy']);
+Route::post('/vaccines/create', [VaccinationTableController::class, 'create']);
 
-Route::post('/vaccines', [VaccinationTabelController::class, 'createVaccine']);
-Route::put('/vaccines/{id}', [VaccinationTabelController::class, 'updateVaccine']);
-Route::get('/vaccines/{identityNumber}', [VaccinationTabelController::class, 'getVaccine']);
+Route::post('/vaccines', [VaccinationTableController::class, 'createVaccine']);
+Route::put('/vaccines/{id}', [VaccinationTableController::class, 'updateVaccine']);
+Route::get('/vaccines/{identityNumber}', [VaccinationTableController::class, 'getVaccine']);
 
-Route::post('/newborns', [VaccinationTabelController::class, 'createNewborn']);
-Route::put('/newborns/{id}/vaccine-status', [VaccinationTabelController::class, 'updateVaccineStatus']);
+Route::post('/newborns', [VaccinationTableController::class, 'createNewborn']);
+Route::put('/newborns/{id}/vaccine-status', [VaccinationTableController::class, 'updateVaccineStatus']);
 
-Route::get('/vaccines/{identityNumber}', [VaccinationTabelController::class, 'index']);
+Route::get('/vaccines/{identityNumber}', [VaccinationTableController::class, 'index']);
 
 
 //
-Route::post('/newborns', [VaccinationTabelController::class, 'createNewborn']);
-// Route::post('/NewbornVaccine', [VaccinationTabelController::class, 'NewbornVaccine']);
-Route::put('/vaccines/{id}', [VaccinationTabelController::class, 'updateVaccine']);
-Route::get('/newborns', [VaccinationTabelController::class, 'getNewbornData']);
-Route::get('/allVaccines', [VaccinationTabelController::class, 'allVaccines']);
+Route::post('/newborns', [VaccinationTableController::class, 'createNewborn']);
+// Route::post('/NewbornVaccine', [VaccinationTableController::class, 'NewbornVaccine']);
+Route::put('/vaccines/{id}', [VaccinationTableController::class, 'updateVaccine']);
+Route::get('/newborns', [VaccinationTableController::class, 'getNewbornData']);
+Route::get('/allVaccines', [VaccinationTableController::class, 'allVaccines']);
 
 Route::post('/newborn-vaccines', [NewbornVaccineController::class, 'NewbornVaccine']);
 Route::get('/compare-newborn-age', [NewbornVaccineController::class, 'compareNewbornAgeWithVaccineMonth']);
 Route::get('/newborns/age', [NewbornVaccineController::class, 'getNewbornsAge']);
+Route::get('/newborn/{identity_number}/vaccines',[NewbornVaccineController::class,'getVaccinesOfNewborn']);

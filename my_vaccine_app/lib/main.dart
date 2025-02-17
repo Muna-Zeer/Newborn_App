@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:my_vaccine_app/screens/provider/newbornProvider.dart';
 import 'package:my_vaccine_app/screens/role.dart';
 // import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
+
+import 'package:provider/provider.dart';
 
 import './Auth/register.dart';
 
@@ -17,7 +20,14 @@ void main() async {
   //       appId: "1:239023568069:web:769167c089a5b6750f6cac",
   //       measurementId: "G-K0BV2M91GB"),
   // );
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => NewbornProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

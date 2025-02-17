@@ -36,16 +36,13 @@ class _FeedingTableState extends State<FeedingTable> {
         .get(Uri.parse('$baseUrl/feedings'))
         .catchError((error) => print(error));
 
-    print('$response');
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body)['data'];
-      print('$data');
 
       setState(() {
         Feedings = parseFeedings(data);
         filteredFeeding = Feedings;
-        print('$Feedings');
       });
     } else {
       throw Exception('Failed to load feeding');
@@ -169,12 +166,12 @@ class _FeedingTableState extends State<FeedingTable> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Confirm Delete'),
+            title: const Text('Confirm Delete'),
             content:
-                Text('Are you sure you want to delete this feeding record?'),
+           const     Text('Are you sure you want to delete this feeding record?'),
             actions: <Widget>[
               TextButton(
-                child: Text('Cancel'),
+                child:const  Text('Cancel'),
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },

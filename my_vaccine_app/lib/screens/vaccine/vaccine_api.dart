@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/vaccine/vaccine.dart';
+import 'package:my_vaccine_app/screens/vaccine/vaccineModel.dart';
 
 Future<void> storeVaccine(Vaccine vaccine) async {
-        final baseUrl = ApiService.getBaseUrl();
+  final baseUrl = ApiService.getBaseUrl();
 
   final url = Uri.parse('$baseUrl/storeVaccine');
   final headers = <String, String>{
@@ -16,35 +16,29 @@ Future<void> storeVaccine(Vaccine vaccine) async {
 
   try {
     final response = await http.post(url, headers: headers, body: body);
-    print('Response: ${response.statusCode} - ${response.body}');
-    if (response.statusCode == 201) {
-      // Vaccine stored successfully
-      print('Vaccine created successfully.');
-    } else {
-      // Error occurred while storing vaccine
-      print('Failed to create vaccine.');
-    }
+    throw Exception('Response: ${response.statusCode} - ${response.body}');
   } catch (error) {
     // Error occurred during the API request
-    print('Error: $error');
+    throw Exception('Error: $error');
   }
 }
 
 Future<void> deleteVaccine(int id, BuildContext context) async {
-        final baseUrl = ApiService.getBaseUrl();
+  final baseUrl = ApiService.getBaseUrl();
 
-  final response =
-      await http.delete(Uri.parse('$baseUrl/vaccines/$id'));
+  final response = await http.delete(Uri.parse('$baseUrl/vaccines/$id'));
 
   if (response.statusCode == 200) {
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Vaccine deleted successfully.'),
       ),
     );
   } else {
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Failed to delete vaccine record.'),
       ),
     );
@@ -52,10 +46,9 @@ Future<void> deleteVaccine(int id, BuildContext context) async {
 }
 
 Future<bool> editVaccine(int id, BuildContext context) async {
-        final baseUrl = ApiService.getBaseUrl();
+  final baseUrl = ApiService.getBaseUrl();
 
-  final response =
-      await http.put(Uri.parse('$baseUrl/vaccine/$id'));
+  final response = await http.put(Uri.parse('$baseUrl/vaccine/$id'));
 
   if (response.statusCode == 200) {
     return true;
@@ -64,15 +57,30 @@ Future<bool> editVaccine(int id, BuildContext context) async {
   }
 }
 
-Future<Vaccine> fetchVaccine(int VaccineId) async {
-        final baseUrl = ApiService.getBaseUrl();
+Future<Vaccine> fetchVaccine(int vaccineId) async {
+  final baseUrl = ApiService.getBaseUrl();
 
-  final response = await http
-      .get(Uri.parse('$baseUrl/vaccines/$VaccineId'));
+  final response = await http.get(Uri.parse('$baseUrl/vaccines/$vaccineId'));
   if (response.statusCode == 200) {
     return Vaccine.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to load Vaccine');
+  }
+}
+
+Future<void> updateVaccine(
+    String id, Map<String, dynamic> updatedVaccine) async {
+  final baseUrl = ApiService.getBaseUrl();
+  final response = await http.put(
+    Uri.parse('$baseUrl/vaccines/$id'),
+    body: json.encode(updatedVaccine),
+    headers: {'Content-Type': 'application/json'},
+  );
+
+  if (response.statusCode == 200) {
+    throw Exception('Vaccine record updated successfully');
+  } else {
+    throw Exception('Failed to update vaccine record: ${response.statusCode}');
   }
 }
 
@@ -101,3 +109,25 @@ Future<Vaccine> fetchVaccine(int VaccineId) async {
 //     throw Exception('Request failed with error: $error');
 //   }
 // }
+
+Future<List<VaccineData>> fetchNewbornVaccine(String identityNumber) async {
+  final baseUrl = ApiService.getBaseUrl();
+  final url = '$baseUrl/newborn/$identityNumber/vaccines';
+  print("Fetching from: $url"); // Debugging
+
+  final response = await http.get(Uri.parse(url));
+  print("Response Code: ${response.statusCode}");
+  print("Response Body: ${response.body}");
+
+  if (response.statusCode == 200) {
+    final Map<String, dynamic> responseData = json.decode(response.body);
+    if (responseData['status'] == 'success' && responseData.containsKey('vaccines')) {
+      final List<dynamic> vaccineList = responseData['vaccines'];
+      return vaccineList.map((json) => VaccineData.fromJson(json)).toList();
+    } else {
+      throw Exception('Invalid API response structure');
+    }
+  } else {
+    throw Exception('Request failed with status: ${response.statusCode}');
+  }
+}

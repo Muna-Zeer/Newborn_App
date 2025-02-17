@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
 import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/vaccine/editVaccine.dart';
 
@@ -32,7 +31,7 @@ class _VaccineTableState extends State<VaccinePage> {
   }
 
   Future<void> getVaccines() async {
-          final baseUrl = ApiService.getBaseUrl();
+    final baseUrl = ApiService.getBaseUrl();
 
     final response = await http
         .get(Uri.parse('$baseUrl/allVaccines'))
@@ -247,14 +246,14 @@ class _VaccineTableState extends State<VaccinePage> {
                   columns: [
                     DataColumn(
                       label: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(color: Colors.blue),
                           ),
                         ),
                         child: Row(
                           children: [
-                            Text(
+                            const Text(
                               'ID',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
@@ -275,14 +274,14 @@ class _VaccineTableState extends State<VaccinePage> {
                     ),
                     DataColumn(
                       label: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(color: Colors.blue),
                           ),
                         ),
                         child: Row(
                           children: [
-                            Text(
+                            const Text(
                               'Name',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
@@ -302,12 +301,12 @@ class _VaccineTableState extends State<VaccinePage> {
                     ),
                     DataColumn(
                       label: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(color: Colors.blue),
                           ),
                         ),
-                        child: Text(
+                        child: const Text(
                           'Doses',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
@@ -318,12 +317,12 @@ class _VaccineTableState extends State<VaccinePage> {
                     ),
                     DataColumn(
                       label: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(color: Colors.blue),
                           ),
                         ),
-                        child: Text(
+                        child: const Text(
                           'Place',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
@@ -334,12 +333,12 @@ class _VaccineTableState extends State<VaccinePage> {
                     ),
                     DataColumn(
                       label: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(color: Colors.blue),
                           ),
                         ),
-                        child: Text(
+                        child: const Text(
                           'Diseases',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
@@ -366,12 +365,12 @@ class _VaccineTableState extends State<VaccinePage> {
                     // ),
                     DataColumn(
                       label: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(color: Colors.blue),
                           ),
                         ),
-                        child: Text(
+                        child: const Text(
                           'MonthOfVaccine',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
@@ -382,12 +381,12 @@ class _VaccineTableState extends State<VaccinePage> {
                     ),
                     DataColumn(
                       label: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(color: Colors.blue),
                           ),
                         ),
-                        child: Padding(
+                        child: const Padding(
                           padding: EdgeInsets.only(right: 8.0),
                           child: Text(
                             'Action',
@@ -405,9 +404,9 @@ class _VaccineTableState extends State<VaccinePage> {
                             hintText: 'Search',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(),
+                              borderSide: const BorderSide(),
                             ),
-                            contentPadding: EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                               vertical: 10,
                               horizontal: 20,
                             ),
@@ -425,12 +424,12 @@ class _VaccineTableState extends State<VaccinePage> {
                           },
                         ),
                       ),
-                      DataCell(Text('')),
-                      DataCell(Text('')),
-                      DataCell(Text('')),
-                      DataCell(Text('')),
-                      DataCell(Text('')),
-                      DataCell(Text('')),
+                      const DataCell(Text('')),
+                      const DataCell(Text('')),
+                      const DataCell(Text('')),
+                      const DataCell(Text('')),
+                      const DataCell(Text('')),
+                      const DataCell(Text('')),
                       // DataCell(Text('')),
                     ]),
                     for (var vaccine in getCurrentPageItems())
@@ -447,14 +446,14 @@ class _VaccineTableState extends State<VaccinePage> {
                           Row(
                             children: [
                               IconButton(
-                                icon: Icon(Icons.edit),
+                                icon: const Icon(Icons.edit),
                                 onPressed: () {
                                   // Perform the edit action
                                   performAction(context, vaccine, 'edit');
                                 },
                               ),
                               IconButton(
-                                icon: Icon(Icons.add),
+                                icon: const Icon(Icons.add),
                                 onPressed: () {
                                   // Perform the view action
                                   performAction(context, vaccine, 'insert');
@@ -464,13 +463,13 @@ class _VaccineTableState extends State<VaccinePage> {
                                 onPressed: () async {
                                   performAction(context, vaccine, 'delete');
                                 },
-                                icon: Icon(Icons.delete),
+                                icon: const Icon(Icons.delete),
                               ),
                             ],
                           ),
                         ),
                       ]),
-                    DataRow(cells: [
+                    const DataRow(cells: [
                       DataCell(Text('')),
                       DataCell(Text('')),
                       DataCell(Text('')),

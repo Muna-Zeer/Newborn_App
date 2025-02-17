@@ -6,7 +6,9 @@ use App\Helpers\FirebaseHelper;
 use App\Models\motherUser;
 use App\Models\Newborn;
 use App\Models\newborn_vaccine;
+use App\Models\NewbornVaccine;
 use App\Models\VaccinationTabel;
+use App\Models\VaccinationTable;
 use DateTime;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Messaging\CloudMessage;
@@ -29,22 +31,51 @@ class NewbornVaccineController extends Controller
         ]);
 
         $newborn = Newborn::where('identity_number', $request->input('identity_number'))->firstOrFail();
-        $vaccinationTable = VaccinationTabel::findOrFail($request->input('vaccination_table_id'));
+        $vaccinationTable = VaccinationTable::findOrFail($request->input('vaccination_table_id'));
 
-        $newbornVaccine = Newborn_Vaccine::create([
-            'newborn_id' => $newborn->id, // Assign newborn_id from the Newborn model
+        $newborn->vaccines()->create([
+            'newborn_id' => $newborn->id,
+            'identity_number' => $request->input('identity_number'),
             'vaccination_table_id' => $vaccinationTable->id,
             'doctor_name' => $request->input('doctor_name'),
             'vaccination_date' => $request->input('vaccination_date'),
+            'vaccineName' => $request->input('vaccineName'),
             'taken' => $request->input('taken'),
         ]);
 
+        return response()->json(['status' => 'success', 'message' => 'Vaccine record added successfully']);
+    }
+
+
+
+
+    public function getVaccinesOfNewborn($identity_number)
+    {
+        $newborn = Newborn::where('identity_number', $identity_number)->firstOrFail();
+
+        $vaccines = NewbornVaccine::where('newborn_id', $newborn->id)
+            ->where('taken', true)
+            ->with('vaccinationTable')
+            ->get()->map(function ($vaccine) use ($newborn) {
+                return [
+                    'identity_number' => $newborn->identity_number,
+                    'due_date' => $vaccine->due_date,
+                    'vaccineName' => $vaccine->vaccineName,
+                    'overdue_days' => $vaccine->overdue_days ?? 0,
+                    'notified' => (bool) ($vaccine->notified ?? false),
+                    'taken' => (bool) ($vaccine->taken ?? false),
+                    'vaccination_date' => $vaccine->vaccination_date,
+                    'doctor_name' => $vaccine->doctor_name ?? 'Unknown',
+                ];
+            });
+
+
         return response()->json([
             'status' => 'success',
-            'message' => 'Newborn vaccine record inserted successfully',
-            'data' => $newbornVaccine,
-        ], 201);
+            'vaccines' => $vaccines
+        ]);
     }
+
 
 
 
@@ -72,7 +103,7 @@ class NewbornVaccineController extends Controller
             ]);
         }
 
-        $vaccines = VaccinationTabel::all();
+        $vaccines = VaccinationTable::all();
 
         if ($vaccines->isEmpty()) {
             return response()->json([
@@ -123,10 +154,6 @@ class NewbornVaccineController extends Controller
                     if ($mother) {
                         $motherUser = $mother->motherUser;
                         if ($motherUser) {
-
-
-
-
                         }
                     }
                     // print($motherphoneMathcing);

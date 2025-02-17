@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\MinistryOfHealth;
 use App\Models\Newborn;
 use App\Models\newborn_vaccine;
-use App\Models\VaccinationTabel;
+use App\Models\VaccinationTable;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
-class VaccinationTabelController extends Controller
+class VaccinationTableController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,8 +30,8 @@ class VaccinationTabelController extends Controller
         $vaccines = [];
 
         foreach ($newborns as $newborn) {
-            $newbornVaccines = VaccinationTabel::select('name', 'month_vaccinations')
-                ->where('newborn_id', $newborn->vaccination_table_id)
+            $newbornVaccines = VaccinationTable::
+                where('newborn_id', $newborn->vaccination_table_id)
                 ->get();
 
             $vaccines[] = [
@@ -49,7 +49,7 @@ class VaccinationTabelController extends Controller
 
 
     public function allVaccines(){
-        $vaccine = VaccinationTabel::with('newborn.mother')->get();
+        $vaccine = VaccinationTable::with('newborn.mother')->get();
 
         return response()->json([
             'status' => 'success',
@@ -60,7 +60,7 @@ class VaccinationTabelController extends Controller
 
     public function updateVaccine($id, Request $request)
     {
-        $vaccine = VaccinationTabel::findOrFail($id);
+        $vaccine = VaccinationTable::findOrFail($id);
 
         $request->validate([
             'name' => 'required',
@@ -106,7 +106,7 @@ class VaccinationTabelController extends Controller
 
     public function getVaccine($identityNumber)
     {
-        $vaccine = VaccinationTabel::where('identity_number', $identityNumber)->first();
+        $vaccine = VaccinationTable::where('identity_number', $identityNumber)->first();
 
         if (!$vaccine) {
             return response()->json(['message' => 'Vaccine not found'], 404);
@@ -134,7 +134,7 @@ class VaccinationTabelController extends Controller
         $vaccineReceived = $newborn->vaccine_received;
 
         // Create a new vaccination table record
-        $vaccine = new VaccinationTabel();
+        $vaccine = new VaccinationTable();
         $vaccine->name = $request->vaccine_name;
         $vaccine->doctor_name = $request->doctor_name;
         $vaccine->month_vaccinations = $request->vaccine_month;
@@ -158,7 +158,7 @@ class VaccinationTabelController extends Controller
 
     public function fetchVaccines($identityNumber)
     {
-        $vaccines = VaccinationTabel::whereHas('newborn', function ($query) use ($identityNumber) {
+        $vaccines = VaccinationTable::whereHas('newborn', function ($query) use ($identityNumber) {
             $query->where('identity_number', $identityNumber);
         })->get();
 
@@ -184,7 +184,7 @@ class VaccinationTabelController extends Controller
         $validatedData['vaccination_date'] = Carbon::parse($validatedData['vaccination_date']);
 
         // Create a new VaccinationTable record with the validated data
-        $vaccinationTable = VaccinationTabel::create($validatedData);
+        $vaccinationTable = VaccinationTable::create($validatedData);
 
         // Return the response with the created VaccinationTable record
         return response()->json([
@@ -215,7 +215,7 @@ class VaccinationTabelController extends Controller
 
 
         // create a new vaccine record with associated fields
-        $vaccine = VaccinationTabel::create([
+        $vaccine = VaccinationTable::create([
             'name' => $validatedData['name'],
             'doses' => $validatedData['doses'],
             'place' => $validatedData['place'],
@@ -246,7 +246,7 @@ class VaccinationTabelController extends Controller
     public function edit(string $id)
     {
         // Retrieve the vaccine record by ID
-        $vaccine = VaccinationTabel::find($id);
+        $vaccine = VaccinationTable::find($id);
 
         // Check if the record exists
         if (!$vaccine) {
@@ -271,7 +271,7 @@ class VaccinationTabelController extends Controller
     public function update(Request $request, string $id)
     {
         // Find the vaccine by ID
-        $vaccine = VaccinationTabel::find($id);
+        $vaccine = VaccinationTable::find($id);
         if (!$vaccine) {
             return response()->json([
                 'status' => 'error',
@@ -326,7 +326,7 @@ class VaccinationTabelController extends Controller
     {
 
         // Retrieve the vaccination table record with the given ID
-        $vaccine = VaccinationTabel::find($id);
+        $vaccine = VaccinationTable::find($id);
 
         // Check if the vaccination table record exists
         if (!$vaccine) {
