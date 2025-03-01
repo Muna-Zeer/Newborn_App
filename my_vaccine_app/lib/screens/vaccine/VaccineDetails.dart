@@ -70,7 +70,7 @@ class _VaccineTableState extends State<VaccineTable> {
         'doctor_name': vaccine['doctorName'],
         'vaccination_date': vaccine['vaccinationDate'],
         'taken': vaccine['taken'],
-        'vaccineName':vaccine['name'],
+        'vaccineName': vaccine['name'],
       }),
       headers: {'Content-Type': 'application/json'},
     );
@@ -236,7 +236,7 @@ class _VaccineTableState extends State<VaccineTable> {
                       DataCell(
                         ElevatedButton(
                           onPressed: vaccine['isSent'] == true
-                              ? null 
+                              ? null
                               : () async {
                                   await insertNewbornVaccine(
                                       vaccineData[index], index);

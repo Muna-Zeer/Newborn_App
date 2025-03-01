@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_vaccine_app/Auth/login.dart';
 import 'package:my_vaccine_app/Auth/register.dart';
+import 'package:my_vaccine_app/notification/dueDateNotification.dart';
 import 'package:my_vaccine_app/screens/Feeding/feddingForm.dart';
 import 'package:my_vaccine_app/screens/Feeding/feddingView.dart';
 import 'package:my_vaccine_app/screens/Instructions/guidlineList.dart';
@@ -36,7 +37,7 @@ class AdnminTask extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => RoleUser()),
               );
             },
-            child: Align(
+            child: const Align(
               alignment: Alignment.centerRight,
               child: Text(
                 'تسجيل الدخول',
@@ -60,7 +61,7 @@ class AdnminTask extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
               SizedBox(height: size.height * 0.01),
-              Text(
+              const Text(
                 'أهلاً بكم في تطبيق التطعيمات', // Replace with your desired text
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
@@ -79,7 +80,7 @@ class AdnminTask extends StatelessWidget {
                     primary:
                         Colors.redAccent, // Set the desired background color
                   ),
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(Icons.vaccines, color: Colors.white),
@@ -100,7 +101,7 @@ class AdnminTask extends StatelessWidget {
                 height: size.height * 0.08,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.lightBlue, 
+                    color: Colors.lightBlue,
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
@@ -124,7 +125,7 @@ class AdnminTask extends StatelessWidget {
                         primary: Colors.transparent,
                         elevation: 0,
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Icon(
@@ -157,7 +158,7 @@ class AdnminTask extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                         primary: Color.fromARGB(255, 118, 78, 97)),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Icon(Icons.local_hospital, color: Colors.white),
@@ -185,7 +186,7 @@ class AdnminTask extends StatelessWidget {
                       primary:
                           Colors.lightGreen, // Set the desired background color
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Icon(Icons.child_care, color: Colors.white),
@@ -215,7 +216,7 @@ class AdnminTask extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       primary: Colors.pink, // Set the desired background color
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Icon(Icons.feedback, color: Colors.white),
@@ -246,7 +247,7 @@ class AdnminTask extends StatelessWidget {
                           primary: Color.fromARGB(255, 229, 84,
                               88), // Set the desired background color
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Icon(Icons.vaccines_rounded, color: Colors.white),
@@ -276,7 +277,7 @@ class AdnminTask extends StatelessWidget {
                           primary: const Color.fromARGB(255, 145, 46,
                               163), // Set the desired background color
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Icon(Icons.integration_instructions,
@@ -306,7 +307,7 @@ class AdnminTask extends StatelessWidget {
                           primary: Colors
                               .lightBlue, // Set the desired background color
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Icon(Icons.list_alt, color: Colors.white),
@@ -335,7 +336,7 @@ class AdnminTask extends StatelessWidget {
                           primary:
                               Colors.lime, // Set the desired background color
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Icon(Icons.feed_rounded, color: Colors.white),
@@ -364,7 +365,7 @@ class AdnminTask extends StatelessWidget {
                           primary:
                               Colors.pink, // Set the desired background color
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Icon(Icons.assignment, color: Colors.white),
@@ -377,7 +378,7 @@ class AdnminTask extends StatelessWidget {
                           ],
                         )),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   SizedBox(
                     width: size.width * 0.7,
                     height: size.height * 0.08,
@@ -392,7 +393,7 @@ class AdnminTask extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(255, 241, 55, 3),
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Icon(Icons.assignment, color: Colors.white),
@@ -405,7 +406,7 @@ class AdnminTask extends StatelessWidget {
                           ],
                         )),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   SizedBox(
                     width: size.width * 0.7,
                     height: size.height * 0.08,
@@ -420,7 +421,7 @@ class AdnminTask extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(255, 86, 21, 239),
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Icon(Icons.assignment, color: Colors.white),
@@ -449,7 +450,7 @@ class AdnminTask extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(255, 251, 33, 5),
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Icon(Icons.assignment, color: Colors.white),
@@ -462,7 +463,37 @@ class AdnminTask extends StatelessWidget {
                           ],
                         )),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  SizedBox(
+                    width: size.width * 0.7,
+                    height: size.height * 0.08,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VaccineDatePicker()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 242, 192, 186),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.assignment, color: Colors.black),
+                            Text(
+                              'إشعارات التطعيم',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
+                  const SizedBox(height: 16.0),
                 ],
               ),
             ],

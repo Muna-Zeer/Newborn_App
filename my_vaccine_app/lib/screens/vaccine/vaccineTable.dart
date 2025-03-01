@@ -65,7 +65,7 @@ class _VaccineTableState extends State<VaccinePage> {
     setState(() {
       if (_currentPage > 1) {
         _currentPage--;
-      }
+       }
     });
   }
 

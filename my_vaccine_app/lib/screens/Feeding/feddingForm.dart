@@ -51,7 +51,7 @@ class _FeedingFormState extends State<FeedingForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
-        title: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        title:const  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Text(
             'اضافة نظام غذائي جديد',
             style: TextStyle(

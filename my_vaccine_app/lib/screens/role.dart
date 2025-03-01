@@ -34,7 +34,7 @@ class RoleScreen extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => RoleUser()),
               );
             },
-            child: Align(
+            child:const Align(
               alignment: Alignment.centerRight,
               child: Text(
                 'تسجيل الدخول',
@@ -58,7 +58,7 @@ class RoleScreen extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
               SizedBox(height: size.height * 0.01),
-              Text(
+           const   Text(
                 'أهلاً بكم في تطبيق التطعيمات', // Replace with your desired text
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
@@ -79,7 +79,7 @@ class RoleScreen extends StatelessWidget {
                     primary:
                         Colors.lightBlue, // Set the desired background color
                   ),
-                  child: Text(
+                  child:const Text(
                     'قائمة تطعيمات الاطفال',
                     style: TextStyle(
                       color: Colors.white,
@@ -212,7 +212,7 @@ class RoleScreen extends StatelessWidget {
                               builder: (context) => VaccineList()),
                         );
                       },
-                      child: Text(
+                      child:const Text(
                         'تطعيمات الاطفال',
                         style: TextStyle(
                           color: Colors.white,
@@ -240,7 +240,7 @@ class RoleScreen extends StatelessWidget {
                       //   primary:
                       //       Colors.purple, // Set the desired background color
                       // ),
-                      child: Text(
+                      child:const Text(
                         'تعليمات التطعيم',
                         style: TextStyle(
                           color: Colors.white,
@@ -264,7 +264,7 @@ class RoleScreen extends StatelessWidget {
                         primary: Colors
                             .lightBlue, // Set the desired background color
                       ),
-                      child: Text(
+                      child:const Text(
                         'قائمة تطعيمات الاطفال',
                         style: TextStyle(
                           color: Colors.white,
@@ -286,9 +286,9 @@ class RoleScreen extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         primary:
-                            Colors.lime, // Set the desired background color
+                            Colors.lime, 
                       ),
-                      child: Text(
+                      child:const Text(
                         'قائمة تغذية الاطفال',
                         style: TextStyle(
                           color: Colors.white,
@@ -312,7 +312,7 @@ class RoleScreen extends StatelessWidget {
                         primary:
                             Colors.pink, // Set the desired background color
                       ),
-                      child: Text(
+                      child:const Text(
                         'قائمة ارشادات الاطفال',
                         style: TextStyle(
                           color: Colors.white,
@@ -335,7 +335,7 @@ class RoleScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         primary: Color.fromARGB(255, 14, 3, 81),
                       ),
-                      child: Text(
+                      child:const Text(
                         'قياسات الاطفال',
                         style: TextStyle(
                           color: Colors.white,
@@ -359,7 +359,7 @@ class RoleScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         primary: Color.fromARGB(255, 14, 3, 81),
                       ),
-                      child: Text(
+                      child:const Text(
                         'معلومات الطفل',
                         style: TextStyle(
                           color: Colors.white,

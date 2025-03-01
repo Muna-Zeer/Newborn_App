@@ -68,7 +68,6 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Newborn Details"),
@@ -154,55 +153,79 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.headline6)),
                       const SizedBox(height: 8),
-                      DataTable(
-                        border: TableBorder.all(),
-                        columns: const [
-                          DataColumn(label: Text('ID')),
-                          DataColumn(label: Text('Name')),
-                          DataColumn(label: Text('Doses')),
-                          DataColumn(label: Text('Place')),
-                          DataColumn(label: Text('Diseases')),
-                          DataColumn(label: Text('Method')),
-                          DataColumn(label: Text('Months')),
-                        ],
-                        rows: vaccines.map((vaccine) {
-                          return DataRow(
-                            cells: [
-                              DataCell(
-                                  Text(vaccine['id']?.toString() ?? 'N/A')),
-                              DataCell(Flexible(
-                                  child: Text(vaccine['name'] ?? 'N/A'))),
-                              DataCell(Flexible(
-                                  child: Text(
-                                      vaccine['doses']?.toString() ?? 'N/A'))),
-                              DataCell(Flexible(
-                                  child: Text(vaccine['place'] ?? 'N/A'))),
-                              DataCell(
-                                ConstrainedBox(
-                                  constraints: const BoxConstraints(
-                                    maxWidth: 350,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 16),
-                                    child: Text(
-                                      vaccine['diseases'] ?? 'N/A',
-                                      overflow: TextOverflow.visible,
-                                      softWrap: true,
+                      SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: DataTable(
+                            columnSpacing: 16,
+                            border: TableBorder.all(),
+                            columns: const [
+                              DataColumn(label: Text('ID')),
+                              DataColumn(label: Text('Name')),
+                              DataColumn(label: Text('Doses')),
+                              DataColumn(label: Text('Place')),
+                              DataColumn(label: Text('Diseases')),
+                              DataColumn(label: Text('Method')),
+                              DataColumn(label: Text('Months')),
+                            ],
+                            rows: vaccines.map((vaccine) {
+                              return DataRow(
+                                cells: [
+                                  DataCell(
+                                      Text(vaccine['id']?.toString() ?? 'N/A')),
+                                  DataCell(SizedBox(
+                                      width: 80,
+                                      child: Text(vaccine['name'] ?? 'N/A'))),
+                                  DataCell(SizedBox(
+                                      width: 80,
+                                      child:
+                                          Text(vaccine['doses'].toString()))),
+                                  DataCell(ConstrainedBox(
+                                      constraints: const BoxConstraints(
+                                          minWidth: 80,
+                                          maxWidth: 250,
+                                          minHeight: 80),
+                                      child: Container(
+                                          alignment: Alignment.centerRight,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8),
+                                          child: Text(
+                                            vaccine['place'] ?? 'N/A',
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            textAlign: TextAlign.end,
+                                          )))),
+                                  DataCell(
+                                    ConstrainedBox(
+                                      constraints: const BoxConstraints(
+                                        minWidth: 150,
+                                        maxWidth: 350,
+                                        minHeight: 80,
+                                      ),
+                                      child: Container(
+                                        alignment: Alignment.centerRight,
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8),
+                                        child: Text(
+                                          vaccine['diseases'] ?? 'N/A',
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          textAlign: TextAlign.end,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              DataCell(Flexible(
-                                  child: Text(vaccine['method'] ?? 'N/A'))),
-                              DataCell(Flexible(
-                                  child: Text(vaccine['month_vaccinations']
-                                          ?.toString() ??
-                                      'N/A'))),
-                            ],
-                          );
-                        }).toList(),
-                      )
+                                  DataCell(SizedBox(
+                                      width: 80,
+                                      child: Text(vaccine['method'] ?? 'N/A'))),
+                                  DataCell(SizedBox(
+                                      width: 80,
+                                      child: Text(vaccine['month_vaccinations']
+                                              ?.toString() ??
+                                          'N/A'))),
+                                ],
+                              );
+                            }).toList(),
+                          ))
                     ]),
               ),
             ),
@@ -233,12 +256,11 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
                 // Other newborn details here
                 Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("Vaccination Records",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                          ),
-                          
+                  child: Text(
+                    "Vaccination Records",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 NewbornVaccineScreen()
               ],

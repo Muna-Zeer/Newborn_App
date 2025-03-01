@@ -25,26 +25,48 @@ class NewbornVaccineController extends Controller
         $request->validate([
             'identity_number' => 'required',
             'vaccination_table_id' => 'required',
-            'doctor_name' => 'required',
-            'vaccination_date' => 'required',
-            'taken' => 'required',
+            'due_date' => 'required',
+            'doctor_name' => 'nullable',
+            'vaccination_date' => 'nullable|date',
+            'taken' => 'nullable|boolean',
         ]);
 
         $newborn = Newborn::where('identity_number', $request->input('identity_number'))->firstOrFail();
         $vaccinationTable = VaccinationTable::findOrFail($request->input('vaccination_table_id'));
 
-        $newborn->vaccines()->create([
-            'newborn_id' => $newborn->id,
-            'identity_number' => $request->input('identity_number'),
-            'vaccination_table_id' => $vaccinationTable->id,
-            'doctor_name' => $request->input('doctor_name'),
-            'vaccination_date' => $request->input('vaccination_date'),
-            'vaccineName' => $request->input('vaccineName'),
-            'taken' => $request->input('taken'),
-        ]);
+        $vaccineRecord = $newborn->vaccines()->where('vaccination_table_id', $vaccinationTable->id)->first();
+        if ($vaccineRecord) {
+            $vaccineRecord->update([
+                'doctor_name' => $request->input('doctor_name', $vaccineRecord->doctor_name),
+                'vaccination_date' => $request->input( $vaccineRecord->vaccination_date),
+                'taken' => $request->input('taken', $vaccineRecord->taken),
+            ]);
 
-        return response()->json(['status' => 'success', 'message' => 'Vaccine record added successfully']);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Vaccine record updated successfully',
+                'data' => $vaccineRecord
+            ]);
+        } else {
+            $newVaccineRecord = $newborn->vaccines()->create([
+                'newborn_id' => $newborn->id,
+                'identity_number' => $request->input('identity_number'),
+                'vaccination_table_id' => $vaccinationTable->id,
+                'due_date' => $request->input('due_date'),
+                'doctor_name' => $request->input('doctor_name'),
+                'vaccination_date' => $request->input('vaccination_date'),
+                'taken' => $request->input('taken', false),
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Vaccine record added successfully',
+                'data' => $newVaccineRecord
+            ]);
+        }
     }
+
+
 
 
 
@@ -77,8 +99,26 @@ class NewbornVaccineController extends Controller
     }
 
 
+   public function setDueDate(Request $request){
+    $request->validate([
+        'identity_number'=>'required|exists:newborns,identity_number',
+        'vaccine_name'=>'required',
+        'due_date'=>'required|date',
+    ]);
 
+    $newborn = Newborn::where('identity_number',$request->identity_number)->firstOrFail();
 
+    $newborn->vaccines->create()([
+     'vaccine_name'=>$request->vaccine_name,
+     'due_date'=>$request->due_date,
+    ]);
+
+    return response()->json([
+        'message'=>'Due Date set successfully',
+    ]);
+   }
+
+   
 
     public function compareNewbornAgeWithVaccineMonth(Request $request)
     {
