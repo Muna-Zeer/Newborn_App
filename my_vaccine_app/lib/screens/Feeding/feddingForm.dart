@@ -38,7 +38,6 @@ class _FeedingFormState extends State<FeedingForm> {
       );
 
       if (response.statusCode == 201) {
-        final responseData = json.decode(response.body);
         FeedingDialog.showSuccessDialog(context);
       } else {
         FeedingDialog.showErrorDialog(context, response.statusCode);
@@ -51,7 +50,7 @@ class _FeedingFormState extends State<FeedingForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
-        title:const  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        title: const Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Text(
             'اضافة نظام غذائي جديد',
             style: TextStyle(
@@ -64,7 +63,7 @@ class _FeedingFormState extends State<FeedingForm> {
         ]),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -94,7 +93,7 @@ class _FeedingFormState extends State<FeedingForm> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8.0,
               ),
               Container(
@@ -113,7 +112,7 @@ class _FeedingFormState extends State<FeedingForm> {
                             offset: Offset(0, 3))
                       ]),
                   child: Column(children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
@@ -134,7 +133,7 @@ class _FeedingFormState extends State<FeedingForm> {
                       },
                     ),
                   ])),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
               Container(
@@ -153,7 +152,7 @@ class _FeedingFormState extends State<FeedingForm> {
                             offset: Offset(0, 3))
                       ]),
                   child: Column(children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
@@ -174,11 +173,11 @@ class _FeedingFormState extends State<FeedingForm> {
                       },
                     ),
                   ])),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
               Container(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24.0),
                       border: Border.all(
@@ -193,7 +192,7 @@ class _FeedingFormState extends State<FeedingForm> {
                             offset: Offset(0, 3))
                       ]),
                   child: Column(children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
@@ -237,7 +236,7 @@ class _FeedingFormState extends State<FeedingForm> {
                       },
                     ),
                   ])),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
               Container(
@@ -256,7 +255,7 @@ class _FeedingFormState extends State<FeedingForm> {
                             offset: Offset(0, 3))
                       ]),
                   child: Column(children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
@@ -277,7 +276,7 @@ class _FeedingFormState extends State<FeedingForm> {
                       },
                     ),
                   ])),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
               Container(
@@ -296,7 +295,7 @@ class _FeedingFormState extends State<FeedingForm> {
                             offset: Offset(0, 3))
                       ]),
                   child: Column(children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
@@ -317,7 +316,7 @@ class _FeedingFormState extends State<FeedingForm> {
                       },
                     )
                   ])),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
               Container(
@@ -336,7 +335,7 @@ class _FeedingFormState extends State<FeedingForm> {
                             offset: Offset(0, 3))
                       ]),
                   child: Column(children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
@@ -357,7 +356,7 @@ class _FeedingFormState extends State<FeedingForm> {
                       },
                     )
                   ])),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Row(children: [
                 Expanded(
                   child: ElevatedButton(
@@ -365,15 +364,15 @@ class _FeedingFormState extends State<FeedingForm> {
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.lightBlue)),
-                    child: Text(
+                    child: const Text(
                       'ارسال',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
               ]),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
               Row(
@@ -390,7 +389,7 @@ class _FeedingFormState extends State<FeedingForm> {
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                               Colors.lightBlue)),
-                      child: Text(
+                      child: const Text(
                         'مشاهدة الجدول',
                         style: TextStyle(
                           color: Colors.white,

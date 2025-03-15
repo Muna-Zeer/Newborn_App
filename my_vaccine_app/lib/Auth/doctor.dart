@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-
-import 'package:http/http.dart' as http;
 import 'package:my_vaccine_app/Auth/register.dart';
 import 'package:my_vaccine_app/Methods/Auth_api.dart';
 import 'package:my_vaccine_app/controller/simpleController.dart';
 import 'package:my_vaccine_app/doctorTAsk.dart';
-import 'package:my_vaccine_app/screens/amintask.dart';
+import 'package:my_vaccine_app/doctors/DoctorForm.dart';
 
 class LoginViewDoctor extends StatefulWidget {
   const LoginViewDoctor({Key? key}) : super(key: key);
@@ -22,7 +20,7 @@ class _LoginViewState extends State<LoginViewDoctor> {
   TextEditingController passwordController = TextEditingController();
   late AuthService authService;
 
-  final kLoginSubtitleStyle = TextStyle(
+  final kLoginSubtitleStyle = const TextStyle(
     color: Colors.grey,
     fontSize: 16,
   );
@@ -54,7 +52,7 @@ class _LoginViewState extends State<LoginViewDoctor> {
       if (response.statusCode == 200) {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Incorrect email or password'),
             duration: Duration(seconds: 3),
           ),
@@ -262,9 +260,12 @@ class _LoginViewState extends State<LoginViewDoctor> {
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUpView()),
-                    );
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>const DoctorProfilePage(
+                            doctorId: 1,
+                          ),
+                        ));
                   },
                   child: RichText(
                     text: TextSpan(

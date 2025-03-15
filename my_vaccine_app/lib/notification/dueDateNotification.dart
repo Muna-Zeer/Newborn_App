@@ -6,98 +6,93 @@ class VaccineDatePicker extends StatefulWidget {
 }
 
 class _VaccineDatePickerState extends State<VaccineDatePicker> {
-  TextEditingController identityController = TextEditingController();
-  TextEditingController vaccineController = TextEditingController();
   TextEditingController dueDateController = TextEditingController();
 
   Future<void> datePickerVaccine(BuildContext context) async {
     DateTime currentDate = DateTime.now();
+    DateTime firstSelectableDate = currentDate.add(const Duration(days: 1));
+
     DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: currentDate,
-      firstDate: currentDate.add(const Duration(days: 1)),
+      initialDate: firstSelectableDate,
+      firstDate: firstSelectableDate,
       lastDate: DateTime(2100),
     );
 
-    if (pickedDate != null && pickedDate.isAfter(currentDate)) {
-      setState(() {
-        dueDateController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    if (pickedDate != null) {
+      if (mounted) {
+        setState(() {
+          dueDateController.text = "${pickedDate.toLocal()}".split(' ')[0];
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.lightBlue,
-        title: const Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          Text(
-            'اشعارات التطعيم',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18.0,
-              color: Colors.white,
-            ),
-            textAlign: TextAlign.right,
-          )
-        ]),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(14.0),
-        child: Card(
-          elevation: 6,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  title: TextField(
-                    controller: identityController,
-                    textAlign: TextAlign.right,
-                    decoration: const InputDecoration(
-                      labelText: "رقم هوية الطفل",
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                const Divider(),
-                ListTile(
-                  title: TextField(
-                    controller: vaccineController,
-                    textAlign: TextAlign.right,
-                    decoration: const InputDecoration(
-                      labelText: "اسم التطعيم",
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                const Divider(),
-                ListTile(
-                  title: TextField(
-                    controller: dueDateController,
-                    textAlign: TextAlign.right,
-                    readOnly: true,
-                    decoration: const InputDecoration(
-                      labelText: "تاريخ التطعيم",
-                      border: InputBorder.none,
-                    ),
-                    onTap: () => datePickerVaccine(context),
-                  ),
-                  trailing: const Icon(Icons.calendar_today),
-                ),
-              ],
-            ),
-          ),
+        appBar: AppBar(
+          backgroundColor: Colors.lightBlue,
+          title: const Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            Text(
+              'تاريخ التطعيم',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.right,
+            )
+          ]),
         ),
-      ),
-    );
+        body: Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: Center(
+                child: Card(
+                    elevation: 6,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: 800,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const Text(
+                              'التاريخ',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: dueDateController,
+                                    textAlign: TextAlign.right,
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: 'اختر التاريخ',
+                                    ),
+                                    readOnly: true,
+                                    onTap: () => datePickerVaccine(context),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                IconButton(
+                                  icon: const Icon(Icons.calendar_today),
+                                  onPressed: () => datePickerVaccine(context),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    )))));
   }
-}
-
-void main() {
-  runApp(MaterialApp(home: VaccineDatePicker()));
 }

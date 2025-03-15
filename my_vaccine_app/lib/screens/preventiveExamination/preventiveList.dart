@@ -92,7 +92,7 @@ class _PreventiveListViewState extends State<PreventiveListView> {
                             shadowColor: Colors.grey,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0),
-                                side: BorderSide(
+                                side:const BorderSide(
                                     color: Colors.lightBlue, width: 2.0)),
                             child: ListTile(
                               leading: CircleAvatar(

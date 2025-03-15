@@ -84,7 +84,7 @@ class _SignUpViewState extends State<SignUpView> {
       } else {
         // Display an error message
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+     const     SnackBar(
             content: Text('لقد فشلت عملية التسجيل.'),
             backgroundColor: Colors.red,
           ),
@@ -134,7 +134,7 @@ class _SignUpViewState extends State<SignUpView> {
           child: Center(
             child: CircleAvatar(
               radius: size.width > 600 ? 100.0 : 50.0,
-              backgroundImage: AssetImage('lib/assets/capture.png'),
+              backgroundImage:const AssetImage('lib/assets/capture.png'),
             ),
           ),
         ),
@@ -171,13 +171,13 @@ class _SignUpViewState extends State<SignUpView> {
                 height: size.height * 0.09,
               ),
               // Circular image
-              SizedBox(height: 16.0), // Add some vertical spacing
+          const    SizedBox(height: 16.0), // Add some vertical spacing
               Center(
                 child: CircleAvatar(
                   radius: size.width > 600
                       ? 150.0
                       : 80.0, // Adjust the width of the image
-                  backgroundImage: NetworkImage(
+                  backgroundImage:const NetworkImage(
                       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsVSOS2Cjzz0gwoQ6MuypqVVaKfj6ERqLzTg&usqp=CAU'),
                 ),
               ),
@@ -185,8 +185,8 @@ class _SignUpViewState extends State<SignUpView> {
               // SizedBox(
               //   height: size.height * 0.03,
               // ), // Header with Register Mother button
-              Padding(
-                padding: const EdgeInsets.symmetric(
+         const     Padding(
+                padding: EdgeInsets.symmetric(
                     horizontal: 20.0, vertical: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

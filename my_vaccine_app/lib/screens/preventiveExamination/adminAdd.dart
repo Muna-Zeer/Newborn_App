@@ -48,21 +48,24 @@ class _PreventiveExaminationAdmin extends State<AdminAddPrevExam> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.lightBlue,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                '  اضافة الفحوصات الوقائية',
-              ),
-            ],
-          ),
+      appBar: AppBar(
+        backgroundColor: Colors.lightBlue,
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              '  اضافة الفحوصات الوقائية',
+            ),
+          ],
         ),
-        body: SingleChildScrollView(
+      ),
+      body: SingleChildScrollView(
+        child: Center(
           child: Container(
-            margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
-            padding: EdgeInsets.all(16.0),
+            constraints: const BoxConstraints(maxWidth: 800),
+            margin:
+                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+            padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12.0),
@@ -77,110 +80,108 @@ class _PreventiveExaminationAdmin extends State<AdminAddPrevExam> {
             ),
             child: Form(
                 key: _formKey,
-                child: Column(
-                    // crossAxisAlignment: CrossAxisAlignment.stretch,
+                child: Column(children: [
+                  Image.asset(
+                    'assets/vaccine10.jpg',
+                    width: 120.0,
+                    height: 100.0,
+                  ),
+                  Container(
+                      child: Column(children: [
+                    const Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          'اسم الفحص الوقائي',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16.0),
+                        ),
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _examType,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter exam type';
+                        }
+                        return null;
+                      },
+                    ),
+                  ])),
+                  const SizedBox(height: 16.0),
+                  Container(
+                      child: Column(children: [
+                    const Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          'المعلومات',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16.0),
+                        ),
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _descriptionController,
+                      maxLines: 4,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter description';
+                        }
+                        return null;
+                      },
+                    ),
+                  ])),
+                  const SizedBox(height: 24.0),
+                  Row(
                     children: [
-                      Image.asset(
-                        'assets/vaccine10.jpg',
-                        width: 120.0,
-                        height: 100.0,
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: submitForm,
+                          child: Text(
+                            'ارسال',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.lightBlue),
+                          ),
+                        ),
                       ),
-                      Container(
-                          child: Column(children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              'اسم الفحص الوقائي',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  fontSize: 16.0),
-                            ),
+                      const SizedBox(width: 4.0),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: submitForm,
+                          child: Text(
+                            'القائمة',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.lightBlue),
                           ),
                         ),
-                        TextFormField(
-                          controller: _examType,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter exam type';
-                            }
-                            return null;
-                          },
-                        ),
-                      ])),
-                      SizedBox(height: 16.0),
-                      Container(
-                          child: Column(children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              'المعلومات',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16.0),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          controller: _descriptionController,
-                          maxLines: 4,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter description';
-                            }
-                            return null;
-                          },
-                        ),
-                      ])),
-                      SizedBox(height: 24.0),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: submitForm,
-                              child: Text(
-                                'ارسال',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.lightBlue),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 4.0),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: submitForm,
-                              child: Text(
-                                'القائمة',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.lightBlue),
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
-                    ])),
+                    ],
+                  ),
+                ])),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

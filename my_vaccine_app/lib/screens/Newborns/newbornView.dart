@@ -60,8 +60,7 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
         throw Exception('Request failed with status: ${response.statusCode}');
       }
     } catch (error) {
-      // Debugging error
-      print('FetchVaccines Error: $error');
+     
       throw Exception('Request failed with error: $error');
     }
   }

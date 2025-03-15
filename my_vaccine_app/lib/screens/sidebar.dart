@@ -170,7 +170,7 @@ class RoleUser extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
+               const Text(
                   'Welcome to My Page',
                   style: TextStyle(
                     fontSize: 24.0,
@@ -178,7 +178,7 @@ class RoleUser extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 20.0),
+           const     SizedBox(height: 20.0),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -194,10 +194,10 @@ class RoleUser extends StatelessWidget {
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: EdgeInsets.all(10.0),
+                    padding:const EdgeInsets.all(10.0),
                     alignment: Alignment
                         .center, // Center the text within the container
-                    child: Directionality(
+                    child: const Directionality(
                       textDirection: TextDirection.rtl,
                       child: Text(
                         'الأم',
@@ -209,12 +209,12 @@ class RoleUser extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 10.0),
+          const      SizedBox(height: 10.0),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginView()),
+                      MaterialPageRoute(builder: (context) =>const  LoginView()),
                     );
                   },
                   child: Container(
@@ -224,10 +224,10 @@ class RoleUser extends StatelessWidget {
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: EdgeInsets.all(10.0),
+                    padding:const EdgeInsets.all(10.0),
                     alignment: Alignment
                         .center, 
-                    child: Directionality(
+                    child:const Directionality(
                       textDirection: TextDirection.rtl,
                       child: Text(
                         'الطبيب',
@@ -239,26 +239,26 @@ class RoleUser extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 10.0),
+             const    SizedBox(height: 10.0),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => LoginViewDoctor()),
+                          builder: (context) =>const  LoginViewDoctor()),
                     );
                   },
                   child: Container(
-                    width: 80.0, // Adjust the width as desired
-                    height: 50.0, // Adjust the height as desired
+                    width: 80.0, 
+                    height: 50.0, 
                     decoration: BoxDecoration(
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: EdgeInsets.all(10.0),
+                    padding:const  EdgeInsets.all(10.0),
                     alignment: Alignment
-                        .center, // Center the text within the container
-                    child: Directionality(
+                        .center,
+                    child:const  Directionality(
                       textDirection: TextDirection.rtl,
                       child: Text(
                         'المشرف',

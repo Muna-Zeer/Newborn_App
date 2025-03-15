@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_vaccine_app/Auth/login.dart';
 import 'package:my_vaccine_app/Auth/register.dart';
+import 'package:my_vaccine_app/doctors/DoctorForm.dart';
+import 'package:my_vaccine_app/doctors/DoctorTable.dart';
 import 'package:my_vaccine_app/notification/dueDateNotification.dart';
 import 'package:my_vaccine_app/screens/Feeding/feddingForm.dart';
 import 'package:my_vaccine_app/screens/Feeding/feddingView.dart';
@@ -478,14 +480,72 @@ class AdnminTask extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 242, 192, 186),
+                          primary: Color.fromARGB(255, 44, 9, 5),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.assignment, color: Colors.white),
+                            Text(
+                              'إشعارات التطعيم',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
+                  const SizedBox(height: 16.0),
+                  SizedBox(
+                    width: size.width * 0.7,
+                    height: size.height * 0.08,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DoctorPage()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 15, 44, 5),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.assignment, color: Colors.white),
+                            Text(
+                              'قائمة الأطباء',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
+                  const SizedBox(height: 16.0),
+                  SizedBox(
+                    width: size.width * 0.7,
+                    height: size.height * 0.08,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const DoctorProfilePage(
+                                  doctorId: 1,
+                                ),
+                              ));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 236, 161, 229),
                         ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Icon(Icons.assignment, color: Colors.black),
                             Text(
-                              'إشعارات التطعيم',
+                              'بيانات الطبيب',
                               style: TextStyle(
                                 color: Colors.white,
                               ),
