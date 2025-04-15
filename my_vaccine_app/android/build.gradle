@@ -3,18 +3,22 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://storage.googleapis.com/download.flutter.io' }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.gms:google-services:4.3.10' // Add this line for Firebase
+            classpath "com.android.tools.build:gradle:8.1.0"  // Make sure this is the correct version
+    
+
+       classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+       classpath 'com.google.gms:google-services:4.3.10' // Add this line for Firebase
 }
 }
 
 allprojects {
     repositories {
         google()
+        gradlePluginPortal()
         mavenCentral()
     }
 }
