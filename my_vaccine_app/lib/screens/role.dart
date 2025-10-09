@@ -23,7 +23,7 @@ class RoleScreen extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     final double avatarRadius = size.height * 0.15;
 
-    bool isPhone = size.width < 600; // Set the breakpoint for phone screen size
+    bool isPhone = size.width < 600;
 
     return Scaffold(
         appBar: AppBar(
@@ -34,7 +34,7 @@ class RoleScreen extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => RoleUser()),
               );
             },
-            child:const Align(
+            child: const Align(
               alignment: Alignment.centerRight,
               child: Text(
                 'تسجيل الدخول',
@@ -58,7 +58,7 @@ class RoleScreen extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
               SizedBox(height: size.height * 0.01),
-           const   Text(
+              const Text(
                 'أهلاً بكم في تطبيق التطعيمات', // Replace with your desired text
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
@@ -76,10 +76,10 @@ class RoleScreen extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary:
+                    backgroundColor:
                         Colors.lightBlue, // Set the desired background color
                   ),
-                  child:const Text(
+                  child: const Text(
                     'قائمة تطعيمات الاطفال',
                     style: TextStyle(
                       color: Colors.white,
@@ -113,7 +113,7 @@ class RoleScreen extends StatelessWidget {
               //         );
               //       },
               //       style: ElevatedButton.styleFrom(
-              //         primary: Colors
+              //         backgroundColor: Colors
               //             .transparent, // Set the button background color to transparent
               //         elevation: 0, // Remove the button's elevation
               //       ),
@@ -159,7 +159,7 @@ class RoleScreen extends StatelessWidget {
               //       );
               //     },
               //     style: ElevatedButton.styleFrom(
-              //       primary:
+              //       backgroundColor:
               //           Colors.lightGreen, // Set the desired background color
               //     ),
               //     child: Text(
@@ -184,7 +184,7 @@ class RoleScreen extends StatelessWidget {
               //       );
               //     },
               //     style: ElevatedButton.styleFrom(
-              //       primary: Colors.pink, // Set the desired background color
+              //       backgroundColor: Colors.pink, // Set the desired background color
               //     ),
               //     child: Text(
               //       'الإرشادات الصحية',
@@ -198,12 +198,12 @@ class RoleScreen extends StatelessWidget {
                 children: [
                   SizedBox(height: size.height * 0.01),
                   SizedBox(
-                    width: size.width * 0.6, // Set the desired width
-                    height: size.height * 0.08, // Set the desired height
+                    width: size.width * 0.6, 
+                    height: size.height * 0.08, 
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 72, 59,
-                            145), // Set the desired background color
+                        backgroundColor: Color.fromARGB(255, 72, 59,
+                            145), 
                       ),
                       onPressed: () {
                         Navigator.push(
@@ -212,7 +212,7 @@ class RoleScreen extends StatelessWidget {
                               builder: (context) => VaccineList()),
                         );
                       },
-                      child:const Text(
+                      child: const Text(
                         'تطعيمات الاطفال',
                         style: TextStyle(
                           color: Colors.white,
@@ -226,7 +226,7 @@ class RoleScreen extends StatelessWidget {
                     height: size.height * 0.08,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 176, 60,
+                        backgroundColor: Color.fromARGB(255, 176, 60,
                             39), // Set the desired background color
                       ),
                       onPressed: () {
@@ -237,10 +237,10 @@ class RoleScreen extends StatelessWidget {
                         );
                       },
                       // style: ElevatedButton.styleFrom(
-                      //   primary:
+                      //   backgroundColor:
                       //       Colors.purple, // Set the desired background color
                       // ),
-                      child:const Text(
+                      child: const Text(
                         'تعليمات التطعيم',
                         style: TextStyle(
                           color: Colors.white,
@@ -261,10 +261,10 @@ class RoleScreen extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors
+                        backgroundColor: Colors
                             .lightBlue, // Set the desired background color
                       ),
-                      child:const Text(
+                      child: const Text(
                         'قائمة تطعيمات الاطفال',
                         style: TextStyle(
                           color: Colors.white,
@@ -285,10 +285,9 @@ class RoleScreen extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary:
-                            Colors.lime, 
+                        backgroundColor: Colors.lime,
                       ),
-                      child:const Text(
+                      child: const Text(
                         'قائمة تغذية الاطفال',
                         style: TextStyle(
                           color: Colors.white,
@@ -309,10 +308,10 @@ class RoleScreen extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary:
+                        backgroundColor:
                             Colors.pink, // Set the desired background color
                       ),
-                      child:const Text(
+                      child: const Text(
                         'قائمة ارشادات الاطفال',
                         style: TextStyle(
                           color: Colors.white,
@@ -333,9 +332,9 @@ class RoleScreen extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 14, 3, 81),
+                        backgroundColor: Color.fromARGB(255, 14, 3, 81),
                       ),
-                      child:const Text(
+                      child: const Text(
                         'قياسات الاطفال',
                         style: TextStyle(
                           color: Colors.white,
@@ -357,9 +356,9 @@ class RoleScreen extends StatelessWidget {
                         // );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 14, 3, 81),
+                        backgroundColor: Color.fromARGB(255, 14, 3, 81),
                       ),
-                      child:const Text(
+                      child: const Text(
                         'معلومات الطفل',
                         style: TextStyle(
                           color: Colors.white,

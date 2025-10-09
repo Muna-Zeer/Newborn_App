@@ -69,7 +69,8 @@ class DoctorTask extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black, // Set the desired background color
+                    backgroundColor:
+                        Colors.black, // Set the desired background color
                   ),
                   child: Text(
                     'قائمة تطعيمات الاطفال',
@@ -96,7 +97,7 @@ class DoctorTask extends StatelessWidget {
                               builder: (context) => VaccineList()),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'تطعيمات الاطفال',
                         style: TextStyle(
                           color: Colors.white,
@@ -117,10 +118,10 @@ class DoctorTask extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary:
-                            Colors.purple, // Set the desired background color
+                        backgroundColor:
+                            Colors.purple,
                       ),
-                      child: Text(
+                      child:const Text(
                         'تعليمات التطعيم',
                         style: TextStyle(
                           color: Colors.white,
@@ -141,7 +142,7 @@ class DoctorTask extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors
+                        backgroundColor: Colors
                             .lightBlue, // Set the desired background color
                       ),
                       child: Text(
@@ -165,7 +166,7 @@ class DoctorTask extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary:
+                        backgroundColor:
                             Colors.lime, // Set the desired background color
                       ),
                       child: Text(
@@ -189,8 +190,7 @@ class DoctorTask extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary:
-                            Colors.pink, 
+                        backgroundColor: Colors.pink,
                       ),
                       child: Text(
                         'قائمة ارشادات الاطفال',

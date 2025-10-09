@@ -60,7 +60,6 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
         throw Exception('Request failed with status: ${response.statusCode}');
       }
     } catch (error) {
-     
       throw Exception('Request failed with error: $error');
     }
   }
@@ -90,9 +89,13 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
+                        const Text(
                           "معلومات الطفل",
-                          style: Theme.of(context).textTheme.headline6,
+                          style: const TextStyle(
+                            color: Color.fromARGB(255, 63, 35, 234),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 16),
@@ -147,10 +150,11 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(
+                      const Center(
                           child: Text("Vaccination Schedule",
                               textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.headline6)),
+                              style: TextStyle(
+                                  color: Color.fromARGB(35, 34, 234, 32)))),
                       const SizedBox(height: 8),
                       SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
@@ -266,7 +270,7 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
             ),
             const SizedBox(height: 16),
             // Medical Team
-            Card(
+      const      Card(
               elevation: 4,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -274,17 +278,17 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Medical Team",
-                        style: Theme.of(context).textTheme.headline6),
-                    const SizedBox(height: 8),
-                    const Text("Midwife: Jane Doe"),
-                    const Text("Pediatrician: Dr. Smith"),
+                        style: TextStyle(color: Color.fromARGB(33, 174, 240, 167))),
+                     SizedBox(height: 8),
+                     Text("Midwife: Jane Doe"),
+                     Text("Pediatrician: Dr. Smith"),
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 16),
             // Parent Notes
-            Card(
+        const    Card(
               elevation: 4,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -292,7 +296,7 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Parent Notes",
-                        style: Theme.of(context).textTheme.headline6),
+                        style: TextStyle(color: Color.fromARGB(44, 239, 135, 135))),
                     const SizedBox(height: 8),
                     const Text(
                         "Remember to book the next vaccine appointment."),

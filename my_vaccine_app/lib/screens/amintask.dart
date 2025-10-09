@@ -79,8 +79,7 @@ class AdnminTask extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary:
-                        Colors.redAccent, // Set the desired background color
+                    backgroundColor: const Color.fromARGB(179, 244, 185, 244),
                   ),
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,7 +123,7 @@ class AdnminTask extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.transparent,
+                        backgroundColor: Colors.transparent,
                         elevation: 0,
                       ),
                       child: const Row(
@@ -159,7 +158,8 @@ class AdnminTask extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 118, 78, 97)),
+                        backgroundColor:
+                            const Color.fromARGB(255, 118, 78, 97)),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -185,8 +185,7 @@ class AdnminTask extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary:
-                          Colors.lightGreen, // Set the desired background color
+                      backgroundColor: const Color.fromARGB(53, 124, 169, 237),
                     ),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -216,7 +215,8 @@ class AdnminTask extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.pink, // Set the desired background color
+                      backgroundColor: const Color.fromARGB(
+                          0, 115, 117, 236), // Set the desired background color
                     ),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -246,7 +246,7 @@ class AdnminTask extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 229, 84,
+                          backgroundColor: const Color.fromARGB(255, 229, 84,
                               88), // Set the desired background color
                         ),
                         child: const Row(
@@ -276,7 +276,7 @@ class AdnminTask extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: const Color.fromARGB(255, 145, 46,
+                          backgroundColor: const Color.fromARGB(255, 145, 46,
                               163), // Set the desired background color
                         ),
                         child: const Row(
@@ -306,8 +306,8 @@ class AdnminTask extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Colors
-                              .lightBlue, // Set the desired background color
+                          backgroundColor:
+                              const Color.fromARGB(48, 243, 126, 126),
                         ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -335,8 +335,8 @@ class AdnminTask extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary:
-                              Colors.lime, // Set the desired background color
+                          backgroundColor:
+                              const Color.fromARGB(200, 30, 50, 143),
                         ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -364,8 +364,8 @@ class AdnminTask extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary:
-                              Colors.pink, // Set the desired background color
+                          backgroundColor:
+                              const Color.fromARGB(34, 345, 35, 24),
                         ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -393,7 +393,8 @@ class AdnminTask extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 241, 55, 3),
+                          backgroundColor:
+                              const Color.fromARGB(255, 241, 55, 3),
                         ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -421,7 +422,8 @@ class AdnminTask extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 86, 21, 239),
+                          backgroundColor:
+                              const Color.fromARGB(255, 86, 21, 239),
                         ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -450,7 +452,8 @@ class AdnminTask extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 251, 33, 5),
+                          backgroundColor:
+                              const Color.fromARGB(255, 251, 33, 5),
                         ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -480,7 +483,7 @@ class AdnminTask extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 44, 9, 5),
+                          backgroundColor: const Color.fromARGB(255, 44, 9, 5),
                         ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -508,7 +511,7 @@ class AdnminTask extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 15, 44, 5),
+                          backgroundColor: const Color.fromARGB(255, 15, 44, 5),
                         ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -538,7 +541,8 @@ class AdnminTask extends StatelessWidget {
                               ));
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 236, 161, 229),
+                          backgroundColor:
+                              const Color.fromARGB(255, 236, 161, 229),
                         ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
