@@ -294,7 +294,7 @@ class _SignUpViewState extends State<SignUpView> {
                       backgroundColor:
                           Colors.deepPurple, // Set the button color to purple
                     ),
-                    child: Text(
+                    child:const  Text(
                       'Sign Up',
                       style: TextStyle(fontSize: 18.0),
                     ),
