@@ -97,7 +97,7 @@ class DoctorController extends Controller
             'hospital_id' => 'required|exists:hospitals,id',
             'about' => 'required|string',
             'schedule' => 'required|array',
-            'image' => 'nullable|image|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         if ($validator->fails()) {

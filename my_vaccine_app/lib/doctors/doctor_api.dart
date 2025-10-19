@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -5,12 +7,14 @@ import 'package:http/http.dart' as http;
 import 'package:my_vaccine_app/Alert_Dialog/doctorAlert.dart';
 import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/doctors/doctor.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 final baseUrl = ApiService.getBaseUrl();
+File? _imageFile; // for mobile
+Uint8List? _webImageFile;
 //get info of doctor by doctorId
 Future<Doctor> fetchDoctor(int doctorId) async {
-  final response =
-      await http.get(Uri.parse('$baseUrl/doctors/$doctorId'));
+  final response = await http.get(Uri.parse('$baseUrl/doctors/$doctorId'));
   if (response.statusCode == 200) {
     return Doctor.fromJson(jsonDecode(response.body));
   } else {
@@ -19,8 +23,7 @@ Future<Doctor> fetchDoctor(int doctorId) async {
 }
 
 Future<List<dynamic>> fetchDoctors() async {
-  final response =
-      await http.get(Uri.parse('$baseUrl/fetchDoctors'));
+  final response = await http.get(Uri.parse('$baseUrl/fetchDoctors'));
   if (response.statusCode == 200) {
     return jsonDecode(response.body)['data'];
   } else {
@@ -29,57 +32,76 @@ Future<List<dynamic>> fetchDoctors() async {
 }
 
 Future<bool> createDoctor(
-    Doctor doctor, String imageString, BuildContext context) async {
-  var request = http.MultipartRequest(
-    'POST',
-    Uri.parse('$baseUrl/doctors'),
-  );
-  File? image;
-  if (image != null) {}
-  // Add fields for the Doctor object
-  request.fields['name'] = doctor.name;
-  request.fields['salary'] = doctor.salary.toString();
-  request.fields['nurseName'] = doctor.nurseName;
-  request.fields['midwifeName'] = doctor.midwifeName;
-  request.fields['specialization'] = doctor.specialization;
-  request.fields['country'] = doctor.country;
-  request.fields['city'] = doctor.city;
-  request.fields['email'] = doctor.email;
-  request.fields['phone'] = doctor.phone;
-  request.fields['image'] = imageString;
-  request.fields['ministry_of_health_id'] =
-      doctor.ministryOfHealthId.toString();
-  request.fields['hospital_id'] = doctor.hospitalId.toString();
+  Doctor doctor,
+  dynamic imageInput, // File (mobile) or Uint8List (web)
+  BuildContext context,
+) async {
+  try {
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse('$baseUrl/doctors'),
+    )..fields.addAll({
+        'name': doctor.name,
+        'salary': doctor.salary.toString(),
+        'nurseName': doctor.nurseName,
+        'midwifeName': doctor.midwifeName,
+        'specialization': doctor.specialization,
+        'country': doctor.country,
+        'city': doctor.city,
+        'email': doctor.email,
+        'phone': doctor.phone,
+        'ministry_of_health_id': doctor.ministryOfHealthId.toString(),
+        'hospital_id': doctor.hospitalId.toString(),
+        'about': doctor.about,
+        'startTime': doctor.startTime,
+        'endTime': doctor.endTime,
+      });
 
-  request.fields['schedule'] = json.encode(doctor.schedule);
-  for (int i = 0; i < doctor.schedule.length; i++) {
-    request.fields['schedule[$i][day]'] = doctor.schedule[i]['day']!;
-    request.fields['schedule[$i][start]'] = doctor.schedule[i]['start']!;
-    request.fields['schedule[$i][end]'] = doctor.schedule[i]['end']!;
-  }
+    // Schedule
+    for (int i = 0; i < doctor.schedule.length; i++) {
+      final s = doctor.schedule[i];
+      request.fields['schedule[$i][day]'] = s['day'] ?? '';
+      request.fields['schedule[$i][start]'] = s['start'] ?? '';
+      request.fields['schedule[$i][end]'] = s['end'] ?? '';
+    }
 
-  request.fields['about'] = doctor.about;
-  request.fields['startTime'] = doctor.startTime;
-  request.fields['endTime'] = doctor.endTime;
+    // ✅ Image upload (works both on Web and Mobile)
+    if (imageInput != null) {
+      if (kIsWeb && imageInput is Uint8List) {
+        request.files.add(http.MultipartFile.fromBytes(
+          'image',
+          imageInput,
+          filename: 'doctor.png',
+        ));
+      } else if (imageInput is File) {
+        request.files.add(await http.MultipartFile.fromPath(
+          'image',
+          imageInput.path,
+        ));
+      } else {
+        print('⚠️ Unknown image type: ${imageInput.runtimeType}');
+      }
+    }
 
-  // Add the image file to the request
+    final response = await request.send();
+    final body = await response.stream.bytesToString();
 
-  var response = await request.send();
-
-  if (response.statusCode == 201) {
-    print('value of response is $response');
-    DoctorAlert.showSuccessAlert(context, doctor);
-    return true;
-  } else {
-    print('Request: $request');
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      DoctorAlert.showSuccessAlert(context, doctor);
+      return true;
+    } else {
+      print('❌ Error ${response.statusCode}: $body');
+      DoctorAlert.showError(context);
+    }
+  } catch (e) {
+    print('❌ Exception: $e');
     DoctorAlert.showError(context);
-    return false;
   }
+  return false;
 }
 
 Future<void> deleteDoctor(int id, BuildContext context) async {
-  final response =
-      await http.delete(Uri.parse('$baseUrl/doctors/$id'));
+  final response = await http.delete(Uri.parse('$baseUrl/doctors/$id'));
 
   if (response.statusCode == 200) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -97,8 +119,7 @@ Future<void> deleteDoctor(int id, BuildContext context) async {
 }
 
 Future<bool> editDoctor(int id, BuildContext context) async {
-  final response =
-      await http.put(Uri.parse('$baseUrl/doctors/$id'));
+  final response = await http.put(Uri.parse('$baseUrl/doctors/$id'));
 
   if (response.statusCode == 200) {
     return true;
@@ -136,8 +157,7 @@ Future<bool> updateDoctor(
   // Convert schedule list to string representation
   final scheduleString = jsonEncode(doctorData.schedule);
 
-  final response =
-      await http.put(Uri.parse('$baseUrl/doctors/$id'), body: {
+  final response = await http.put(Uri.parse('$baseUrl/doctors/$id'), body: {
     'name': doctorData.name,
     'specialization': doctorData.specialization,
     'country': doctorData.country,
@@ -163,7 +183,6 @@ Future<bool> updateDoctor(
 }
 
 Future<List<Map<String, dynamic>>> fetchHospitals() async {
-  
   final response = await http.get(Uri.parse('$baseUrl/hospitals/'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
@@ -181,8 +200,7 @@ Future<List<Map<String, dynamic>>> fetchHospitals() async {
 }
 
 Future<List<Map<String, dynamic>>> fetchDoctorHospital() async {
-  final response =
-      await http.get(Uri.parse('$baseUrl/doctors'));
+  final response = await http.get(Uri.parse('$baseUrl/doctors'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Map<String, dynamic>> doctors =
@@ -199,8 +217,7 @@ Future<List<Map<String, dynamic>>> fetchDoctorHospital() async {
 }
 
 Future<List<Map<String, dynamic>>> fetchMidwives() async {
-  final response =
-      await http.get(Uri.parse('$baseUrl/midwivesForm'));
+  final response = await http.get(Uri.parse('$baseUrl/midwivesForm'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Map<String, dynamic>> doctors =
@@ -217,8 +234,7 @@ Future<List<Map<String, dynamic>>> fetchMidwives() async {
 }
 
 Future<List<Map<String, dynamic>>> fetchMinistriesOfHealth() async {
-  final response =
-      await http.get(Uri.parse('$baseUrl/ministryofhealths'));
+  final response = await http.get(Uri.parse('$baseUrl/ministryofhealths'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Map<String, dynamic>> ministriesOfHealth =
@@ -235,8 +251,7 @@ Future<List<Map<String, dynamic>>> fetchMinistriesOfHealth() async {
 }
 
 Future<List<Map<String, dynamic>>> fetchNurses() async {
-  final response =
-      await http.get(Uri.parse('$baseUrl/fetchNurse'));
+  final response = await http.get(Uri.parse('$baseUrl/fetchNurse'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Map<String, dynamic>> ministriesOfHealth =
@@ -253,8 +268,7 @@ Future<List<Map<String, dynamic>>> fetchNurses() async {
 }
 
 Future<List<Map<String, dynamic>>> fetchVaccines() async {
-  final response =
-      await http.get(Uri.parse('$baseUrl/fetchVaccines'));
+  final response = await http.get(Uri.parse('$baseUrl/fetchVaccines'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Map<String, dynamic>> ministriesOfHealth =

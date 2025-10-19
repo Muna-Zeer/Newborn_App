@@ -1,7 +1,5 @@
-
-
 class ApiService {
   static String getBaseUrl() {
-    return 'http://192.168.43.150:8000/api';
+    return 'http://10.166.161.197:8000/api';
   }
 }

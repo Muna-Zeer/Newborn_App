@@ -38,11 +38,14 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
   String? selectedMinistry;
 
   //Images
-  File? _imageFile;
   final _picker = ImagePicker();
   bool _imageSelected = false;
   TextEditingController _imageController = TextEditingController();
   String imageString = '';
+  dynamic _selectedImage;
+
+  File? _imageFile;
+
   @override
   void initState() {
     super.initState();
@@ -73,28 +76,32 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
   Future<void> _selectImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedFile != null) {
-      if (kIsWeb) {
-        // For Flutter Web: Convert the image to bytes and encode as base64
-        final bytes = await pickedFile.readAsBytes();
-        final base64Image = base64Encode(bytes);
-
-        setState(() {
-          imageString = base64Image; // Store base64 image
-          _imageController.text =
-              'Image selected: ${pickedFile.name}'; // Show file name or indicate selection
-        });
-      } else {
-        // For Mobile (Android/iOS): Use File for mobile paths
-        setState(() {
-          _imageFile = File(pickedFile.path);
-          _imageController.text = pickedFile.path; // Show the file path
-        });
-      }
-    } else {
-      // If no image is selected, display an error message
+    if (pickedFile == null) {
       setState(() {
-        _imageController.text = ''; // Clear text field
+        _imageFile = null;
+        _selectedImage = null;
+        _imageController.text = '';
+        _imageSelected = false;
+      });
+      return;
+    }
+
+    if (kIsWeb) {
+   
+      final bytes = await pickedFile.readAsBytes();
+      setState(() {
+        _selectedImage = bytes; 
+        _imageController.text = 'Selected: ${pickedFile.name}';
+        _imageSelected = true;
+      });
+    } else {
+     
+      final file = File(pickedFile.path);
+      setState(() {
+        _imageFile = file;
+        _selectedImage = file; 
+        _imageController.text = pickedFile.path.split('/').last;
+        _imageSelected = true;
       });
     }
   }
@@ -168,7 +175,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
         return;
       }
 
-      if (_imageFile == null || imageString.isEmpty) {
+      if (_selectedImage == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Please select an image.'),
@@ -196,18 +203,20 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
         city: cityController.text ?? '',
         phone: phoneController.text ?? '',
         email: emailController.text ?? '',
-        image: _imageFile, // Use base64 image
+        image:
+            kIsWeb ? null : (_selectedImage as File?), 
       );
 
-      await createDoctor(doctor, imageString, context);
+      await createDoctor(doctor, _selectedImage, context);
+
       try {
         _formKey.currentState!.reset();
         schedule = [];
         setState(() {
           _imageController.clear();
-          _imageFile = null; // Reset image properly
+          _imageFile = null;
+          _selectedImage = null;
           _imageSelected = false;
-          imageString = '';
         });
       } catch (e) {
         DoctorAlert.showError(context);
