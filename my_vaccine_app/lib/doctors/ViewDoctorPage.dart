@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/doctors/doctor.dart';
 
 class ViewDoctorPage extends StatefulWidget {
@@ -18,9 +19,10 @@ class _ViewDoctorPageState extends State<ViewDoctorPage> {
   Map<String, dynamic> _doctor = {};
   String? _hospitalName;
   String? _ministryOfHealthName;
+  final baseUrl = ApiService.getBaseUrl();
   Future<void> fetchSchedule() async {
-    final response = await http.get(
-        Uri.parse('http://127.0.0.1:8000/api/allDoctors/${widget.doctor.id}'));
+    final response =
+        await http.get(Uri.parse('$baseUrl/allDoctors/${widget.doctor.id}'));
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
       final scheduleData = jsonData['data']['schedule'];
@@ -33,22 +35,16 @@ class _ViewDoctorPageState extends State<ViewDoctorPage> {
   }
 
   Future<void> fetchDoctorData() async {
-    final response = await http.get(
-        Uri.parse('http://127.0.0.1:8000/api/allDoctors/${widget.doctor.id}'));
+    final response =
+        await http.get(Uri.parse('$baseUrl/allDoctors/${widget.doctor.id}'));
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
       final doctorData = jsonData['data'];
       final hospitalId = doctorData['hospital_id'];
       final ministryId = doctorData['ministry_of_health_id'];
 
-      print('Hospital ID: $hospitalId');
-      print('Ministry ID: $ministryId');
-
       final hospitalName = await fetchHospitalName(hospitalId);
       final ministryName = await fetchMinistryName(ministryId);
-
-      print('Hospital Name: $hospitalName');
-      print('Ministry Name: $ministryName');
 
       setState(() {
         _doctor = doctorData;
@@ -61,8 +57,7 @@ class _ViewDoctorPageState extends State<ViewDoctorPage> {
   }
 
   Future<String> fetchMinistryName(int ministryId) async {
-    final response = await http
-        .get(Uri.parse('http://127.0.0.1:8000/api/ministry/$ministryId'));
+    final response = await http.get(Uri.parse('$baseUrl/ministry/$ministryId'));
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       final ministryName = data['data']['name'];
@@ -73,8 +68,8 @@ class _ViewDoctorPageState extends State<ViewDoctorPage> {
   }
 
   Future<String> fetchHospitalName(int hospitalId) async {
-    final response = await http
-        .get(Uri.parse('http://127.0.0.1:8000/api/hospitals/$hospitalId'));
+    final response =
+        await http.get(Uri.parse('$baseUrl/hospitals/$hospitalId'));
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       final hospitalName = data['data']['name'];
@@ -176,65 +171,65 @@ class _ViewDoctorPageState extends State<ViewDoctorPage> {
                     ),
                   ),
                   Container(
-                    margin:const EdgeInsets.only(bottom: 8.0),
+                    margin: const EdgeInsets.only(bottom: 8.0),
                     child: Text(
                       'Name: ${_doctor['name']}',
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
                   Container(
-                    margin:const EdgeInsets.only(bottom: 8.0),
+                    margin: const EdgeInsets.only(bottom: 8.0),
                     child: Text(
                       'Specialization: ${_doctor['specialization']}',
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
                   Container(
-                    margin:const EdgeInsets.only(bottom: 8.0),
+                    margin: const EdgeInsets.only(bottom: 8.0),
                     child: Text(
                       'Country: ${_doctor['country']}',
                       style: const TextStyle(fontSize: 16),
                     ),
                   ),
                   Container(
-                    margin:const EdgeInsets.only(bottom: 8.0),
+                    margin: const EdgeInsets.only(bottom: 8.0),
                     child: Text(
                       'City: ${_doctor['city']}',
-                      style:const TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                   Container(
-                    margin:const EdgeInsets.only(bottom: 16.0),
+                    margin: const EdgeInsets.only(bottom: 16.0),
                     child: Text(
                       'Email: ${_doctor['email']}',
-                      style:const TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                   Container(
-                    margin:const EdgeInsets.only(bottom: 16.0),
+                    margin: const EdgeInsets.only(bottom: 16.0),
                     child: Text(
                       _doctor['name'] ?? '',
-                      style:
-                         const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                   ),
                   Container(
-                    margin:const EdgeInsets.only(bottom: 16.0),
+                    margin: const EdgeInsets.only(bottom: 16.0),
                     child: Text(
                       'Hospital: $_hospitalName',
-                      style:const TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                   Container(
                     margin: const EdgeInsets.only(bottom: 16.0),
                     child: Text(
                       'Ministry of Health: $_ministryOfHealthName',
-                      style:const TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                   Container(
                     margin: const EdgeInsets.only(bottom: 16.0),
-                    child:const Text(
+                    child: const Text(
                       'Schedule',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

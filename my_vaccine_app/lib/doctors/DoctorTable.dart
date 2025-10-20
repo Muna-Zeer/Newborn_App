@@ -5,7 +5,6 @@ import 'package:my_vaccine_app/doctors/EditDoctorPage.dart';
 import 'package:my_vaccine_app/doctors/ViewDoctorPage.dart';
 import 'dart:convert';
 
-
 import 'package:my_vaccine_app/doctors/doctor.dart';
 import 'package:my_vaccine_app/doctors/doctor_api.dart';
 
@@ -32,7 +31,7 @@ class _DoctorTableState extends State<DoctorPage> {
 
   Future<void> getDoctors() async {
     final response = await http
-        .get(Uri.parse('http://127.0.0.1:8000/api/doctorsTables'))
+        .get(Uri.parse('$baseUrl/doctorsTables'))
         .catchError((error) => print(error));
     print('$response');
     if (response.statusCode == 200) {
