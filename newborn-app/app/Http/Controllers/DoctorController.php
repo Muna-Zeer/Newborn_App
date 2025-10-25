@@ -9,6 +9,7 @@ use App\Models\MinistryOfHealth;
 use App\Models\Nurse;
 use App\Models\Specialization;
 use App\Models\VaccinationTabel;
+use App\Models\VaccinationTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -57,7 +58,7 @@ class DoctorController extends Controller
     }
     public function fetchVaccines()
     {
-        $hospitals = VaccinationTabel::all(['id', 'name'])->toArray();
+        $hospitals = VaccinationTable::all(['id', 'name'])->toArray();
         return response()->json($hospitals);
     }
 
@@ -161,7 +162,11 @@ class DoctorController extends Controller
 
         // Handle image upload, if any
 
-        return response()->json(['message' => 'Doctor record created successfully', 'doctor' => $doctor], 201);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully created new doctor',
+            'data' => $doctor,
+        ], 201);
     }
 
 
@@ -232,7 +237,11 @@ class DoctorController extends Controller
         $doctor->save();
 
         // Return the response or redirect
-        return response()->json(['message' => 'Doctor created successfully'], 200);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully created new doctor',
+            'data' => $doctor,
+        ], 201);
     }
 
 

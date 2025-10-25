@@ -10,11 +10,11 @@ import 'package:my_vaccine_app/doctors/doctor.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 final baseUrl = ApiService.getBaseUrl();
-File? _imageFile; // for mobile
+File? _imageFile; 
 Uint8List? _webImageFile;
 //get info of doctor by doctorId
 Future<Doctor> fetchDoctor(int doctorId) async {
-  final response = await http.get(Uri.parse('$baseUrl/doctors/$doctorId'));
+  final response = await http.get(Uri.parse('$baseUrl/fetchDoctors/$doctorId'));
   if (response.statusCode == 200) {
     return Doctor.fromJson(jsonDecode(response.body));
   } else {
@@ -90,14 +90,14 @@ Future<bool> createDoctor(
       DoctorAlert.showSuccessAlert(context, doctor);
       return true;
     } else {
-      print('❌ Error ${response.statusCode}: $body');
       DoctorAlert.showError(context);
+      throw Exception('❌ Error ${response.statusCode}: $body');
     }
   } catch (e) {
-    print('❌ Exception: $e');
-    DoctorAlert.showError(context);
+    DoctorAlert.showError(context); 
+    throw Exception('❌ Exception: $e'); 
   }
-  return false;
+
 }
 
 Future<void> deleteDoctor(int id, BuildContext context) async {

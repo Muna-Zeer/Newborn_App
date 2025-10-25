@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:intl/intl.dart';
 import 'package:my_vaccine_app/doctors/DoctorTable.dart';
 import 'package:my_vaccine_app/doctors/doctor.dart';
 import 'package:my_vaccine_app/doctors/doctor_api.dart';
@@ -61,7 +60,7 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
             : null;
       });
     } catch (error) {
-      print('Failed to fetch data: $error');
+      throw Exception('Failed to fetch data: $error');
     }
   }
 
@@ -83,12 +82,11 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
         _schedule = doctor.schedule;
       });
     } catch (e) {
-      print('Error fetching doctor data: $e');
+      throw Exception('Error fetching doctor data: $e');
     }
   }
 
   void _saveDoctorData() async {
-    // Create a new Doctor object with updated values
     final updatedDoctor = Doctor(
       id: widget.doctorId,
       name: _nameController.text.isNotEmpty
@@ -137,11 +135,11 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Success'),
-              content: Text('Doctor data saved.'),
+              title: const Text('Success'),
+              content: const Text('Doctor data saved.'),
               actions: <Widget>[
                 TextButton(
-                  child: Text('OK'),
+                  child: const Text('OK'),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => DoctorPage()),
@@ -156,7 +154,7 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
         throw Error();
       }
     } catch (e) {
-      print('Error saving doctor data: $e');
+      throw Exception('Error saving doctor data: $e');
       // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error saving doctor data')),
@@ -230,23 +228,23 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Doctor Profile'),
+        title: const Text('Doctor Profile'),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
             child: Column(
               children: [
-              const  Text(
+                const Text(
                   'Enter information about doctor',
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-            const    SizedBox(height: 32.0),
+                const SizedBox(height: 32.0),
                 Row(
                   children: [
                     Expanded(
@@ -273,11 +271,11 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                         },
                       ),
                     ),
-                const    SizedBox(width: 16.0),
+                    const SizedBox(width: 16.0),
                     Expanded(
                       child: TextFormField(
                         controller: _aboutController,
-                        decoration:const InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'About Doctor',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
@@ -292,7 +290,7 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                         ),
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
-                        style:const  TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           height: 1.5,
                         ),
@@ -306,13 +304,13 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                     ),
                   ],
                 ),
-           const     SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Row(
                   children: [
                     Expanded(
                       child: TextFormField(
                         controller: _salaryController,
-                        decoration:const InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Salary',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
@@ -337,10 +335,10 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                         },
                       ),
                     ),
-                const     SizedBox(width: 16.0),
+                    const SizedBox(width: 16.0),
                   ],
                 ),
-           const     SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Row(
                   children: [
                     Expanded(
@@ -357,7 +355,7 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                             child: Text(hospital['name']),
                           );
                         }).toList(),
-                        decoration:const InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Hospital',
                         ),
                       ),
@@ -376,7 +374,7 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                             child: Text(ministry['name']),
                           );
                         }).toList(),
-                        decoration:const InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Ministry of Health',
                         ),
                       ),
@@ -393,7 +391,7 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
                           style: const TextStyle(fontSize: 16, height: 1.5),
-                          decoration:const  InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'specialization',
                             border: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.grey),
@@ -417,13 +415,13 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                     ),
                   ],
                 ),
-          const      SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Row(
                   children: [
                     Expanded(
                       child: TextFormField(
                         controller: _countryController,
-                        decoration:const InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Country',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
@@ -444,14 +442,14 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                         },
                       ),
                     ),
-                const    SizedBox(width: 16.0),
+                    const SizedBox(width: 16.0),
                     Expanded(
                       child: TextFormField(
                         controller: _cityController,
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
-                        style:const TextStyle(fontSize: 16, height: 1.5),
-                        decoration:const InputDecoration(
+                        style: const TextStyle(fontSize: 16, height: 1.5),
+                        decoration: const InputDecoration(
                           labelText: 'City',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
@@ -474,13 +472,13 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                     ),
                   ],
                 ),
-       const         SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Row(
                   children: [
                     Expanded(
                       child: TextFormField(
                         controller: _phoneController,
-                        decoration:const InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Phone of doctor',
                           hintText: '(000) 000-0000',
                           border: OutlineInputBorder(
@@ -506,13 +504,13 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                         },
                       ),
                     ),
-               const     SizedBox(width: 16.0),
+                    const SizedBox(width: 16.0),
                     Expanded(
                       child: TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
-                        style:const TextStyle(fontSize: 16, height: 1.5),
+                        style: const TextStyle(fontSize: 16, height: 1.5),
                         decoration: const InputDecoration(
                           labelText: 'Email',
                           hintText: 'doctor@doctor.com',
@@ -541,20 +539,20 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                     ),
                   ],
                 ),
-        const        SizedBox(height: 16.0),
-              const  Center(
+                const SizedBox(height: 16.0),
+                const Center(
                   child: Text(
                     'Schedule of Doctor',
                     style:
                         TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
                   ),
                 ),
-             const   SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Center(
                   child: SizedBox(
                     width: 1000.0,
                     child: Table(
-                      columnWidths:const {
+                      columnWidths: const {
                         0: FlexColumnWidth(1),
                         1: FlexColumnWidth(2),
                         2: FlexColumnWidth(2),
@@ -562,7 +560,7 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                       },
                       border: TableBorder.all(color: Colors.blue),
                       children: [
-                     const   TableRow(
+                        const TableRow(
                           decoration: BoxDecoration(
                             color: Colors.blue,
                           ),
@@ -593,7 +591,7 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                             ),
                             TableCell(
                               child: Padding(
-                                padding:  EdgeInsets.all(8.0),
+                                padding: EdgeInsets.all(8.0),
                                 child: Text(
                                   'End Time',
                                   style: TextStyle(
@@ -622,10 +620,10 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                                     onPressed: _saveDoctorData),
                               ),
                             ),
-                          const  TableCell(
+                            const TableCell(
                               child: SizedBox.shrink(),
                             ),
-                         const   TableCell(
+                            const TableCell(
                               child: SizedBox.shrink(),
                             ),
                           ],
@@ -651,20 +649,20 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
       children: [
         TableCell(
           child: Padding(
-            padding:const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
               day,
-              style:const TextStyle(fontSize: 16.0),
+              style: const TextStyle(fontSize: 16.0),
             ),
           ),
         ),
         TableCell(
           child: Padding(
-            padding:const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: InkWell(
               child: Text(
                 startText!,
-                style:const TextStyle(fontSize: 16.0),
+                style: const TextStyle(fontSize: 16.0),
               ),
               onTap: () => _selectStartTime(context, day),
             ),
@@ -672,11 +670,11 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
         ),
         TableCell(
           child: Padding(
-            padding:const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: InkWell(
               child: Text(
                 endText!,
-                style:const TextStyle(fontSize: 16.0),
+                style: const TextStyle(fontSize: 16.0),
               ),
               onTap: () => _selectEndTime(context, day),
             ),

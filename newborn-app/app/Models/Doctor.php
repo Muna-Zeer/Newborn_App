@@ -41,4 +41,16 @@ class Doctor extends Model
     {
         return $this->belongsTo(MinistryOfHealth::class);
     }
+
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute()
+    {
+        if ($this->image) {
+            return asset('storage/images/doctors/' .$this->image);
+        }
+        return null;
+    }
+
+
 }

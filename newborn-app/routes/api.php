@@ -129,22 +129,22 @@ Route::delete('/ministry/{id}', [MinnistryOfHealthController::class, 'destroy'])
 //Route of MidwifeController
 // Route::middleware('auth:api')->group(function () {
 
-    Route::get('/midwives', [MidwifeController::class, 'index']);
-    Route::get('/allMidwives/{id}', [MidwifeController::class, 'allMidwives']);
-    Route::get('/midwivesTable', [MidwifeController::class, 'midwifeTable']);
-    Route::get('/fetchMidwives/{id}', [MidwifeController::class, 'show']);
-    Route::post('/midwives', [MidwifeController::class, 'store']);
-    Route::put('/midwives/{id}', [MidwifeController::class, 'update']);
-    Route::delete('/midwives/{id}', [MidwifeController::class, 'destroy']);
+Route::get('/midwives', [MidwifeController::class, 'index']);
+Route::get('/allMidwives/{id}', [MidwifeController::class, 'allMidwives']);
+Route::get('/midwivesTable', [MidwifeController::class, 'midwifeTable']);
+Route::get('/fetchMidwives/{id}', [MidwifeController::class, 'show']);
+Route::post('/midwives', [MidwifeController::class, 'store']);
+Route::put('/midwives/{id}', [MidwifeController::class, 'update']);
+Route::delete('/midwives/{id}', [MidwifeController::class, 'destroy']);
 // });
 //Route of MeasurementController
 // Route::middleware('auth:api')->group(function () {
 
-    Route::get('/measurements', [MeasurementController::class, 'index']);
-    Route::get('/measurements/{id}', [MeasurementController::class, 'show']);
-    Route::post('/measurement', [MeasurementController::class, 'store']);
-    Route::put('/measurement/{id}', [MeasurementController::class, 'update']);
-    Route::delete('/measurements/{id}', [MeasurementController::class, 'destroy']);
+Route::get('/measurements', [MeasurementController::class, 'index']);
+Route::get('/measurements/{id}', [MeasurementController::class, 'show']);
+Route::post('/measurement', [MeasurementController::class, 'store']);
+Route::put('/measurement/{id}', [MeasurementController::class, 'update']);
+Route::delete('/measurements/{id}', [MeasurementController::class, 'destroy']);
 // });
 //Route of LocationController
 Route::middleware('auth:api')->group(function () {
@@ -158,20 +158,20 @@ Route::middleware('auth:api')->group(function () {
 //Route of HospitalNurseryController
 // Route::middleware('auth:api')->group(function () {
 
-    Route::get('/hospitalNurseries', [HospitalNurseryController::class, 'index']);
-    Route::get('/hospitalNurseries/{id}', [HospitalNurseryController::class, 'show']);
-    Route::post('/hospitalNurseries', [HospitalNurseryController::class, 'store']);
-    Route::put('/hospitalNurseries/{id}', [HospitalNurseryController::class, 'update']);
-    Route::delete('/hospitalNurseries/{id}', [HospitalNurseryController::class, 'destroy']);
+Route::get('/hospitalNurseries', [HospitalNurseryController::class, 'index']);
+Route::get('/hospitalNurseries/{id}', [HospitalNurseryController::class, 'show']);
+Route::post('/hospitalNurseries', [HospitalNurseryController::class, 'store']);
+Route::put('/hospitalNurseries/{id}', [HospitalNurseryController::class, 'update']);
+Route::delete('/hospitalNurseries/{id}', [HospitalNurseryController::class, 'destroy']);
 // });
 //Route of HospitalController
 // Route::middleware('auth:api')->group(function () {
 
-    Route::get('/hospitals', [HospitalController::class, 'index']);
-    Route::get('/hospitals/{id}', [HospitalController::class, 'show']);
-    Route::post('/hospitals', [HospitalController::class, 'store']);
-    Route::put('/hospitals/{id}', [HospitalController::class, 'update']);
-    Route::delete('/hospitals/{id}', [HospitalController::class, 'destroy']);
+Route::get('/hospitals', [HospitalController::class, 'index']);
+Route::get('/hospitals/{id}', [HospitalController::class, 'show']);
+Route::post('/hospitals', [HospitalController::class, 'store']);
+Route::put('/hospitals/{id}', [HospitalController::class, 'update']);
+Route::delete('/hospitals/{id}', [HospitalController::class, 'destroy']);
 // });
 //Route of HealthCenterController
 Route::middleware('auth:api')->group(function () {
@@ -220,6 +220,18 @@ Route::middleware('auth:api')->group(function () {
 });
 //Route of DoctorController
 // Route::middleware('auth:api')->group(function () {
+Route::get('/doctor-image/{filename}', function ($filename) {
+    $path = storage_path('app/public/images/doctors/' . $filename);
+
+    if (!file_exists($path)) {
+        return response()->json(['message' => 'Image not found'], 404);
+    }
+
+    return response()->file($path, [
+        'Access-Control-Allow-Origin' => '*',
+        'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+    ]);
+});
 
 Route::get('/doctorsTables', [DoctorController::class, 'index']);
 Route::get('/fetchDoctors', [DoctorController::class, 'index']);
@@ -296,13 +308,13 @@ Route::middleware('auth:api')->group(function () {
 //Route of NurseController
 // Route::middleware('auth:api')->group(function () {
 
-    Route::get('/nurses', [NurseController::class, 'index']);
-    Route::get('/nurseTable', [NurseController::class, 'nurseTable']);
-    Route::get('/fetchNurses/{id}', [NurseController::class, 'show']);
-    Route::post('/nurses', [NurseController::class, 'store']);
-    Route::put('/nurses/{id}', [NurseController::class, 'update']);
-    Route::delete('/nurses/{id}', [NurseController::class, 'destroy']);
-    Route::get('/doctors', [NurseController::class, 'fetchDoctors']);
+Route::get('/nurses', [NurseController::class, 'index']);
+Route::get('/nurseTable', [NurseController::class, 'nurseTable']);
+Route::get('/fetchNurses/{id}', [NurseController::class, 'show']);
+Route::post('/nurses', [NurseController::class, 'store']);
+Route::put('/nurses/{id}', [NurseController::class, 'update']);
+Route::delete('/nurses/{id}', [NurseController::class, 'destroy']);
+Route::get('/doctors', [NurseController::class, 'fetchDoctors']);
 // });
 //Route of PostantalExaminationController
 // Route::middleware('auth:api')->group(function () {
@@ -394,4 +406,4 @@ Route::get('/allVaccines', [VaccinationTableController::class, 'allVaccines']);
 Route::post('/newborn-vaccines', [NewbornVaccineController::class, 'NewbornVaccine']);
 Route::get('/compare-newborn-age', [NewbornVaccineController::class, 'compareNewbornAgeWithVaccineMonth']);
 Route::get('/newborns/age', [NewbornVaccineController::class, 'getNewbornsAge']);
-Route::get('/newborn/{identity_number}/vaccines',[NewbornVaccineController::class,'getVaccinesOfNewborn']);
+Route::get('/newborn/{identity_number}/vaccines', [NewbornVaccineController::class, 'getVaccinesOfNewborn']);
