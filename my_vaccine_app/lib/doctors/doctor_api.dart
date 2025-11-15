@@ -166,7 +166,7 @@ Future<bool> updateDoctor(
     'phone': doctorData.phone,
     'salary': doctorData.salary,
     'about': doctorData.about,
-    // 'HospitalName': doctorData.HospitalName,
+    'HospitalName': doctorData.hospitalName,
     'schedule': scheduleString,
     'nurseName': doctorData.nurseName,
     'midwifeName': doctorData.midwifeName,

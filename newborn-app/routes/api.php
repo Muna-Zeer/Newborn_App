@@ -227,10 +227,11 @@ Route::get('/doctor-image/{filename}', function ($filename) {
         return response()->json(['message' => 'Image not found'], 404);
     }
 
-    return response()->file($path, [
-        'Access-Control-Allow-Origin' => '*',
-        'Access-Control-Allow-Methods' => 'GET, OPTIONS',
-    ]);
+    $file = file_get_contents($path);
+    return response($file, 200)
+        ->header('Content-Type', mime_content_type($path))
+        ->header('Access-Control-Allow-Origin', '*')
+        ->header('Access-Control-Allow-Methods', 'GET, OPTIONS');
 });
 
 Route::get('/doctorsTables', [DoctorController::class, 'index']);

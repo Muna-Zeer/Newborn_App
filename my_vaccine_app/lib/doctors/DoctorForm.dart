@@ -87,19 +87,17 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
     }
 
     if (kIsWeb) {
-   
       final bytes = await pickedFile.readAsBytes();
       setState(() {
-        _selectedImage = bytes; 
+        _selectedImage = bytes;
         _imageController.text = 'Selected: ${pickedFile.name}';
         _imageSelected = true;
       });
     } else {
-     
       final file = File(pickedFile.path);
       setState(() {
         _imageFile = file;
-        _selectedImage = file; 
+        _selectedImage = file;
         _imageController.text = pickedFile.path.split('/').last;
         _imageSelected = true;
       });
@@ -203,8 +201,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
         city: cityController.text ?? '',
         phone: phoneController.text ?? '',
         email: emailController.text ?? '',
-        image:
-            kIsWeb ? null : (_selectedImage as File?), 
+        image: kIsWeb ? null : (_selectedImage as File?),
       );
 
       await createDoctor(doctor, _selectedImage, context);
@@ -671,8 +668,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                                   decoration: const InputDecoration(
                                     labelText: 'Ministry of Health',
                                     border: OutlineInputBorder(),
-                                    fillColor: Colors
-                                        .white, // Set input background to white
+                                    fillColor: Colors.white,
                                     filled: true,
                                   ),
                                 ),

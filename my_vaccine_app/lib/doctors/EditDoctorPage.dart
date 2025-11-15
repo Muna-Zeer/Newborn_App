@@ -1,4 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:my_vaccine_app/doctors/DoctorTable.dart';
 import 'package:my_vaccine_app/doctors/doctor.dart';
@@ -35,6 +40,52 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
 
   String? selectedHospital;
   String? selectedMinistry;
+
+  //Images
+  final _picker = ImagePicker();
+  bool _imageSelected = false;
+  TextEditingController _imageController = TextEditingController();
+  String imageString = '';
+  dynamic _selectedImage;
+
+  File? _imageFile;
+
+  Future<void> _selectImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile == null) {
+      setState(() {
+        _imageFile = null;
+        _selectedImage = null;
+        _imageController.text = '';
+        _imageSelected = false;
+      });
+      return;
+    }
+
+    if (kIsWeb) {
+      final bytes = await pickedFile.readAsBytes();
+      setState(() {
+        _selectedImage = bytes;
+        _imageController.text = 'Selected: ${pickedFile.name}';
+        _imageSelected = true;
+      });
+    } else {
+      final file = File(pickedFile.path);
+      setState(() {
+        _imageFile = file;
+        _selectedImage = file;
+        _imageController.text = pickedFile.path.split('/').last;
+        _imageSelected = true;
+      });
+    }
+  }
+
+  String convertIntoBase64(File file) {
+    List<int> imageBytes = file.readAsBytesSync();
+    String base64File = base64Encode(imageBytes);
+    return base64File;
+  }
 
   @override
   void initState() {
@@ -114,14 +165,20 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
           ? _aboutController.text
           : doctorData!.about,
       schedule: _schedule.isNotEmpty ? _schedule : doctorData!.schedule,
-      nurseName: '',
-      midwifeName: '',
-      startTime: '',
-      endTime: '',
-      hospitalName: selectedHospital ?? '',
-      ministryOfHealthName: selectedMinistry ?? '',
-      hospitalId: int.parse(selectedHospital ?? '0'),
-      ministryOfHealthId: int.parse(selectedMinistry ?? '0'),
+      nurseName: doctorData!.nurseName,
+      midwifeName: doctorData!.midwifeName,
+      startTime: doctorData!.startTime,
+      endTime: doctorData!.endTime,
+      hospitalName: selectedHospital ?? doctorData!.hospitalName,
+      ministryOfHealthName:
+          selectedMinistry ?? doctorData!.ministryOfHealthName,
+      hospitalId: selectedHospital != null && selectedHospital!.isNotEmpty
+          ? int.parse(selectedHospital!)
+          : doctorData!.hospitalId,
+      ministryOfHealthId:
+          selectedMinistry != null && selectedMinistry!.isNotEmpty
+              ? int.parse(selectedMinistry!)
+              : doctorData!.ministryOfHealthId,
     );
     try {
       final success =
@@ -154,25 +211,15 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
         throw Error();
       }
     } catch (e) {
-      throw Exception('Error saving doctor data: $e');
       // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error saving doctor data')),
       );
+      throw Exception('Error saving doctor data: $e');
     }
   }
 
-  void _removeScheduleEntry(int index) {
-    setState(() {
-      _schedule.removeAt(index);
-    });
-  }
-
-  void _updateScheduleEntry(int index, String key, String value) {
-    setState(() {
-      _schedule[index][key] = value;
-    });
-  }
+ 
 
   List<Map<String, String>> schedule = [
     {'day': 'Monday', 'start': '', 'end': ''},
@@ -225,10 +272,15 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
     return true;
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Doctor Profile'),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [Text('Doctor Profile')],
+        ),
+        backgroundColor: Colors.lightBlue,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -245,299 +297,439 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                   ),
                 ),
                 const SizedBox(height: 32.0),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Doctor Name',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          errorStyle: TextStyle(color: Colors.red),
+                Container(
+                    constraints: const BoxConstraints(maxWidth: 800),
+                    child: Card(
+                        color: Colors.lightBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the doctor name';
-                          }
-                          return null;
-                        },
-                      ),
+                        child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                        controller: _nameController,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Doctor Name',
+                                          border: OutlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.grey),
+                                          ),
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.blue),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.red),
+                                          ),
+                                          errorStyle:
+                                              TextStyle(color: Colors.red),
+                                        ),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter the doctor name';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16.0),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                        controller: _aboutController,
+                                        decoration: const InputDecoration(
+                                          labelText: 'About Doctor',
+                                          border: OutlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.grey),
+                                          ),
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.blue),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.red),
+                                          ),
+                                          errorStyle:
+                                              TextStyle(color: Colors.red),
+                                        ),
+                                        keyboardType: TextInputType.multiline,
+                                        maxLines: null,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          height: 1.5,
+                                        ),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter some information about the doctor';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: TextFormField(
+                                    controller: _salaryController,
+                                    decoration: const InputDecoration(
+                                      labelText: 'Salary',
+                                      border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.grey),
+                                      ),
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.blue),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.red),
+                                      ),
+                                      errorStyle: TextStyle(color: Colors.red),
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter the salary';
+                                      }
+                                      if (double.tryParse(value) == null) {
+                                        return 'Please enter a valid number for the salary';
+                                      }
+                                      return null;
+                                    },
+                                  )),
+                                  const SizedBox(height: 16.0),
+                                  Expanded(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: TextFormField(
+                                          controller: _specializationController,
+                                          keyboardType: TextInputType.multiline,
+                                          maxLines: null,
+                                          style: const TextStyle(
+                                              fontSize: 16, height: 1.5),
+                                          decoration: const InputDecoration(
+                                            labelText: 'specialization',
+                                            border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.blue),
+                                            ),
+                                            fillColor: Colors.white,
+                                            filled: true,
+                                            errorBorder: OutlineInputBorder(
+                                              borderSide:
+                                                  BorderSide(color: Colors.red),
+                                            ),
+                                            errorStyle:
+                                                TextStyle(color: Colors.red),
+                                          ),
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please enter some information about the doctor';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      )),
+                                ],
+                              ),
+                              const SizedBox(height: 16.0),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: _countryController,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Country',
+                                        border: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.blue),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.red),
+                                        ),
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        errorStyle:
+                                            TextStyle(color: Colors.red),
+                                      ),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter the country name';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16.0),
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: _cityController,
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: null,
+                                      style: const TextStyle(
+                                          fontSize: 16, height: 1.5),
+                                      decoration: const InputDecoration(
+                                        labelText: 'City',
+                                        border: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey),
+                                        ),
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.blue),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.red),
+                                        ),
+                                        errorStyle:
+                                            TextStyle(color: Colors.red),
+                                      ),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter name of the city';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 16.0),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: _phoneController,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Phone of doctor',
+                                        hintText: '(000) 000-0000',
+                                        border: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey),
+                                        ),
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.blue),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.red),
+                                        ),
+                                        errorStyle:
+                                            TextStyle(color: Colors.red),
+                                      ),
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
+                                          return 'Please enter a phone number';
+                                        }
+                                        final phoneRegExp = RegExp(r'^\d{10}$');
+                                        if (!phoneRegExp.hasMatch(value)) {
+                                          return 'Please enter a valid phone number';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16.0),
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: _emailController,
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: null,
+                                      style: const TextStyle(
+                                          fontSize: 16, height: 1.5),
+                                      decoration: const InputDecoration(
+                                        labelText: 'Email',
+                                        hintText: 'doctor@doctor.com',
+                                        border: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey),
+                                        ),
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.blue),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.red),
+                                        ),
+                                        errorStyle:
+                                            TextStyle(color: Colors.red),
+                                      ),
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
+                                          return 'Please enter an email address';
+                                        }
+                                        if (!RegExp(
+                                                r'^[\w\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                            .hasMatch(value)) {
+                                          return 'please enter valid email address';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ])))),
+                SizedBox(
+                  width: 800,
+                  child: Card(
+                    color: Colors.lightBlue,
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    const SizedBox(width: 16.0),
-                    Expanded(
-                      child: TextFormField(
-                        controller: _aboutController,
-                        decoration: const InputDecoration(
-                          labelText: 'About Doctor',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          errorStyle: TextStyle(color: Colors.red),
-                        ),
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          height: 1.5,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some information about the doctor';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _salaryController,
-                        decoration: const InputDecoration(
-                          labelText: 'Salary',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          errorStyle: TextStyle(color: Colors.red),
-                        ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the salary';
-                          }
-                          if (double.tryParse(value) == null) {
-                            return 'Please enter a valid number for the salary';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 16.0),
-                  ],
-                ),
-                const SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Expanded(
-                      child: DropdownButtonFormField<String>(
-                        value: selectedHospital,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedHospital = value!;
-                          });
-                        },
-                        items: hospitals.map((hospital) {
-                          return DropdownMenuItem<String>(
-                            value: hospital['id'].toString(),
-                            child: Text(hospital['name']),
-                          );
-                        }).toList(),
-                        decoration: const InputDecoration(
-                          labelText: 'Hospital',
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: DropdownButtonFormField<String>(
-                        value: selectedMinistry,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedMinistry = value!;
-                          });
-                        },
-                        items: ministriesOfHealth.map((ministry) {
-                          return DropdownMenuItem<String>(
-                            value: ministry['id'].toString(),
-                            child: Text(ministry['name']),
-                          );
-                        }).toList(),
-                        decoration: const InputDecoration(
-                          labelText: 'Ministry of Health',
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: TextFormField(
-                          controller: _specializationController,
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          style: const TextStyle(fontSize: 16, height: 1.5),
-                          decoration: const InputDecoration(
-                            labelText: 'specialization',
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
+                    margin: const EdgeInsets.all(12),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: TextFormField(
+                                controller: _imageController,
+                                decoration: InputDecoration(
+                                  labelText: 'Image Path',
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                              ),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue),
+                          ),
+                          SizedBox(
+                            width: 150,
+                            child: ElevatedButton.icon(
+                              onPressed: _selectImage,
+                              icon: const Icon(Icons.image, size: 20),
+                              label: const Text('Pick Image'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.lightBlue,
+                                foregroundColor: Colors.blueGrey[50],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12),
+                              ),
                             ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red),
-                            ),
-                            errorStyle: TextStyle(color: Colors.red),
                           ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some information about the doctor';
-                            }
-                            return null;
-                          },
-                        ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
-                const SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _countryController,
-                        decoration: const InputDecoration(
-                          labelText: 'Country',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
+                Container(
+                  constraints: const BoxConstraints(maxWidth: 800),
+                  child: Card(
+                    color: Colors.lightBlue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: DropdownButtonFormField<String>(
+                                  value: selectedHospital,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedHospital = value!;
+                                    });
+                                  },
+                                  items: hospitals.map((hospital) {
+                                    return DropdownMenuItem<String>(
+                                      value: hospital['id'].toString(),
+                                      child: Text(hospital['name']),
+                                    );
+                                  }).toList(),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Hospital',
+                                    border: OutlineInputBorder(),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: DropdownButtonFormField<String>(
+                                  value: selectedMinistry,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedMinistry = value!;
+                                    });
+                                  },
+                                  items: ministriesOfHealth.map((ministry) {
+                                    return DropdownMenuItem<String>(
+                                      value: ministry['id'].toString(),
+                                      child: Text(ministry['name']),
+                                    );
+                                  }).toList(),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Ministry of Health',
+                                    border: OutlineInputBorder(),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          errorStyle: TextStyle(color: Colors.red),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the country name';
-                          }
-                          return null;
-                        },
+                        ],
                       ),
                     ),
-                    const SizedBox(width: 16.0),
-                    Expanded(
-                      child: TextFormField(
-                        controller: _cityController,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        style: const TextStyle(fontSize: 16, height: 1.5),
-                        decoration: const InputDecoration(
-                          labelText: 'City',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          errorStyle: TextStyle(color: Colors.red),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter name of the city';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _phoneController,
-                        decoration: const InputDecoration(
-                          labelText: 'Phone of doctor',
-                          hintText: '(000) 000-0000',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          errorStyle: TextStyle(color: Colors.red),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Please enter a phone number';
-                          }
-                          final phoneRegExp = RegExp(r'^\d{10}$');
-                          if (!phoneRegExp.hasMatch(value)) {
-                            return 'Please enter a valid phone number';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 16.0),
-                    Expanded(
-                      child: TextFormField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        style: const TextStyle(fontSize: 16, height: 1.5),
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
-                          hintText: 'doctor@doctor.com',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          errorStyle: TextStyle(color: Colors.red),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Please enter an email address';
-                          }
-                          if (!RegExp(r'^[\w\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                              .hasMatch(value)) {
-                            return 'please enter valid email address';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
                 const SizedBox(height: 16.0),
                 const Center(

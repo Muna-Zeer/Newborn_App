@@ -375,19 +375,15 @@ class DoctorController extends Controller
      */
     public function edit(string $id)
     {
-        // Retrieve the doctor record by ID
         $doctor = doctor::find($id);
 
-        // Check if the record exists
         if (!$doctor) {
-            // If the doctor record doesn't exist, return an error message
             return response()->json([
                 'status' => 'error',
                 'message' => 'doctor id record not found',
             ], 404);
         }
 
-        // If the record exists, return the record data in JSON format with a success message
         return response()->json([
             'status' => 'success',
             'message' => 'doctor id record found',
@@ -395,89 +391,66 @@ class DoctorController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        // Validate the request data
-        $validator = Validator::make($request->all(), [
-            'name' => 'nullable|string',
-            'salary' => 'nullable|string',
-            'country' => 'nullable|string',
-            'city' => 'nullable|string',
-            'phone' => 'nullable|string',
-            'email' => 'nullable|string',
-            'specialization' => 'nullable|string',
-            'ministry_of_health_id' => 'nullable|exists:ministryofhealths',
-            'hospital_id' => 'nullable|exists:hospitals,id',
-            'about' => 'nullable|string',
-            // 'schedule' => 'nullable|array',
-            'schedule.*.day' => 'required|string',
-            'schedule.*.start' => 'nullable|string',
-            'schedule.*.end' => 'nullable|string',
-            'image' => 'nullable|image|max:2048'
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+public function update(Request $request, $id)
+{
+    $data = $request->validate([
+        'name' => 'nullable|string',
+        'salary' => 'nullable|string',
+        'country' => 'nullable|string',
+        'city' => 'nullable|string',
+        'phone' => 'nullable|string',
+        'email' => 'nullable|string',
+        'specialization' => 'nullable|string',
+        'about' => 'nullable|string',
+        'schedule' => 'nullable|array',
+        'image' => 'nullable',
+        'ministry_of_health_id' => 'nullable|exists:ministryofhealths,id',
+        'hospital_id' => 'nullable|exists:hospitals,id',
+    ]);
+
+    $doctor = Doctor::findOrFail($id);
+
+
+    foreach (['name','salary','about','country','city','email','phone','specialization'] as $field) {
+        if ($request->has($field)) {
+            $doctor->$field = $request->$field;
         }
-
-        $doctor = Doctor::findOrFail($id);
-
-        $doctor->name = $request->input('name');
-        $doctor->salary = $request->input('salary');
-        $doctor->about = $request->input('about');
-        $doctor->country = $request->input('country');
-        $doctor->city = $request->input('city');
-        $doctor->email = $request->input('email');
-        $doctor->phone = $request->input('phone');
-        $doctor->specialization = $request->input('specialization');
-        // Update related entities
-        $hospitalId = $request->input('hospital_id');
-        if ($hospitalId) {
-            $hospital = Hospital::find($hospitalId);
-            if (!$hospital) {
-                $hospital = new Hospital();
-                $hospital->name = $request->input('hospitalName');
-                $hospital->save();
-            }
-            $doctor->hospital_id = $hospital->id;
-        } else {
-            $doctor->hospital_id = null; // Handle the case when hospital_id is not provided
-        }
-        $ministry_of_health_id = $request->input('ministry_of_health_id');
-        if ($ministry_of_health_id) {
-            $ministry = MinistryOfHealth::find($ministry_of_health_id);
-            if (!$ministry) {
-                $ministry = new MinistryOfHealth();
-                $ministry->name = $request->input('ministryName');
-                $ministry->save();
-            }
-            $doctor->ministry_of_health_id = $ministry->id;
-        } else {
-            $doctor->ministry_of_health_id = null; // Handle the case when ministry_of_health_id is not provided
-        }
-
-        // Update schedule
-        $schedule = $request->input('schedule');
-        if ($schedule) {
-            $doctor->schedule = $schedule;
-        }
-
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
-            $doctor->image = $imageName;
-        }
-
-        $doctor->save();
-
-        // Assuming you have a response structure for successful updates, you can return a success response here
-        return response()->json(['message' => 'Doctor updated successfully']);
     }
+
+    foreach (['ministry_of_health_id' => MinistryOfHealth::class, 'hospital_id' => Hospital::class] as $key => $model) {
+        if ($request->filled($key)) {
+            $instance = $model::find($request->$key);
+            if (!$instance && $request->filled(str_replace('_id', 'Name', $key))) {
+                $instance = $model::create(['name' => $request->{str_replace('_id', 'Name', $key)}]);
+            }
+            if ($instance) $doctor->$key = $instance->id;
+        }
+    }
+
+    if ($request->filled('schedule')) {
+        $doctor->schedule = collect($request->schedule)->mapWithKeys(fn($v) => [
+            $v['day'] => ['startTime' => $v['start'], 'endTime' => $v['end']]
+        ])->toArray();
+    }
+
+
+  if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $path = $image->storeAs('public/images/doctors', $filename);
+            $doctor->image = $filename;
+            $doctor->save();
+        }
+
+    $doctor->save();
+
+    return response()->json([
+        'message' => 'Doctor updated successfully',
+        'doctor' => $doctor
+    ], 200);
+}
+
 
 
 

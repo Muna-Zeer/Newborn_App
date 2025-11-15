@@ -103,17 +103,17 @@ class _DoctorTableState extends State<DoctorPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Edit Doctor'),
-            content: Text('Are you sure you want to edit this doctor record?'),
+            title:const Text('Edit Doctor'),
+            content:const Text('Are you sure you want to edit this doctor record?'),
             actions: <Widget>[
               TextButton(
-                child: Text('Cancel'),
+                child:const Text('Cancel'),
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
               ),
               TextButton(
-                child: Text('Edit'),
+                child:const Text('Edit'),
                 onPressed: () async {
                   bool success = await editDoctor(doctor.id, context);
                   Navigator.of(context).pop(success);
@@ -135,18 +135,18 @@ class _DoctorTableState extends State<DoctorPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Confirm Delete'),
+            title:const Text('Confirm Delete'),
             content:
-                Text('Are you sure you want to delete this doctor record?'),
+            const    Text('Are you sure you want to delete this doctor record?'),
             actions: <Widget>[
               TextButton(
-                child: Text('Cancel'),
+                child:const Text('Cancel'),
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
               ),
               TextButton(
-                child: Text('Delete'),
+                child:const Text('Delete'),
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
@@ -169,11 +169,11 @@ class _DoctorTableState extends State<DoctorPage> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Success'),
-                content: Text('The doctor record has been deleted.'),
+                title:const Text('Success'),
+                content:const Text('The doctor record has been deleted.'),
                 actions: <Widget>[
                   TextButton(
-                    child: Text('OK'),
+                    child:const Text('OK'),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -183,26 +183,26 @@ class _DoctorTableState extends State<DoctorPage> {
             },
           );
         } catch (e) {
-          print('Error deleting doctor record: $e');
+          throw Exception('Error deleting doctor record: $e');
         }
       }
     }
   }
 
   Widget build(BuildContext context) {
-    Text(
+   const Text(
       'Doctor List',
       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
     );
     return Material(
       child: Padding(
-        padding: EdgeInsets.all(45), // Adjust the margin values as needed
+        padding:const EdgeInsets.all(45), // Adjust the margin values as needed
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(color: Colors.blue),
           ),
           child: Column(children: [
-            SizedBox(height: 10),
+          const  SizedBox(height: 10),
             Flexible(
               child: ListView(shrinkWrap: true, children: [
                 SingleChildScrollView(
@@ -211,14 +211,14 @@ class _DoctorTableState extends State<DoctorPage> {
                     columns: [
                       DataColumn(
                         label: Container(
-                          decoration: BoxDecoration(
+                          decoration:const BoxDecoration(
                             border: Border(
                               bottom: BorderSide(color: Colors.blue),
                             ),
                           ),
                           child: Row(
                             children: [
-                              Text(
+                         const     Text(
                                 'ID',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
@@ -239,14 +239,14 @@ class _DoctorTableState extends State<DoctorPage> {
                       ),
                       DataColumn(
                         label: Container(
-                          decoration: BoxDecoration(
+                          decoration:const BoxDecoration(
                             border: Border(
                               bottom: BorderSide(color: Colors.blue),
                             ),
                           ),
                           child: Row(
                             children: [
-                              Text(
+                       const       Text(
                                 'Name',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
@@ -404,9 +404,9 @@ class _DoctorTableState extends State<DoctorPage> {
                               hintText: 'Search',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(),
+                                borderSide: const BorderSide(),
                               ),
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding:const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 20),
                               isCollapsed: true,
                             ),
@@ -442,13 +442,13 @@ class _DoctorTableState extends State<DoctorPage> {
                             },
                           ),
                         ),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
+                   const     DataCell(Text('')),
+                   const     DataCell(Text('')),
+                    const    DataCell(Text('')),
+                     const   DataCell(Text('')),
+                    const    DataCell(Text('')),
+                     const   DataCell(Text('')),
+                     const   DataCell(Text('')),
                         // DataCell(Text('')),
                       ]),
                       for (var doctor in getCurrentPageItems())
@@ -465,14 +465,14 @@ class _DoctorTableState extends State<DoctorPage> {
                             Row(
                               children: [
                                 IconButton(
-                                  icon: Icon(Icons.edit),
+                                  icon:const Icon(Icons.edit),
                                   onPressed: () {
                                     // Perform the edit action
                                     performAction(context, doctor, 'edit');
                                   },
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.visibility),
+                                  icon:const Icon(Icons.visibility),
                                   onPressed: () {
                                     // Perform the view action
                                     performAction(context, doctor, 'view');
@@ -482,13 +482,13 @@ class _DoctorTableState extends State<DoctorPage> {
                                   onPressed: () async {
                                     performAction(context, doctor, 'delete');
                                   },
-                                  icon: Icon(Icons.delete),
+                                  icon:const Icon(Icons.delete),
                                 ),
                               ],
                             ),
                           ),
                         ]),
-                      DataRow(cells: [
+                   const   DataRow(cells: [
                         DataCell(Text('')),
                         DataCell(Text('')),
                         DataCell(Text('')),
@@ -500,12 +500,12 @@ class _DoctorTableState extends State<DoctorPage> {
                         // DataCell(Text('')),
                       ]),
                       DataRow(cells: [
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
+                     const    DataCell(Text('')),
+                     const   DataCell(Text('')),
+                      const  DataCell(Text('')),
+                       const DataCell(Text('')),
+                  const      DataCell(Text('')),
+                    const    DataCell(Text('')),
                         // DataCell(Text('')),
                         DataCell(
                           Row(

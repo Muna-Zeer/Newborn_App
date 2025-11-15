@@ -34,7 +34,50 @@ class _ViewDoctorPageState extends State<ViewDoctorPage> {
         await http.get(Uri.parse('$baseUrl/allDoctors/${widget.doctor.id}'));
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
-      setState(() => _schedule = jsonData['data']['schedule'] ?? {});
+      dynamic scheduleData = jsonData['data']['schedule'];
+
+      // Handle null or empty string
+      if (scheduleData == null || scheduleData == '' || scheduleData == '[]') {
+        scheduleData = <String, dynamic>{};
+      } else if (scheduleData is String) {
+        try {
+          final decoded = jsonDecode(scheduleData);
+          if (decoded is Map) {
+            scheduleData = Map<String, dynamic>.from(decoded);
+          } else if (decoded is List) {
+            // Convert list to a map by index or 'day' key
+            final Map<String, dynamic> formatted = {};
+            for (var item in decoded) {
+              if (item is Map && item.containsKey('day')) {
+                formatted[item['day']] = {
+                  'startTime': item['start'] ?? '',
+                  'endTime': item['end'] ?? '',
+                };
+              }
+            }
+            scheduleData = formatted;
+          } else {
+            scheduleData = <String, dynamic>{};
+          }
+        } catch (_) {
+          scheduleData = <String, dynamic>{};
+        }
+      } else if (scheduleData is List) {
+        final Map<String, dynamic> formatted = {};
+        for (var item in scheduleData) {
+          if (item is Map && item.containsKey('day')) {
+            formatted[item['day']] = {
+              'startTime': item['start'] ?? '',
+              'endTime': item['end'] ?? '',
+            };
+          }
+        }
+        scheduleData = formatted;
+      } else if (scheduleData is Map) {
+        scheduleData = Map<String, dynamic>.from(scheduleData);
+      }
+
+      setState(() => _schedule = scheduleData as Map<String, dynamic>);
     } else {
       throw Exception('Failed to fetch schedule');
     }
@@ -144,7 +187,7 @@ class _ViewDoctorPageState extends State<ViewDoctorPage> {
                                               .toString()
                                               .isNotEmpty)
                                       ? NetworkImage(
-                                          '$baseUrl/doctor-image/${_doctor['image']}')
+                                          '$baseUrl/storage/images/doctors/${_doctor['image']}')
                                       : null,
                                   child: (_doctor['image'] == null ||
                                           _doctor['image'].toString().isEmpty)
@@ -172,17 +215,20 @@ class _ViewDoctorPageState extends State<ViewDoctorPage> {
                                 const SizedBox(height: 20),
                                 const Divider(height: 20, thickness: 1),
                                 const SizedBox(height: 12),
-                                _buildInfoRow(Icons.email, _doctor['email']),
-                                _buildInfoRow(Icons.phone, _doctor['phone']),
                                 _buildInfoRow(
-                                    Icons.location_city, _doctor['city']),
-                                _buildInfoRow(Icons.public, _doctor['country']),
+                                    Icons.email, _doctor['email'] ?? 'N/A'),
+                                _buildInfoRow(
+                                    Icons.phone, _doctor['phone'] ?? 'N/A'),
+                                _buildInfoRow(Icons.location_city,
+                                    _doctor['city'] ?? 'N/A'),
+                                _buildInfoRow(
+                                    Icons.public, _doctor['country'] ?? 'N/A'),
                                 _buildInfoRow(Icons.local_hospital,
-                                    'Hospital: $_hospitalName'),
+                                    'Hospital: ${_hospitalName ?? "Unknown"}'),
                                 _buildInfoRow(Icons.apartment,
-                                    'Ministry: $_ministryOfHealthName'),
+                                    'Ministry: ${_ministryOfHealthName ?? "Unknown"}'),
                                 _buildInfoRow(Icons.attach_money,
-                                    'Salary: ${_doctor['salary']}'),
+                                    'Salary: ${_doctor['salary'] ?? 'N/A'}'),
                               ],
                             ),
                           ),
