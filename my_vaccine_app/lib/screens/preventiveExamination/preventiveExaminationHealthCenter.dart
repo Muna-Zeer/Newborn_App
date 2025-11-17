@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 import 'package:my_vaccine_app/apiServer.dart';
+import 'package:my_vaccine_app/widget/RtlFormBox.dart';
 
 class PreventiveExaminationCenter extends StatefulWidget {
   @override
@@ -98,11 +99,11 @@ class _PreventiveExaminationCenterState
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Error'),
-              content: Text('An error occurred.'),
+              title: const Text('Error'),
+              content: const Text('An error occurred.'),
               actions: <Widget>[
                 TextButton(
-                  child: Text('OK'),
+                  child:const  Text('OK'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -132,39 +133,27 @@ class _PreventiveExaminationCenterState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('اضافة الفحوصات الوقائية'),
+        title:const Text('اضافة الفحوصات الوقائية'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding:const  EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: <Widget>[
-              SizedBox(height: 8.0),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'نوع الفحص',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              TextFormField(
-                controller: _examTypeController,
-                decoration: InputDecoration(
-                  alignLabelWithHint: true,
-                ),
-                textAlign: TextAlign.right,
+           const   SizedBox(height: 8.0),
+           RtlFormBox(
+                label:    'اسم الفحص الوقائي',
+                controller:_examTypeController  ,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter an exam type';
+                    return "Please enter the exam type";
                   }
                   return null;
                 },
               ),
-              SizedBox(height: 8.0),
-              Align(
+           const    SizedBox(height: 8.0),
+          const     Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 8.0),
@@ -173,7 +162,7 @@ class _PreventiveExaminationCenterState
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   )),
-              SizedBox(height: 8.0),
+        const      SizedBox(height: 8.0),
               TextFormField(
                 controller: _dateController,
                 textAlign: TextAlign.right,
@@ -199,8 +188,8 @@ class _PreventiveExaminationCenterState
                   }
                 },
               ),
-              SizedBox(height: 8.0),
-              Align(
+      const        SizedBox(height: 8.0),
+       const       Align(
                 alignment: Alignment.centerRight,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 8.0),
@@ -230,115 +219,63 @@ class _PreventiveExaminationCenterState
                   return null;
                 },
               ),
-              SizedBox(height: 8.0),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 4.0),
-                  child: Text(
-                    'النتيجة',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-              TextFormField(
-                controller: _resultController,
-                textAlign: TextAlign.right,
+        const       SizedBox(height: 8.0),
+              RtlFormBox(
+                label:   'النتيجة',
+                controller:_resultController  ,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a result';
+                    return "Please enter the result";
                   }
                   return null;
                 },
               ),
-              SizedBox(height: 8.0),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    'رقم هوية الطفل',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-              TextFormField(
-                controller: _newbornIdController,
-                textAlign: TextAlign.right,
-                keyboardType: TextInputType.number,
+            const   SizedBox(height: 8.0),
+               RtlFormBox(
+                label:     'رقم هوية الطفل',
+                controller:_newbornIdController  ,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a newborn ID';
+                    return "Please enter the newborn ID";
                   }
                   return null;
                 },
               ),
-              SizedBox(height: 8.0),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    ' رقم المركز الصحة',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-              TextFormField(
-                controller: _healthCenterIdController,
-                textAlign: TextAlign.right,
-                keyboardType: TextInputType.number,
+           const    SizedBox(height: 8.0),
+              RtlFormBox(
+                label:    ' رقم المركز الصحة',
+                controller:_healthCenterIdController  ,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a health center ID';
+                    return "Please enter the health center ID";
                   }
                   return null;
                 },
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    'وزارة الصحة 1',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-              TextFormField(
-                controller: _ministryIdController,
-                keyboardType: TextInputType.number,
+              RtlFormBox(
+                label:      'وزارة الصحة 1',
+                controller:_ministryIdController ,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a ministry ID';
+                    return "Please enter the ministry ID";
                   }
                   return null;
                 },
               ),
-              SizedBox(height: 8.0),
-              SizedBox(height: 8.0),
-              SizedBox(height: 8.0),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    'اسم الممرضة',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-              TextFormField(
-                controller: _nurseIdController,
-                keyboardType: TextInputType.number,
+         const     SizedBox(height: 8.0),
+           const   SizedBox(height: 8.0),
+          const     SizedBox(height: 8.0),
+               RtlFormBox(
+                label:    'اسم الممرضة',
+                controller:_nurseIdController  ,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a nurse ID';
+                    return "Please enter the nurse nme";
                   }
                   return null;
                 },
               ),
-              SizedBox(height: 8.0),
+           const   SizedBox(height: 8.0),
               ElevatedButton(
                 child: Text('ارسال'),
                 onPressed: submitForm,

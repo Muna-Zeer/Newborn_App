@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_vaccine_app/screens/preventiveExamination/preventiveExamintationTable.dart';
+import 'package:my_vaccine_app/widget/RtlFormBox.dart';
 
 class preventiveExamEdit extends StatefulWidget {
   final int examinationId;
@@ -49,8 +50,7 @@ class _prevExaminationState extends State<preventiveExamEdit> {
           time: selectedDateTime,
           result: _resultController.text,
           newbornId: _newbornIdController.text,
-          nurseId: int.tryParse(_nurseIdController.text) ??
-              0,
+          nurseId: int.tryParse(_nurseIdController.text) ?? 0,
         );
         print(updatedPrevExam);
 
@@ -62,7 +62,6 @@ class _prevExaminationState extends State<preventiveExamEdit> {
 
         await updatePrevExam(updatedPrevExam);
       } catch (e) {
-      
         print("Error creating PreventiveExamination: $e");
       }
     }
@@ -118,7 +117,7 @@ class _prevExaminationState extends State<preventiveExamEdit> {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
                         'تم التحديث بنجاح',
@@ -129,11 +128,11 @@ class _prevExaminationState extends State<preventiveExamEdit> {
                             color: Colors.green),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8.0,
                     ),
                     TextButton(
-                      child: Text(
+                      child: const Text(
                         'OK',
                         style: TextStyle(color: Colors.blue),
                       ),
@@ -175,7 +174,7 @@ class _prevExaminationState extends State<preventiveExamEdit> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      Padding(
+                      const Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
                           'خطا',
@@ -186,7 +185,7 @@ class _prevExaminationState extends State<preventiveExamEdit> {
                           ),
                         ),
                       ),
-                      Padding(
+                      const Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
                           'لم يتم التحديث',
@@ -197,11 +196,11 @@ class _prevExaminationState extends State<preventiveExamEdit> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8.0,
                       ),
                       TextButton(
-                        child: Text(
+                        child: const Text(
                           'OK',
                           style: TextStyle(color: Colors.green),
                         ),
@@ -225,7 +224,7 @@ class _prevExaminationState extends State<preventiveExamEdit> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
-        title: Row(
+        title: const Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
@@ -235,7 +234,7 @@ class _prevExaminationState extends State<preventiveExamEdit> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -250,7 +249,20 @@ class _prevExaminationState extends State<preventiveExamEdit> {
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
+                height: 16.0,
+              ),
+              RtlFormBox(
+                label: 'اسم الفحص الوقائي',
+                controller: _examTypeController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the exam type";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
                 height: 16.0,
               ),
               Container(
@@ -269,47 +281,7 @@ class _prevExaminationState extends State<preventiveExamEdit> {
                             offset: Offset(0, 3)),
                       ]),
                   child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'نوع الفحص ',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: _examTypeController,
-                      textAlign: TextAlign.right,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter an exam type';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
-              SizedBox(
-                height: 16.0,
-              ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3)),
-                      ]),
-                  child: Column(children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
@@ -344,7 +316,7 @@ class _prevExaminationState extends State<preventiveExamEdit> {
                       },
                     ),
                   ])),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
               Container(
@@ -363,7 +335,7 @@ class _prevExaminationState extends State<preventiveExamEdit> {
                             offset: Offset(0, 3)),
                       ]),
                   child: Column(children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
@@ -389,7 +361,6 @@ class _prevExaminationState extends State<preventiveExamEdit> {
                               "${selectedTime.hour}:${selectedTime.minute}";
                           _timeController.text = formattedTime;
 
-                          // Optionally, you can also update the _selectedTime variable
                           setState(() {
                             _selectedTime = selectedTime;
                           });
@@ -403,87 +374,33 @@ class _prevExaminationState extends State<preventiveExamEdit> {
                       },
                     ),
                   ])),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3)),
-                      ]),
-                  child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'النتيجة',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: _resultController,
-                      // keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a ministry ID';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
-              SizedBox(
+              RtlFormBox(
+                label: 'النتيجة',
+                controller: _resultController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the result";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
                 height: 16.0,
               ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3)),
-                      ]),
-                  child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'رقم وزارة الصحة ',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: _ministryIdController,
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a ministry ID';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
-              SizedBox(
+              RtlFormBox(
+                label: 'رقم وزارة الصحة ',
+                controller: _ministryIdController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the ministry ID";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
                 height: 16.0,
               ),
               Row(children: [
