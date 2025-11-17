@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 
 class FormFieldWidget extends StatelessWidget {
   final String label;
+  final String? hintText;
   final TextEditingController controller;
-  final String hintText;
   final bool readOnly;
   final Widget? suffixIcon;
-  final TextInputType? keyboardType;
+  final TextInputType keyboardType;
   final String? Function(String?)? validator;
-  final Function()? onTap;
+  final VoidCallback? onTap;
 
-  FormFieldWidget({
+  const FormFieldWidget({
+    super.key,
     required this.label,
     required this.controller,
-    required this.hintText,
+    this.hintText,
     this.readOnly = false,
     this.suffixIcon,
-    this.onTap,
     this.validator,
+    this.onTap,
     this.keyboardType = TextInputType.text,
   });
 
@@ -26,19 +27,43 @@ class FormFieldWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 14)),
-        SizedBox(height: 8),
+        Text(label, style: const TextStyle(fontSize: 14)),
+        const SizedBox(height: 8),
         TextFormField(
           controller: controller,
           readOnly: readOnly,
-          onTap: onTap,
-          validator: validator,
           keyboardType: keyboardType,
+          validator: validator,
+          onTap: onTap,
           decoration: InputDecoration(
             hintText: hintText,
             suffixIcon: suffixIcon,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-            contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+            filled: true,
+            fillColor: Colors.white,
+
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.grey),
+              borderRadius: BorderRadius.circular(12),
+            ),
+
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.blue),
+              borderRadius: BorderRadius.circular(12),
+            ),
+
+            errorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.red),
+              borderRadius: BorderRadius.circular(12),
+            ),
+
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.red),
+              borderRadius: BorderRadius.circular(12),
+            ),
+
+            errorStyle: const TextStyle(color: Colors.red),
+            contentPadding: const EdgeInsets.symmetric(
+                vertical: 12, horizontal: 12),
           ),
         ),
       ],
