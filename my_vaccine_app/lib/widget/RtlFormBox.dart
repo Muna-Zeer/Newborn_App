@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class RtlFormBox extends StatelessWidget {
   final String label;
   final TextEditingController controller;
-  final String hintText;
+  final String? hintText;
   final String? Function(String?)? validator;
   final TextInputType keyboardType;
   final bool readOnly;
@@ -14,7 +14,7 @@ class RtlFormBox extends StatelessWidget {
     super.key,
     required this.label,
     required this.controller,
-    required this.hintText,
+     this.hintText,
     this.validator,
     this.keyboardType = TextInputType.text,
     this.readOnly = false,

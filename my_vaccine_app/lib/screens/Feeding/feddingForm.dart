@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:my_vaccine_app/Alert_Dialog/feedingAlert.dart';
 import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/Feeding/feedingTable.dart';
+import 'package:my_vaccine_app/widget/RtlFormBox.dart';
 
 class FeedingForm extends StatefulWidget {
   @override
@@ -96,85 +97,31 @@ class _FeedingFormState extends State<FeedingForm> {
               const SizedBox(
                 height: 8.0,
               ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(16.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3))
-                      ]),
-                  child: Column(children: [
-                    const Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'نوع الطعام',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: feedingTypeController,
-                      textAlign: TextAlign.right,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter the feeding type';
-                        }
-                        return null;
-                      },
-                    ),
-                  ]))
-                  ,
+              RtlFormBox(
+                label: "نوع الطعام",
+                hintText: "اكتب نوع الطعام",
+                controller: feedingTypeController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the feeding type";
+                  }
+                  return null;
+                },
+              ),
               const SizedBox(
                 height: 16.0,
               ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(16.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3))
-                      ]),
-                  child: Column(children: [
-                    const Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'الكمية',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: quantityController,
-                      textAlign: TextAlign.right,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter the quantity';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])
-                  ),
+              RtlFormBox(
+                label: 'الكمية',
+                hintText: " ادخل الكمية المطلوبة ",
+                controller:quantityController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the feeding quantity";
+                  }
+                  return null;
+                },
+              ),
               const SizedBox(
                 height: 16.0,
               ),
@@ -241,123 +188,43 @@ class _FeedingFormState extends State<FeedingForm> {
               const SizedBox(
                 height: 16.0,
               ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(16.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3))
-                      ]),
-                  child: Column(children: [
-                    const Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'الشهر',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: monthController,
-                      textAlign: TextAlign.right,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter the month';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
+              RtlFormBox(
+                label: 'الشهر',
+                hintText: "الشهر السادس",
+                controller: monthController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the month";
+                  }
+                  return null;
+                },
+              ),
               const SizedBox(
                 height: 16.0,
               ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(16.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3))
-                      ]),
-                  child: Column(children: [
-                    const Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'التعليمات',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: instructionsController,
-                      textAlign: TextAlign.right,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter the instructions';
-                        }
-                        return null;
-                      },
-                    )
-                  ])),
+              RtlFormBox(
+                label: 'التعليمات',
+                controller: instructionsController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the instruction";
+                  }
+                  return null;
+                },
+              ),
               const SizedBox(
                 height: 16.0,
               ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(16.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3))
-                      ]),
-                  child: Column(children: [
-                    const Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'وزارة الصحة1',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: ministryIdController,
-                      textAlign: TextAlign.right,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter the ministry ID';
-                        }
-                        return null;
-                      },
-                    )
-                  ])),
+              RtlFormBox(
+                label: 'وزارة الصحة1',
+                controller: ministryIdController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the ministry ID";
+                  }
+                  return null;
+                },
+              ),
               const SizedBox(height: 16.0),
               Row(children: [
                 Expanded(
