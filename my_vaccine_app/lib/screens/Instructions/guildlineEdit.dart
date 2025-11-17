@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/Instructions/guildlineClass.dart';
 import 'package:my_vaccine_app/screens/Instructions/guildlineTable.dart';
+import 'package:my_vaccine_app/widget/RtlFormBox.dart';
 
 class GuidelineEdit extends StatefulWidget {
   final int GuidelineId;
@@ -87,7 +88,7 @@ class _GuidelineEditState extends State<GuidelineEdit> {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    Padding(
+                const    Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
                         'تم التحديث بنجاح',
@@ -98,11 +99,11 @@ class _GuidelineEditState extends State<GuidelineEdit> {
                             color: Colors.green),
                       ),
                     ),
-                    SizedBox(
+                const    SizedBox(
                       height: 8.0,
                     ),
                     TextButton(
-                      child: Text(
+                      child:const Text(
                         'OK',
                         style: TextStyle(color: Colors.blue),
                       ),
@@ -144,7 +145,7 @@ class _GuidelineEditState extends State<GuidelineEdit> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      Padding(
+                  const    Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
                           'خطا',
@@ -155,7 +156,7 @@ class _GuidelineEditState extends State<GuidelineEdit> {
                           ),
                         ),
                       ),
-                      Padding(
+                 const     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
                           'لم يتم التحديث',
@@ -166,11 +167,11 @@ class _GuidelineEditState extends State<GuidelineEdit> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                 const     SizedBox(
                         height: 8.0,
                       ),
                       TextButton(
-                        child: Text(
+                        child:const Text(
                           'OK',
                           style: TextStyle(color: Colors.green),
                         ),
@@ -194,7 +195,7 @@ class _GuidelineEditState extends State<GuidelineEdit> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
-        title: Row(
+        title: const Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
@@ -214,175 +215,54 @@ class _GuidelineEditState extends State<GuidelineEdit> {
                 width: 300.0,
                 height: 200.0,
               ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2.0,
-                      color: const Color.fromARGB(255, 2, 31, 54),
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2.0,
-                        blurRadius: 5.0,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'اسم التطعيم',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: vaccineNameController,
-                      textDirection: TextDirection.rtl,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter the Vaccine Name';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
-              SizedBox(height: 8.0),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2.0,
-                      color: const Color.fromARGB(255, 2, 31, 54),
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2.0,
-                          blurRadius: 5.0,
-                          offset: Offset(0, 3)),
-                    ],
-                  ),
-                  child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'الاثارالجانبية',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: sideEffectsController,
-                      textAlign: TextAlign.right,
-                      textDirection: TextDirection.rtl,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter the Side Effect';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
-              SizedBox(
+              RtlFormBox(
+                label: ' اسم التطعيم',
+                controller: vaccineNameController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the vaccine name";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 8.0),
+              RtlFormBox(
+                label: 'الاثارالجانبية',
+                controller: sideEffectsController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the side Effect";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
                 height: 8.0,
               ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2.0,
-                      color: const Color.fromARGB(255, 2, 31, 54),
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        blurRadius: 5.0,
-                        spreadRadius: 2.0,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: 8.0),
-                          child: Text(
-                            'التعليمات الصحية',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      TextFormField(
-                        controller: careInstructionsController,
-                        textDirection: TextDirection.rtl,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter the care Instruction';
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
-                  )),
-              SizedBox(
+              RtlFormBox(
+                label: 'التعليمات الصحية',
+                controller: careInstructionsController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the instruction";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
                 height: 8.0,
               ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2.0,
-                      color: const Color.fromARGB(255, 2, 31, 54),
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        blurRadius: 5.0,
-                        spreadRadius: 2.0,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: 8.0),
-                          child: Text(
-                            'طريقةالوفاية',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      TextFormField(
-                        controller: preventionMethodController,
-                        textAlign: TextAlign.right,
-                        textDirection: TextDirection.rtl,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter the prevent Method';
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
-                  )),
-              SizedBox(
+              RtlFormBox(
+                label: 'طريقةالوفاية',
+                controller: preventionMethodController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the preventive method";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
                 height: 16.0,
               ),
               Row(children: [
@@ -394,7 +274,7 @@ class _GuidelineEditState extends State<GuidelineEdit> {
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>((Colors.lightBlue))),
-                  child: Text(
+                  child: const Text(
                     'تحديث',
                     style: TextStyle(
                       color: Colors.white,
@@ -415,7 +295,7 @@ class _GuidelineEditState extends State<GuidelineEdit> {
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.lightBlue)),
-                    child: Text(
+                    child: const Text(
                       'مشاهدة الجدول',
                       style: TextStyle(
                         color: Colors.white,

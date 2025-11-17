@@ -222,7 +222,7 @@ class _FeedingEditState extends State<FeedingEdit> {
               const SizedBox(height: 16.0),
               RtlFormBox(
                 label: 'رقم  الصحة',
-                controller: monthController,
+                controller: ministryIdController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please enter the ministry ID";

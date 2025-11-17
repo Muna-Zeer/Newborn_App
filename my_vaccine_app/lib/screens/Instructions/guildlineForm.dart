@@ -58,7 +58,7 @@ class _GuildlineFormState extends State<GuildlineForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
-        title: Row(
+        title:const Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Icon(
