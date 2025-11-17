@@ -132,7 +132,8 @@ class _FeedingFormState extends State<FeedingForm> {
                         return null;
                       },
                     ),
-                  ])),
+                  ]))
+                  ,
               const SizedBox(
                 height: 16.0,
               ),
@@ -172,7 +173,8 @@ class _FeedingFormState extends State<FeedingForm> {
                         return null;
                       },
                     ),
-                  ])),
+                  ])
+                  ),
               const SizedBox(
                 height: 16.0,
               ),

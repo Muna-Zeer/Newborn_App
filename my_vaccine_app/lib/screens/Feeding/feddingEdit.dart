@@ -113,7 +113,7 @@ class _FeedingEditState extends State<FeedingEdit> {
                   ),
                 ),
               ),
-              SizedBox(
+           const   SizedBox(
                 height: 16.0,
               ),
               Container(
@@ -132,7 +132,7 @@ class _FeedingEditState extends State<FeedingEdit> {
                           offset: Offset(0, 3)),
                     ]),
                 child: Column(children: [
-                  Align(
+             const     Align(
                     alignment: Alignment.centerRight,
                     child: Padding(
                       padding: EdgeInsets.only(bottom: 8.0),
@@ -153,7 +153,7 @@ class _FeedingEditState extends State<FeedingEdit> {
                   ),
                 ]),
               ),
-              SizedBox(
+          const    SizedBox(
                 height: 16.0,
               ),
               Container(
@@ -197,7 +197,9 @@ class _FeedingEditState extends State<FeedingEdit> {
                         return null;
                       },
                     ),
-                  ])),
+                  ]
+                  )
+                  ),
               SizedBox(
                 height: 16.0,
               ),
