@@ -8,6 +8,7 @@ import 'package:my_vaccine_app/Alert_Dialog/feedingAlert.dart';
 import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/Feeding/feddingClass.dart';
 import 'package:my_vaccine_app/screens/Feeding/feedingTable.dart';
+import 'package:my_vaccine_app/widget/RtlFormBox.dart';
 
 class FeedingEdit extends StatefulWidget {
   final int feedingId;
@@ -113,47 +114,33 @@ class _FeedingEditState extends State<FeedingEdit> {
                   ),
                 ),
               ),
-           const   SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
-              Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2.0,
-                      color: const Color.fromARGB(255, 2, 31, 54),
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2.0,
-                          blurRadius: 5.0,
-                          offset: Offset(0, 3)),
-                    ]),
-                child: Column(children: [
-             const     Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 8.0),
-                      child: Text(
-                        ' نوع الغذاء',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    controller: feedingTypeController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter the feeding type';
-                      }
-                      return null;
-                    },
-                  ),
-                ]),
+              RtlFormBox(
+                label: ' نوع الغذاء',
+                controller: feedingTypeController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the feeding type";
+                  }
+                  return null;
+                },
               ),
-          const    SizedBox(
+              const SizedBox(
+                height: 16.0,
+              ),
+              RtlFormBox(
+                label: ' الكمية',
+                controller: quantityController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the quantity";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
                 height: 16.0,
               ),
               Container(
@@ -172,54 +159,7 @@ class _FeedingEditState extends State<FeedingEdit> {
                             offset: Offset(0, 3)),
                       ]),
                   child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          ' الكمية',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      textAlign: TextAlign.right,
-                      controller: quantityController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: '0.0',
-                      ),
-                      // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter the quantity';
-                        }
-                        return null;
-                      },
-                    ),
-                  ]
-                  )
-                  ),
-              SizedBox(
-                height: 16.0,
-              ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3)),
-                      ]),
-                  child: Column(children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
@@ -253,123 +193,44 @@ class _FeedingEditState extends State<FeedingEdit> {
                       },
                     ),
                   ])),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
-              Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2.0,
-                      color: const Color.fromARGB(255, 2, 31, 54),
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2.0,
-                          blurRadius: 5.0,
-                          offset: Offset(0, 3)),
-                    ]),
-                child: Column(children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 8.0),
-                      child: Text(
-                        ' الشهر',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    controller: monthController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter the month';
-                      }
-                      return null;
-                    },
-                  ),
-                ]),
+              RtlFormBox(
+                label: ' الشهر',
+                controller: monthController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the month";
+                  }
+                  return null;
+                },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3)),
-                      ]),
-                  child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          ' التعليمات',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: instructionsController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter the instructions';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
-              SizedBox(height: 16.0),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3)),
-                      ]),
-                  child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'رقم  الصحة',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: ministryIdController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter the ministry ID';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
-              SizedBox(
+              RtlFormBox(
+                label: ' التعليمات',
+                controller: monthController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the instruction";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16.0),
+              RtlFormBox(
+                label: 'رقم  الصحة',
+                controller: monthController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the ministry ID";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
                 height: 16.0,
               ),
               Column(children: [
@@ -381,7 +242,7 @@ class _FeedingEditState extends State<FeedingEdit> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.lightBlue),
                   ),
-                  child: Text(
+                  child: const Text(
                     '  تحديث   القائمة',
                     style: TextStyle(
                       color: Colors.white,
@@ -398,7 +259,7 @@ class _FeedingEditState extends State<FeedingEdit> {
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.lightBlue)),
-                  child: Text(
+                  child: const Text(
                     'الاطلاع ع الجدول',
                     style: TextStyle(
                       color: Colors.white,
