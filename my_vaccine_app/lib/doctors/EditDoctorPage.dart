@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:my_vaccine_app/doctors/DoctorTable.dart';
 import 'package:my_vaccine_app/doctors/doctor.dart';
 import 'package:my_vaccine_app/doctors/doctor_api.dart';
+import 'package:my_vaccine_app/widget/FormFieldWidget.dart';
 
 class EditDoctorPage extends StatefulWidget {
   final int doctorId;
@@ -312,34 +313,18 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                                     flex: 1,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: TextFormField(
-                                        controller: _nameController,
-                                        decoration: const InputDecoration(
-                                          labelText: 'Doctor Name',
-                                          border: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.grey),
-                                          ),
-                                          fillColor: Colors.white,
-                                          filled: true,
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.blue),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.red),
-                                          ),
-                                          errorStyle:
-                                              TextStyle(color: Colors.red),
+                                      child: FormFieldWidget(
+                                          label: "Name",
+                                          hintText: "Enter your Name",
+                                          controller: _nameController,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Please enter your name";
+                                            }
+                                            return null;
+                                          },
                                         ),
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter the doctor name';
-                                          }
-                                          return null;
-                                        },
-                                      ),
                                     ),
                                   ),
                                   const SizedBox(width: 16.0),
@@ -388,71 +373,31 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                               Row(
                                 children: [
                                   Expanded(
-                                      child: TextFormField(
-                                    controller: _salaryController,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Salary',
-                                      border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.grey),
-                                      ),
-                                      fillColor: Colors.white,
-                                      filled: true,
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.blue),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.red),
-                                      ),
-                                      errorStyle: TextStyle(color: Colors.red),
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter the salary';
-                                      }
-                                      if (double.tryParse(value) == null) {
-                                        return 'Please enter a valid number for the salary';
-                                      }
-                                      return null;
-                                    },
-                                  )),
+                                      child: FormFieldWidget(
+                                          label: "Salary",
+                                          hintText: "Enter your Salary",
+                                          controller: _salaryController,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Please enter your Salary";
+                                            }
+                                            return null;
+                                          },
+                                        ),),
                                   const SizedBox(height: 16.0),
                                   Expanded(
                                       flex: 1,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: TextFormField(
+                                        child: FormFieldWidget(
+                                          label: "Specialization",
+                                          hintText: "Enter your specialization",
                                           controller: _specializationController,
-                                          keyboardType: TextInputType.multiline,
-                                          maxLines: null,
-                                          style: const TextStyle(
-                                              fontSize: 16, height: 1.5),
-                                          decoration: const InputDecoration(
-                                            labelText: 'specialization',
-                                            border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.grey),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.blue),
-                                            ),
-                                            fillColor: Colors.white,
-                                            filled: true,
-                                            errorBorder: OutlineInputBorder(
-                                              borderSide:
-                                                  BorderSide(color: Colors.red),
-                                            ),
-                                            errorStyle:
-                                                TextStyle(color: Colors.red),
-                                          ),
                                           validator: (value) {
                                             if (value == null ||
                                                 value.isEmpty) {
-                                              return 'Please enter some information about the doctor';
+                                              return "Please enter your specialization";
                                             }
                                             return null;
                                           },
@@ -464,69 +409,33 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: TextFormField(
-                                      controller: _countryController,
-                                      decoration: const InputDecoration(
-                                        labelText: 'Country',
-                                        border: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.grey),
+                                    child: FormFieldWidget(
+                                          label: "Country",
+                                          hintText: "Enter your country",
+                                          controller: _countryController,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Please enter your country";
+                                            }
+                                            return null;
+                                          },
                                         ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.blue),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.red),
-                                        ),
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                        errorStyle:
-                                            TextStyle(color: Colors.red),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please enter the country name';
-                                        }
-                                        return null;
-                                      },
-                                    ),
                                   ),
                                   const SizedBox(width: 16.0),
                                   Expanded(
-                                    child: TextFormField(
-                                      controller: _cityController,
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: null,
-                                      style: const TextStyle(
-                                          fontSize: 16, height: 1.5),
-                                      decoration: const InputDecoration(
-                                        labelText: 'City',
-                                        border: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.grey),
+                                    child: FormFieldWidget(
+                                          label: "City",
+                                          hintText: "Enter your city",
+                                          controller: _cityController,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Please enter your city";
+                                            }
+                                            return null;
+                                          },
                                         ),
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.blue),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.red),
-                                        ),
-                                        errorStyle:
-                                            TextStyle(color: Colors.red),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please enter name of the city';
-                                        }
-                                        return null;
-                                      },
-                                    ),
                                   ),
                                 ],
                               ),

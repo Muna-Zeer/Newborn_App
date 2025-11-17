@@ -345,7 +345,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                                         child: FormFieldWidget(
                                           label: "specialization",
                                           hintText: "Enter doctor's specialization ",
-                                          controller: nameController,
+                                          controller: specializationController,
                                           validator: (value) {
                                             if (value == null ||
                                                 value.isEmpty) {
@@ -364,7 +364,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                                     child: FormFieldWidget(
                                           label: "Country",
                                           hintText: "Enter your country",
-                                          controller: nameController,
+                                          controller: countryController,
                                           validator: (value) {
                                             if (value == null ||
                                                 value.isEmpty) {
@@ -379,7 +379,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                                     child: FormFieldWidget(
                                           label: "City",
                                           hintText: "Enter your city",
-                                          controller: nameController,
+                                          controller: cityController,
                                           validator: (value) {
                                             if (value == null ||
                                                 value.isEmpty) {
