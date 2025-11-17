@@ -10,7 +10,7 @@ import 'package:my_vaccine_app/doctors/doctor.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 final baseUrl = ApiService.getBaseUrl();
-File? _imageFile; 
+File? _imageFile;
 Uint8List? _webImageFile;
 //get info of doctor by doctorId
 Future<Doctor> fetchDoctor(int doctorId) async {
@@ -94,10 +94,9 @@ Future<bool> createDoctor(
       throw Exception('❌ Error ${response.statusCode}: $body');
     }
   } catch (e) {
-    DoctorAlert.showError(context); 
-    throw Exception('❌ Exception: $e'); 
+    DoctorAlert.showError(context);
+    throw Exception('❌ Exception: $e');
   }
-
 }
 
 Future<void> deleteDoctor(int id, BuildContext context) async {
@@ -115,16 +114,6 @@ Future<void> deleteDoctor(int id, BuildContext context) async {
         content: Text('Failed to delete doctor record.'),
       ),
     );
-  }
-}
-
-Future<bool> editDoctor(int id, BuildContext context) async {
-  final response = await http.put(Uri.parse('$baseUrl/doctors/$id'));
-
-  if (response.statusCode == 200) {
-    return true;
-  } else {
-    return false;
   }
 }
 
@@ -152,32 +141,73 @@ Future<bool> updateSchedule(int id, List<Map<String, String>> schedule) async {
   }
 }
 
-Future<bool> updateDoctor(
-    int id, Doctor doctorData, BuildContext context) async {
-  // Convert schedule list to string representation
-  final scheduleString = jsonEncode(doctorData.schedule);
-
-  final response = await http.put(Uri.parse('$baseUrl/doctors/$id'), body: {
-    'name': doctorData.name,
-    'specialization': doctorData.specialization,
-    'country': doctorData.country,
-    'city': doctorData.city,
-    'email': doctorData.email,
-    'phone': doctorData.phone,
-    'salary': doctorData.salary,
-    'about': doctorData.about,
-    'HospitalName': doctorData.hospitalName,
-    'schedule': scheduleString,
-    'nurseName': doctorData.nurseName,
-    'midwifeName': doctorData.midwifeName,
-    'ministryOfHealthName': doctorData.ministryOfHealthName,
-    'startTime': doctorData.startTime,
-    'endTime': doctorData.endTime,
-  });
-
+Future<bool> editDoctor(int id, BuildContext context) async {
+  final response = await http.post(Uri.parse('$baseUrl/doctors/$id'),
+      headers: {"Content-Type": "application/json"});
   if (response.statusCode == 200) {
     return true;
   } else {
+    return false;
+  }
+}
+
+Future<bool> updateDoctor({
+  required int id,
+  required Doctor doctor,
+  dynamic image,
+}) async {
+  try {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('$baseUrl/doctors/$id'),
+    );
+
+    // Add all fields
+    request.fields['name'] = doctor.name;
+    request.fields['salary'] = doctor.salary;
+    request.fields['country'] = doctor.country;
+    request.fields['city'] = doctor.city;
+    request.fields['email'] = doctor.email;
+    request.fields['phone'] = doctor.phone;
+    request.fields['specialization'] = doctor.specialization;
+    request.fields['about'] = doctor.about;
+
+    request.fields['hospital_id'] = doctor.hospitalId.toString();
+    request.fields['ministry_of_health_id'] =
+        doctor.ministryOfHealthId.toString();
+
+    request.fields['nurseName'] = doctor.nurseName;
+    request.fields['midwifeName'] = doctor.midwifeName;
+    request.fields['startTime'] = doctor.startTime;
+    request.fields['endTime'] = doctor.endTime;
+
+    // Encode schedule as JSON
+    request.fields['schedule'] = jsonEncode(doctor.schedule);
+
+    // Add image if selected
+    if (image != null) {
+      if (kIsWeb) {
+        request.files.add(http.MultipartFile.fromBytes(
+          'image',
+          image,
+          filename: 'doctor.png',
+        ));
+      } else {
+        request.files
+            .add(await http.MultipartFile.fromPath('image', image.path));
+      }
+    }
+
+    // Send request
+    final streamedResponse = await request.send();
+    final response = await http.Response.fromStream(streamedResponse);
+
+    print("STATUS: ${response.statusCode}");
+    print("BODY: ${response.body}");
+
+    return response.statusCode >= 200 && response.statusCode < 300;
+  } catch (e) {
+    print("Exception in updateDoctor: $e");
     return false;
   }
 }

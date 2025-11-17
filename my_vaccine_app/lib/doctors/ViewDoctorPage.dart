@@ -187,7 +187,7 @@ class _ViewDoctorPageState extends State<ViewDoctorPage> {
                                               .toString()
                                               .isNotEmpty)
                                       ? NetworkImage(
-                                          '$baseUrl/storage/images/doctors/${_doctor['image']}')
+                                          '$baseUrl/doctor-image/${_doctor['image']}')
                                       : null,
                                   child: (_doctor['image'] == null ||
                                           _doctor['image'].toString().isEmpty)

@@ -392,50 +392,66 @@ class DoctorController extends Controller
     }
 
 
-public function update(Request $request, $id)
-{
-    $data = $request->validate([
-        'name' => 'nullable|string',
-        'salary' => 'nullable|string',
-        'country' => 'nullable|string',
-        'city' => 'nullable|string',
-        'phone' => 'nullable|string',
-        'email' => 'nullable|string',
-        'specialization' => 'nullable|string',
-        'about' => 'nullable|string',
-        'schedule' => 'nullable|array',
-        'image' => 'nullable',
-        'ministry_of_health_id' => 'nullable|exists:ministryofhealths,id',
-        'hospital_id' => 'nullable|exists:hospitals,id',
-    ]);
+    public function update(Request $request, $id)
+    {
+        $doctor = Doctor::findOrFail($id);
 
-    $doctor = Doctor::findOrFail($id);
+        $validator = Validator::make($request->all(), [
+            'name' => 'nullable|string',
+            'salary' => 'nullable|string',
+            'country' => 'nullable|string',
+            'city' => 'nullable|string',
+            'phone' => 'nullable|string',
+            'email' => 'nullable|string',
+            'specialization' => 'nullable|string',
+            'about' => 'nullable|string',
 
+            'schedule.*.day' => 'required|string',
+            'schedule.*.start' => 'nullable|string',
+            'schedule.*.end' => 'nullable|string',
 
-    foreach (['name','salary','about','country','city','email','phone','specialization'] as $field) {
-        if ($request->has($field)) {
-            $doctor->$field = $request->$field;
+            'hospital_id' => 'nullable|exists:hospitals,id',
+            'ministry_of_health_id' => 'nullable|exists:ministryofhealths,id',
+
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
         }
-    }
 
-    foreach (['ministry_of_health_id' => MinistryOfHealth::class, 'hospital_id' => Hospital::class] as $key => $model) {
-        if ($request->filled($key)) {
-            $instance = $model::find($request->$key);
-            if (!$instance && $request->filled(str_replace('_id', 'Name', $key))) {
-                $instance = $model::create(['name' => $request->{str_replace('_id', 'Name', $key)}]);
+        // 1️⃣ Update simple fields only if present
+        $fields = [
+            'name',
+            'salary',
+            'country',
+            'city',
+            'email',
+            'phone',
+            'specialization',
+            'about'
+        ];
+
+        foreach ($fields as $field) {
+            if ($request->filled($field)) {
+                $doctor->$field = $request->$field;
             }
-            if ($instance) $doctor->$key = $instance->id;
         }
-    }
 
-    if ($request->filled('schedule')) {
-        $doctor->schedule = collect($request->schedule)->mapWithKeys(fn($v) => [
-            $v['day'] => ['startTime' => $v['start'], 'endTime' => $v['end']]
-        ])->toArray();
-    }
+        // 2️⃣ Update relations only if present
+        if ($request->filled('hospital_id')) {
+            $doctor->hospital_id = $request->hospital_id;
+        }
 
+        if ($request->filled('ministry_of_health_id')) {
+            $doctor->ministry_of_health_id = $request->ministry_of_health_id;
+        }
 
-  if ($request->hasFile('image')) {
+        // 3️⃣ Update schedule only if present
+        if ($request->has("schedule")) {
+            $doctor->schedule = $request->schedule;
+        }
+   if ($request->hasFile('image')) {
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $path = $image->storeAs('public/images/doctors', $filename);
@@ -443,14 +459,13 @@ public function update(Request $request, $id)
             $doctor->save();
         }
 
-    $doctor->save();
+        $doctor->save();
 
-    return response()->json([
-        'message' => 'Doctor updated successfully',
-        'doctor' => $doctor
-    ], 200);
-}
-
+        return response()->json([
+            'message' => 'Doctor updated successfully',
+            'doctor' => $doctor
+        ], 200);
+    }
 
 
 

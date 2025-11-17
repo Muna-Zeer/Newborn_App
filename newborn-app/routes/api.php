@@ -240,7 +240,8 @@ Route::get('/fetchDoctors/{id}', [DoctorController::class, 'show']);
 Route::post('/doctors', [DoctorController::class, 'store']);
 Route::post('/doctors', [DoctorController::class, 'createRecordOfDoctor']);
 Route::post('/newDoctors', [DoctorController::class, 'createRecordOfDoctorNew']);
-Route::put('/doctors/{id}', [DoctorController::class, 'update']);
+Route::post('/doctors/{id}', [DoctorController::class, 'update']);
+
 Route::get('/allDoctors/{id}', [DoctorController::class, 'allDoctors']);
 Route::delete('/doctors/{id}', [DoctorController::class, 'destroy']);
 Route::get('/hospitals', [DoctorController::class, 'fetchHospitals']);

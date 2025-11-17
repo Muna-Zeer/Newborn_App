@@ -270,7 +270,7 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
             ),
             const SizedBox(height: 16),
             // Medical Team
-      const      Card(
+            const Card(
               elevation: 4,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -278,17 +278,18 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Medical Team",
-                        style: TextStyle(color: Color.fromARGB(33, 174, 240, 167))),
-                     SizedBox(height: 8),
-                     Text("Midwife: Jane Doe"),
-                     Text("Pediatrician: Dr. Smith"),
+                        style: TextStyle(
+                            color: Color.fromARGB(33, 174, 240, 167))),
+                    SizedBox(height: 8),
+                    Text("Midwife: Jane Doe"),
+                    Text("Pediatrician: Dr. Smith"),
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 16),
             // Parent Notes
-        const    Card(
+            const Card(
               elevation: 4,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -296,7 +297,8 @@ class _NewbornDetailsPageState extends State<NewbornDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Parent Notes",
-                        style: TextStyle(color: Color.fromARGB(44, 239, 135, 135))),
+                        style: TextStyle(
+                            color: Color.fromARGB(44, 239, 135, 135))),
                     const SizedBox(height: 8),
                     const Text(
                         "Remember to book the next vaccine appointment."),

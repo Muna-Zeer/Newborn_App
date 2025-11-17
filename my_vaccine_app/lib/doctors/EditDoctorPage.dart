@@ -52,13 +52,10 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
 
   Future<void> _selectImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-
     if (pickedFile == null) {
       setState(() {
-        _imageFile = null;
         _selectedImage = null;
         _imageController.text = '';
-        _imageSelected = false;
       });
       return;
     }
@@ -66,17 +63,14 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
     if (kIsWeb) {
       final bytes = await pickedFile.readAsBytes();
       setState(() {
-        _selectedImage = bytes;
+        _selectedImage = bytes; // Uint8List
         _imageController.text = 'Selected: ${pickedFile.name}';
-        _imageSelected = true;
       });
     } else {
       final file = File(pickedFile.path);
       setState(() {
-        _imageFile = file;
-        _selectedImage = file;
-        _imageController.text = pickedFile.path.split('/').last;
-        _imageSelected = true;
+        _selectedImage = file; // File
+        _imageController.text = pickedFile.name;
       });
     }
   }
@@ -137,6 +131,7 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
     }
   }
 
+// Function to save doctor data from form
   void _saveDoctorData() async {
     final updatedDoctor = Doctor(
       id: widget.doctorId,
@@ -180,14 +175,20 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
               ? int.parse(selectedMinistry!)
               : doctorData!.ministryOfHealthId,
     );
+
     try {
-      final success =
-          await updateDoctor(updatedDoctor.id, updatedDoctor, context);
+      final success = await updateDoctor(
+        id: updatedDoctor.id,
+        doctor: updatedDoctor,
+        image: _selectedImage,
+      );
+
       if (success) {
         setState(() {
           doctorData = updatedDoctor;
         });
-        // Show success message
+
+        // Show success dialog
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -208,18 +209,16 @@ class _EditDoctorPageState extends State<EditDoctorPage> {
           },
         );
       } else {
-        throw Error();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to update doctor data')),
+        );
       }
     } catch (e) {
-      // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error saving doctor data')),
+        SnackBar(content: Text('Error saving doctor data: $e')),
       );
-      throw Exception('Error saving doctor data: $e');
     }
   }
-
- 
 
   List<Map<String, String>> schedule = [
     {'day': 'Monday', 'start': '', 'end': ''},
