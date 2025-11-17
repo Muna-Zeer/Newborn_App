@@ -7,6 +7,7 @@ import 'package:my_vaccine_app/doctors/doctor.dart';
 import 'package:my_vaccine_app/doctors/doctor_api.dart';
 import 'dart:convert';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:my_vaccine_app/widget/FormFieldWidget.dart';
 
 // import 'package:permission_handler/permission_handler.dart';
 class DoctorProfilePage extends StatefulWidget {
@@ -261,36 +262,19 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                                   Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: TextFormField(
-                                        controller: nameController,
-                                        decoration: const InputDecoration(
-                                          labelText: 'Doctor Name',
-                                          border: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.grey),
-                                          ),
-                                          fillColor: Colors.white,
-                                          filled: true,
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.blue),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.red),
-                                          ),
-                                          errorStyle:
-                                              TextStyle(color: Colors.red),
-                                        ),
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter the doctor name';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ),
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: FormFieldWidget(
+                                          label: "Doctor Name",
+                                          hintText: "Enter doctor name",
+                                          controller: nameController,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Please enter the doctor name";
+                                            }
+                                            return null;
+                                          },
+                                        )),
                                   ),
                                   const SizedBox(width: 16.0),
                                   Expanded(
@@ -338,71 +322,34 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                               Row(
                                 children: [
                                   Expanded(
-                                      child: TextFormField(
+                                      child: FormFieldWidget(
                                     controller: salaryController,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Salary',
-                                      border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.grey),
-                                      ),
-                                      fillColor: Colors.white,
-                                      filled: true,
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.blue),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.red),
-                                      ),
-                                      errorStyle: TextStyle(color: Colors.red),
-                                    ),
+                                   
+                                      label: 'Salary',
+                                     
                                     keyboardType: TextInputType.number,
                                     validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter the salary';
-                                      }
-                                      if (double.tryParse(value) == null) {
-                                        return 'Please enter a valid number for the salary';
-                                      }
-                                      return null;
-                                    },
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Please enter the salary";
+                                            }
+                                            return null;
+                                          },
+                                   
                                   )),
                                   const SizedBox(height: 16.0),
                                   Expanded(
                                       flex: 1,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: TextFormField(
-                                          controller: specializationController,
-                                          keyboardType: TextInputType.multiline,
-                                          maxLines: null,
-                                          style: const TextStyle(
-                                              fontSize: 16, height: 1.5),
-                                          decoration: const InputDecoration(
-                                            labelText: 'specialization',
-                                            border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.grey),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.blue),
-                                            ),
-                                            fillColor: Colors.white,
-                                            filled: true,
-                                            errorBorder: OutlineInputBorder(
-                                              borderSide:
-                                                  BorderSide(color: Colors.red),
-                                            ),
-                                            errorStyle:
-                                                TextStyle(color: Colors.red),
-                                          ),
+                                        child: FormFieldWidget(
+                                          label: "specialization",
+                                          hintText: "Enter doctor's specialization ",
+                                          controller: nameController,
                                           validator: (value) {
                                             if (value == null ||
                                                 value.isEmpty) {
-                                              return 'Please enter some information about the doctor';
+                                              return "Please enter the doctor specialization";
                                             }
                                             return null;
                                           },
@@ -414,69 +361,33 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: TextFormField(
-                                      controller: countryController,
-                                      decoration: const InputDecoration(
-                                        labelText: 'Country',
-                                        border: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.grey),
+                                    child: FormFieldWidget(
+                                          label: "Country",
+                                          hintText: "Enter your country",
+                                          controller: nameController,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Please enter your country";
+                                            }
+                                            return null;
+                                          },
                                         ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.blue),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.red),
-                                        ),
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                        errorStyle:
-                                            TextStyle(color: Colors.red),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please enter the country name';
-                                        }
-                                        return null;
-                                      },
-                                    ),
                                   ),
                                   const SizedBox(width: 16.0),
                                   Expanded(
-                                    child: TextFormField(
-                                      controller: cityController,
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: null,
-                                      style: const TextStyle(
-                                          fontSize: 16, height: 1.5),
-                                      decoration: const InputDecoration(
-                                        labelText: 'City',
-                                        border: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.grey),
+                                    child: FormFieldWidget(
+                                          label: "City",
+                                          hintText: "Enter your city",
+                                          controller: nameController,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Please enter your city";
+                                            }
+                                            return null;
+                                          },
                                         ),
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.blue),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.red),
-                                        ),
-                                        errorStyle:
-                                            TextStyle(color: Colors.red),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please enter name of the city';
-                                        }
-                                        return null;
-                                      },
-                                    ),
                                   ),
                                 ],
                               ),
