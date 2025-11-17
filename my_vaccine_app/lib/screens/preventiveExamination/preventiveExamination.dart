@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/preventiveExamination/preventiveExamintationTable.dart';
+import 'package:my_vaccine_app/widget/RtlFormBox.dart';
 
 class PreventiveExaminationForm extends StatefulWidget {
   @override
@@ -127,7 +128,7 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
-        title: Row(
+        title:const Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
@@ -137,7 +138,7 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding:const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -152,7 +153,20 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(
+            const  SizedBox(
+                height: 16.0,
+              ),
+               RtlFormBox(
+                label:    'اسم الفحص الوقائي',
+                controller:_examTypeController  ,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the exam type";
+                  }
+                  return null;
+                },
+              ),
+         const     SizedBox(
                 height: 16.0,
               ),
               Container(
@@ -171,47 +185,7 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
                             offset: Offset(0, 3)),
                       ]),
                   child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'نوع الفحص ',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: _examTypeController,
-                      textAlign: TextAlign.right,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter an exam type';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
-              SizedBox(
-                height: 16.0,
-              ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3)),
-                      ]),
-                  child: Column(children: [
-                    Align(
+              const      Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
@@ -246,7 +220,7 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
                       },
                     ),
                   ])),
-              SizedBox(
+           const   SizedBox(
                 height: 16.0,
               ),
               Container(
@@ -265,7 +239,7 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
                             offset: Offset(0, 3)),
                       ]),
                   child: Column(children: [
-                    Align(
+              const      Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
@@ -296,87 +270,33 @@ class _PreventiveExaminationFormState extends State<PreventiveExaminationForm> {
                       },
                     ),
                   ])),
-              SizedBox(
+     const         SizedBox(
                 height: 16.0,
               ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3)),
-                      ]),
-                  child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'النتيجة',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: _resultController,
-                      // keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a ministry ID';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
-              SizedBox(
+            RtlFormBox(
+                label:     'النتيجة',
+                controller:_resultController  ,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the result";
+                  }
+                  return null;
+                },
+              ),
+         const     SizedBox(
                 height: 16.0,
               ),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3)),
-                      ]),
-                  child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'رقم وزارة الصحة ',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: _ministryIdController,
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a ministry ID';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
-              SizedBox(
+              RtlFormBox(
+                label:      'رقم وزارة الصحة ',
+                controller:_ministryIdController  ,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the minsitry ID";
+                  }
+                  return null;
+                },
+              ),
+          const    SizedBox(
                 height: 16.0,
               ),
               // ElevatedButton(

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:my_vaccine_app/Alert_Dialog/guildlineAlert.dart';
 import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/preventiveExamination/AdminExamType.dart';
+import 'package:my_vaccine_app/widget/RtlFormBox.dart';
 
 class AdminEditPrevExam extends StatefulWidget {
   final int examinationId;
@@ -71,7 +72,7 @@ class _PreventiveExaminationAdmin extends State<AdminEditPrevExam> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.lightBlue,
-          title: Row(
+          title:const Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
@@ -82,14 +83,14 @@ class _PreventiveExaminationAdmin extends State<AdminEditPrevExam> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+            margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
             padding: EdgeInsets.all(16.0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12.0),
               boxShadow: [
                 BoxShadow(
-                  color: Color.fromARGB(255, 7, 26, 48).withOpacity(0.5),
+                  color:const Color.fromARGB(255, 7, 26, 48).withOpacity(0.5),
                   spreadRadius: 8,
                   blurRadius: 15,
                   offset: Offset(0, 2),
@@ -106,63 +107,28 @@ class _PreventiveExaminationAdmin extends State<AdminEditPrevExam> {
                         width: 120.0,
                         height: 100.0,
                       ),
-                      Container(
-                          child: Column(children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              'اسم الفحص الوقائي',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  fontSize: 16.0),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          controller: _examType,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter exam type';
-                            }
-                            return null;
-                          },
-                        ),
-                      ])),
-                      SizedBox(height: 16.0),
-                      Container(
-                          child: Column(children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              'المعلومات',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16.0),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          controller: _descriptionController,
-                          maxLines: 4,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter description';
-                            }
-                            return null;
-                          },
-                        ),
-                      ])),
-                      SizedBox(height: 24.0),
+                    RtlFormBox(
+                label:    'اسم الفحص الوقائي',
+                controller:_examType  ,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the exam type";
+                  }
+                  return null;
+                },
+              ),
+                   const   SizedBox(height: 16.0),
+                       RtlFormBox(
+                label:    'المعلومات',
+                controller:_descriptionController ,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the description";
+                  }
+                  return null;
+                },
+              ),
+                    const  SizedBox(height: 24.0),
                       Row(
                         children: [
                           Expanded(

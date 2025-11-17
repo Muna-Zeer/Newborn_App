@@ -87,7 +87,7 @@ class _VaccinePageState extends State<NewbornVaccinePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
+        title:const  Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
@@ -98,18 +98,18 @@ class _VaccinePageState extends State<NewbornVaccinePage> {
       ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding:const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 16.0),
-              Text(
+           const   SizedBox(height: 16.0),
+           const   Text(
                 'معلومات الطفل:',
                 style: TextStyle(fontSize: 18),
               ),
               DropdownButton<String>(
                 value: selectedVaccine,
-                hint: Text('اختر اسم التطعيم'),
+                hint:const Text('اختر اسم التطعيم'),
                 items: vaccineNames.map((String vaccineName) {
                   return DropdownMenuItem<String>(
                     value: vaccineName,
@@ -125,7 +125,7 @@ class _VaccinePageState extends State<NewbornVaccinePage> {
               ),
               Expanded(
                 child: Container(
-                  width: 600.0, // Set the desired width for the list
+                  width: 600.0,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                   ),
@@ -147,12 +147,12 @@ class _VaccinePageState extends State<NewbornVaccinePage> {
                               children: [
                                 Text(
                                   newbornName,
-                                  style: TextStyle(
+                                  style:const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(height: 8.0),
+                             const   SizedBox(height: 8.0),
                                 Text(
                                   'رقم الهوية : ${record['identity_number']}',
                                   textAlign: TextAlign.right,
