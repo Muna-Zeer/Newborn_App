@@ -176,7 +176,7 @@ class _MeasurementFormState extends State<MeasurementWeight> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
-        title: Row(
+        title:const Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text('Weight-age-for-boys'),
@@ -185,7 +185,7 @@ class _MeasurementFormState extends State<MeasurementWeight> {
       ),
       drawer: Drawer(
         child: ListView(padding: EdgeInsets.zero, children: [
-          DrawerHeader(
+      const    DrawerHeader(
             decoration: BoxDecoration(color: Colors.lightBlue),
             child: Text(
               'Measurement Options',
@@ -193,7 +193,7 @@ class _MeasurementFormState extends State<MeasurementWeight> {
             ),
           ),
           ListTile(
-            title: Text('Weight for Age - Boys'),
+            title:const Text('Weight for Age - Boys'),
             onTap: () {
               _onImageSelect('assets/weight-for-age-boys.webp');
               Navigator.pop(context);
@@ -206,19 +206,19 @@ class _MeasurementFormState extends State<MeasurementWeight> {
                 Navigator.pop(context);
               }),
           ListTile(
-              title: Text('Weight for Length Boys'),
+              title:const Text('Weight for Length Boys'),
               onTap: () {
                 _onImageSelect('assets/weight-for-lengthboys.png');
                 Navigator.pop(context);
               }),
           ListTile(
-              title: Text('Weight for Height Boys'),
+              title:const Text('Weight for Height Boys'),
               onTap: () {
                 _onImageSelect('assets/weight-for-height-boys.png');
                 Navigator.pop(context);
               }),
           ListTile(
-              title: Text('Head circumference-for-age-boys'),
+              title:const Text('Head circumference-for-age-boys'),
               onTap: () {
                 _onImageSelect('assets/growth-chartspdf-boy.webp');
                 Navigator.pop(context);
@@ -272,7 +272,7 @@ class _MeasurementFormState extends State<MeasurementWeight> {
                 ),
               ],
             ),
-            SizedBox(height: 24.0),
+          const  SizedBox(height: 24.0),
           ],
         ),
       ),

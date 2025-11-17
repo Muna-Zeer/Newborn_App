@@ -169,8 +169,8 @@ class _MeasurementFormState extends State<MeasurementWeightGirls> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 228, 71, 197),
-        title: Row(
+        backgroundColor:const Color.fromARGB(255, 228, 71, 197),
+        title:const Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text('Measurement Of Girls '),
@@ -179,7 +179,7 @@ class _MeasurementFormState extends State<MeasurementWeightGirls> {
       ),
       drawer: Drawer(
         child: ListView(padding: EdgeInsets.zero, children: [
-          DrawerHeader(
+        const  DrawerHeader(
             decoration: BoxDecoration(color: Color.fromARGB(255, 228, 71, 197)),
             child: Text(
               'Measurement Options',
@@ -187,32 +187,32 @@ class _MeasurementFormState extends State<MeasurementWeightGirls> {
             ),
           ),
           ListTile(
-            title: Text('Weight for Age - Girls'),
+            title:const Text('Weight for Age - Girls'),
             onTap: () {
               _onImageSelect('assets/weight-girl.png');
               Navigator.pop(context);
             },
           ),
           ListTile(
-              title: Text('Length/height-for-age Gils'),
+              title:const Text('Length/height-for-age Gils'),
               onTap: () {
                 _onImageSelect('assets/length-height-girls.png');
                 Navigator.pop(context);
               }),
           ListTile(
-              title: Text('Weight for Length Girls'),
+              title:const Text('Weight for Length Girls'),
               onTap: () {
                 _onImageSelect('assets/weight-for-length-girl.png');
                 Navigator.pop(context);
               }),
           ListTile(
-              title: Text('Weight for Height Girls'),
+              title:const  Text('Weight for Height Girls'),
               onTap: () {
                 _onImageSelect('assets/weight-for-height-girl.png');
                 Navigator.pop(context);
               }),
           ListTile(
-              title: Text('Head circumference-for-age-girls'),
+              title:const Text('Head circumference-for-age-girls'),
               onTap: () {
                 _onImageSelect('assets/growth-chartspdf-head-girl.webp');
                 Navigator.pop(context);
@@ -247,10 +247,10 @@ class _MeasurementFormState extends State<MeasurementWeightGirls> {
                   rows: rows,
                 ),
               ),
-              SizedBox(height: 24.0),
+         const     SizedBox(height: 24.0),
               Row(
                 mainAxisAlignment:
-                    MainAxisAlignment.center, // Center the button horizontally
+                    MainAxisAlignment.center, 
                 children: [
                   ElevatedButton(
                     onPressed: submitForm,
@@ -263,12 +263,12 @@ class _MeasurementFormState extends State<MeasurementWeightGirls> {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Color.fromARGB(255, 218, 160, 206)),
                       minimumSize: MaterialStateProperty.all<Size>(
-                          Size(150, 40)), // Set a custom button size
+                          Size(150, 40)),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 24.0),
+        const      SizedBox(height: 24.0),
             ],
           ),
         ),
