@@ -9,10 +9,9 @@ class MeasurementDataSource extends DataTableSource {
 
   @override
   DataRow getRow(int index) {
-    if (index >= measurements.length) return DataRow(cells: []);
+    if (index >= measurements.length) return const DataRow(cells: []);
 
     final measurement = measurements[index];
-    // Access newborn object from measurement APIS
     final newborn = measurement.newborn.gender;
     return DataRow.byIndex(
       index: index,
@@ -32,19 +31,19 @@ class MeasurementDataSource extends DataTableSource {
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              icon: Icon(Icons.edit, color: Colors.blue),
+              icon:const Icon(Icons.edit, color: Colors.blue),
               onPressed: () {
                 performAction(measurement, "edit");
               },
             ),
             IconButton(
-              icon: Icon(Icons.add, color: Colors.red),
+              icon:const Icon(Icons.add, color: Colors.red),
               onPressed: () {
                 performAction(measurement, 'insert');
               },
             ),
             IconButton(
-              icon: Icon(Icons.delete, color: Colors.green),
+              icon:const Icon(Icons.delete, color: Colors.green),
               onPressed: () {
                 performAction(measurement, 'delete');
               },

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:my_vaccine_app/screens/measurment/measurementView.dart';
+import 'package:my_vaccine_app/widget/RtlFormBox.dart';
 
 class MeasurementEdit extends StatefulWidget {
   final int measurementId;
@@ -112,7 +113,7 @@ class _MeasurementEditState extends State<MeasurementEdit> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.lightBlue,
-          title: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+          title:const Row(mainAxisAlignment: MainAxisAlignment.end, children: [
             Text('تحديث الفحوصات الوقائية'),
           ])),
       body: Padding(
@@ -123,235 +124,109 @@ class _MeasurementEditState extends State<MeasurementEdit> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Text("Editing Measurent Values",
+              const    Text("Editing Measurent Values",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Color.fromARGB(255, 3, 14, 63),
                           fontSize: 24.0)),
-                  SizedBox(
+            const      SizedBox(
                     height: 16.0,
                   ),
-                  Container(
-                      padding: EdgeInsets.all(8.0),
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 2.0,
-                          color: const Color.fromARGB(255, 2, 31, 54),
-                        ),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              'اسم الممرضة',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          controller: nurseNameController,
-                          validator: (value) => value?.isEmpty ?? true
-                              ? 'أدخل اسم الممرضة'
-                              : null,
-                        ),
-                      ])),
-                  SizedBox(
+                  RtlFormBox(
+                label:    'اسم الممرضة',
+                controller: nurseNameController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the nurse name";
+                  }
+                  return null;
+                },
+              ),
+              const    SizedBox(
                     height: 16.0,
                   ),
-                  Container(
-                      padding: EdgeInsets.all(8.0),
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 2.0,
-                          color: const Color.fromARGB(255, 2, 31, 54),
-                        ),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              'الفيتامينات',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          controller: tonicsController,
-                          validator: (value) => value?.isEmpty ?? true
-                              ? 'أدخل الفيتامينات'
-                              : null,
-                        ),
-                      ])),
-                  SizedBox(
+                RtlFormBox(
+                label: 'الفيتامينات',
+                controller: tonicsController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the name of tonics";
+                  }
+                  return null;
+                },
+              ),
+                const  SizedBox(
                     height: 16.0,
                   ),
-                  Container(
-                      padding: EdgeInsets.all(8.0),
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 2.0,
-                          color: const Color.fromARGB(255, 2, 31, 54),
-                        ),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              'ملاحظات',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          controller: remarksController,
-                          validator: (value) =>
-                              value?.isEmpty ?? true ? 'أدخل الملاحظات' : null,
-                        ),
-                      ])),
-                  SizedBox(
+                   RtlFormBox(
+                label:   'ملاحظات',
+                controller: remarksController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the remarks";
+                  }
+                  return null;
+                },
+              ),
+               const   SizedBox(
                     height: 16.0,
                   ),
-                  Container(
-                      padding: EdgeInsets.all(8.0),
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 2.0,
-                          color: const Color.fromARGB(255, 2, 31, 54),
-                        ),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              'محيط الرأس',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          controller: headCircumstancesController,
-                          validator: (value) =>
-                              value?.isEmpty ?? true ? 'أدخل محيط الرأس' : null,
-                        ),
-                      ])),
-                  SizedBox(
+                  RtlFormBox(
+                label:    'محيط الرأس',
+                controller: headCircumstancesController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the head circumstances";
+                  }
+                  return null;
+                },
+              ),
+                const   SizedBox(
                     height: 16.0,
                   ),
-                  Container(
-                      padding: EdgeInsets.all(8.0),
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 2.0,
-                          color: const Color.fromARGB(255, 2, 31, 54),
-                        ),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              'الطول',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          controller: heightController,
-                          validator: (value) =>
-                              value?.isEmpty ?? true ? 'أدخل الطول' : null,
-                        ),
-                      ])),
-                  SizedBox(
+                 RtlFormBox(
+                label:      'الطول',
+                controller: heightController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the height";
+                  }
+                  return null;
+                },
+              ),
+              const    SizedBox(
                     height: 16.0,
                   ),
-                  Container(
-                    padding: EdgeInsets.all(8.0),
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Column(children: [
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: 8.0),
-                          child: Text(
-                            'الوزن',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      TextFormField(
-                        controller: weightController,
-                        validator: (value) =>
-                            value?.isEmpty ?? true ? 'أدخل الوزن' : null,
-                      ),
-                    ]),
-                  ),
-                  SizedBox(
+                RtlFormBox(
+                label:     'الوزن',
+                controller: weightController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the wight";
+                  }
+                  return null;
+                },
+              ),
+             const     SizedBox(
                     height: 16.0,
                   ),
-                  Container(
-                      padding: EdgeInsets.all(8.0),
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 2.0,
-                          color: const Color.fromARGB(255, 2, 31, 54),
-                        ),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              'العمر',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          controller: ageController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter a date';
-                            }
-                            return null;
-                          },
-                        )
-                      ])),
-                  SizedBox(
+                RtlFormBox(
+                label:     'العمر',
+                controller: ageController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the age";
+                  }
+                  return null;
+                },
+              ),
+              const    SizedBox(
                     height: 16.0,
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
                     width: MediaQuery.of(context).size.width *
-                        0.9, // 90% of screen width
+                        0.9, 
                     decoration: BoxDecoration(
                       border: Border.all(
                         width: 2.0,
@@ -361,7 +236,7 @@ class _MeasurementEditState extends State<MeasurementEdit> {
                     ),
                     child: Column(
                       children: [
-                        Align(
+                   const     Align(
                           alignment: Alignment.centerRight,
                           child: Padding(
                             padding: EdgeInsets.only(bottom: 8.0),
@@ -402,13 +277,13 @@ class _MeasurementEditState extends State<MeasurementEdit> {
                   Column(children: [
                     ElevatedButton(
                       onPressed: () {
-                        _submitForm(); // Call the function
+                        _submitForm(); 
                       },
                       style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.lightBlue),
                       ),
-                      child: Text(
+                      child:const Text(
                         'تحديث القائمة',
                         style: TextStyle(
                           color: Colors.white,
@@ -427,7 +302,7 @@ class _MeasurementEditState extends State<MeasurementEdit> {
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.lightBlue),
                       ),
-                      child: Text(
+                      child:const Text(
                         'الاطلاع على الجدول',
                         style: TextStyle(
                           color: Colors.white,
@@ -435,7 +310,7 @@ class _MeasurementEditState extends State<MeasurementEdit> {
                       ),
                     ),
                   ]),
-                  SizedBox(
+             const     SizedBox(
                     height: 16.0,
                   ),
                 ],
