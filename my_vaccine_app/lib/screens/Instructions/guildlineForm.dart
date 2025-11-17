@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/Instructions/guildlineTable.dart';
 import 'package:my_vaccine_app/Alert_Dialog/guildlineAlert.dart';
+import 'package:my_vaccine_app/widget/RtlFormBox.dart';
 
 class GuildlineForm extends StatefulWidget {
   @override
@@ -90,200 +91,61 @@ class _GuildlineFormState extends State<GuildlineForm> {
                 width: 300.0,
                 height: 200.0,
               ),
-              Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2.0,
-                      color: const Color.fromARGB(255, 2, 31, 54),
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2.0,
-                          blurRadius: 5.0,
-                          offset: Offset(0, 3)),
-                    ]),
-                child: Column(children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 8.0),
-                      child: Text(
-                        ' اسم التطعيم',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  TextFormField(
-                    controller: vaccineNameController,
-                    textAlign: TextAlign.right,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter the vaccine name';
-                      }
-                      return null;
-                    },
-                  ),
-                ]),
+              RtlFormBox(
+                label:  ' اسم التطعيم',
+                controller: vaccineNameController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the vaccine name";
+                  }
+                  return null;
+                },
               ),
-              SizedBox(height: 16.0),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3))
-                      ]),
-                  child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'الاثار الجانبية',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: sideEffectsController,
-                      textAlign: TextAlign.right,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter the side effects';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
-              SizedBox(height: 16.0),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 3))
-                      ]),
-                  child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'التتعليمات الصحية',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: careInstructionsController,
-                      textAlign: TextAlign.right,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter the care instructions';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
-              SizedBox(height: 16.0),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2.0,
-                      color: const Color.fromARGB(255, 2, 31, 54),
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(2, 3),
-                      ),
-                    ],
-                  ),
-                  child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'طريقة الوفاية',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: preventionMethodController,
-                      textAlign: TextAlign.right,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter the prevention method';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
-              SizedBox(height: 16.0),
-              Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: const Color.fromARGB(255, 2, 31, 54),
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 3)),
-                      ]),
-                  child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'ووارة الصحة1',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      controller: ministryIdController,
-                      textAlign: TextAlign.right,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter the ministry ID';
-                        }
-                        return null;
-                      },
-                    ),
-                  ])),
-              SizedBox(height: 16.0),
+          const    SizedBox(height: 16.0),
+               RtlFormBox(
+                label:  'الاثار الجانبية',
+                controller: sideEffectsController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the side effects";
+                  }
+                  return null;
+                },
+              ),
+            const  SizedBox(height: 16.0),
+               RtlFormBox(
+                label: 'التتعليمات الصحية',
+                controller: careInstructionsController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the care instruction";
+                  }
+                  return null;
+                },
+              ),
+           const   SizedBox(height: 16.0),
+               RtlFormBox(
+                label: 'طريقةالوفاية',
+                controller: preventionMethodController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the prevention method";
+                  }
+                  return null;
+                },
+              ),
+          const    SizedBox(height: 16.0),
+               RtlFormBox(
+                label:  'ووارة الصحة1',
+                controller: ministryIdController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter the ministry Id";
+                  }
+                  return null;
+                },
+              ),
+            const  SizedBox(height: 16.0),
               Row(
                 children: [
                   Expanded(
@@ -292,7 +154,7 @@ class _GuildlineFormState extends State<GuildlineForm> {
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
                                 Colors.lightBlue)),
-                        child: Text(
+                        child:const Text(
                           'ارسال',
                           textAlign: TextAlign.right,
                           style: TextStyle(color: Colors.white),
@@ -300,7 +162,7 @@ class _GuildlineFormState extends State<GuildlineForm> {
                   ),
                 ],
               ),
-              SizedBox(height: 8.0),
+            const  SizedBox(height: 8.0),
               Row(
                 children: [
                   Expanded(
@@ -316,7 +178,7 @@ class _GuildlineFormState extends State<GuildlineForm> {
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                               Colors.lightBlue)),
-                      child: Text(
+                      child: const Text(
                         'مشاهدة الجدول',
                         textAlign: TextAlign.right,
                         style: TextStyle(
