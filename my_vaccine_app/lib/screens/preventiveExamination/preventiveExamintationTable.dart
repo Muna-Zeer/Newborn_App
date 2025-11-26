@@ -171,7 +171,7 @@ class _PreventiveExaminationTable extends State<PreventiveExaminationTable> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Padding(
+              const    Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
                       'Edit guideline',
@@ -181,7 +181,7 @@ class _PreventiveExaminationTable extends State<PreventiveExaminationTable> {
                       ),
                     ),
                   ),
-                  Padding(
+              const    Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text(
                       'هل أنت متأكد من تعديل هذا الدليل؟',
@@ -189,7 +189,7 @@ class _PreventiveExaminationTable extends State<PreventiveExaminationTable> {
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
-                  SizedBox(height: 24),
+             const     SizedBox(height: 24),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -197,7 +197,7 @@ class _PreventiveExaminationTable extends State<PreventiveExaminationTable> {
                         onPressed: () {
                           Navigator.of(context).pop(false);
                         },
-                        child: Text(
+                        child:const  Text(
                           'Cancel',
                           style: TextStyle(color: Colors.red),
                         ),
@@ -258,7 +258,7 @@ class _PreventiveExaminationTable extends State<PreventiveExaminationTable> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      Padding(
+              const        Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(
                           'هل تريد الحذف',
@@ -267,14 +267,14 @@ class _PreventiveExaminationTable extends State<PreventiveExaminationTable> {
                               fontWeight: FontWeight.bold, fontSize: 18.0),
                         ),
                       ),
-                      SizedBox(
+                  const    SizedBox(
                         height: 8.0,
                       ),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             TextButton(
-                              child: Text('الغاء',
+                              child:const Text('الغاء',
                                   style: TextStyle(
                                       color: Colors.green,
                                       fontSize: 16.0,
@@ -284,7 +284,7 @@ class _PreventiveExaminationTable extends State<PreventiveExaminationTable> {
                               },
                             ),
                             TextButton(
-                              child: Text('حذف',
+                              child:const Text('حذف',
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontSize: 16.0,
@@ -310,17 +310,17 @@ class _PreventiveExaminationTable extends State<PreventiveExaminationTable> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text(
+                title: const Text(
                   'تم بنجاج',
                   textAlign: TextAlign.center,
                 ),
-                content: Text(
+                content: const Text(
                   'لقد تم حذف الفحوصات الوقائية.',
                   textAlign: TextAlign.center,
                 ),
                 actions: <Widget>[
                   TextButton(
-                    child: Text(
+                    child: const Text(
                       'OK',
                       textAlign: TextAlign.center,
                     ),
@@ -351,10 +351,10 @@ class _PreventiveExaminationTable extends State<PreventiveExaminationTable> {
             ),
             child: Column(
               children: [
-                Text('قائمة الفحوصات الوقائية',
+           const      Text('قائمة الفحوصات الوقائية',
                     style:
                         TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                SizedBox(
+           const     SizedBox(
                   height: 16.0,
                 ),
                 Expanded(
