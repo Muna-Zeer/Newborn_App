@@ -7,6 +7,7 @@ import 'package:my_vaccine_app/screens/midwives/midwife.dart';
 import 'dart:convert';
 
 import 'package:my_vaccine_app/widget/BuildInfoRow.dart';
+import 'package:my_vaccine_app/widget/SortGeneric.dart';
 
 class MidwifeTablePage extends StatefulWidget {
   @override
@@ -198,166 +199,86 @@ class _MidwifeTableState extends State<MidwifeTablePage> {
   Widget build(BuildContext context) {
     return Material(
         child: Container(
-            padding: EdgeInsets.symmetric(vertical: 20),
+            padding:const EdgeInsets.symmetric(vertical: 20),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.blue),
             ),
             child: Column(children: [
-              Text(
+             const Text(
                 'Midwife List',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10),
+           const   SizedBox(height: 10),
               Flexible(
                   child: ListView(shrinkWrap: true, children: [
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: DataTable(columns: [
+                  
                     DataColumn(
-                      label: Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.blue),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              'ID',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            if (_sortColumnIndex == 1)
-                              Icon(
-                                _sortAscending
-                                    ? Icons.arrow_upward
-                                    : Icons.arrow_downward,
-                                size: 16,
-                              ),
-                          ],
-                        ),
-                      ),
-                      numeric: true,
-                      onSort: (columnIndex, ascending) =>
-                          onsortColum(columnIndex, ascending),
-                      tooltip: 'Sort by ID',
-                    ),
-                    DataColumn(
-                      label: Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.blue),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Name',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            if (_sortColumnIndex == 0)
-                              Icon(
-                                _sortAscending
-                                    ? Icons.arrow_upward
-                                    : Icons.arrow_downward,
-                                size: 16,
-                              ),
-                          ],
-                        ),
-                      ),
-                      onSort: (columnIndex, ascending) =>
-                          onsortColum(columnIndex, ascending),
-                      tooltip: 'Sort by name',
-                    ),
-                    DataColumn(
-                      label: Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.blue),
-                          ),
-                        ),
-                        child: Text(
-                          'motherName',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      label: const Text('ID'),
                       onSort: (columnIndex, ascending) {
                         setState(() {
                           _sortColumnIndex = columnIndex;
                           _sortAscending = ascending;
-                          filteredMidwives.sort((a, b) {
-                            if (a.motherName == b.motherName) {
-                              return 0;
-                            } else if (ascending) {
-                              return a.motherName.compareTo(b.motherName);
-                            } else {
-                              return b.motherName.compareTo(a.motherName);
-                            }
-                          });
+
+                          genericSort<Midwife>(
+                            filteredMidwives,
+                            (m) => m.id,
+                            ascending,
+                          );
                         });
                       },
                     ),
+
                     DataColumn(
-                      label: Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.blue),
-                          ),
-                        ),
-                        child: Text(
-                          'newbornBraceletHand',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      label: const Text('motherName'),
                       onSort: (columnIndex, ascending) {
                         setState(() {
                           _sortColumnIndex = columnIndex;
                           _sortAscending = ascending;
-                          if (columnIndex == 2) {
-                            filteredMidwives.sort((a, b) => a
-                                .newbornBraceletHand
-                                .compareTo(b.newbornBraceletHand));
-                          } else if (columnIndex == 3) {
-                            filteredMidwives.sort((a, b) => a.newbornBraceletLeg
-                                .compareTo(b.newbornBraceletLeg));
-                          }
-                          if (!_sortAscending) {
-                            filteredMidwives =
-                                filteredMidwives.reversed.toList();
-                          }
+
+                          genericSort<Midwife>(
+                            filteredMidwives,
+                            (m) => m.motherName,
+                            ascending,
+                          );
                         });
                       },
                     ),
+
                     DataColumn(
-                      label: Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.blue),
-                          ),
-                        ),
-                        child: Text(
-                          'newbornBraceletLeg',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      label: const Text('newbornBraceletHand'),
                       onSort: (columnIndex, ascending) {
                         setState(() {
                           _sortColumnIndex = columnIndex;
                           _sortAscending = ascending;
-                          if (columnIndex == 3) {
-                            filteredMidwives.sort((a, b) => a.newbornBraceletLeg
-                                .compareTo(b.newbornBraceletLeg));
-                          } else if (columnIndex == 2) {
-                            filteredMidwives.sort((a, b) => a
-                                .newbornBraceletHand
-                                .compareTo(b.newbornBraceletHand));
-                          }
-                          if (!_sortAscending) {
-                            filteredMidwives =
-                                filteredMidwives.reversed.toList();
-                          }
+
+                          genericSort<Midwife>(
+                            filteredMidwives,
+                            (m) => m.newbornBraceletHand,
+                            ascending,
+                          );
                         });
                       },
-                    ), // adjust the width as needed
+                    ),
+
+                    DataColumn(
+                      label: const Text('newbornBraceletLeg'),
+                      onSort: (columnIndex, ascending) {
+                        setState(() {
+                          _sortColumnIndex = columnIndex;
+                          _sortAscending = ascending;
+
+                          genericSort<Midwife>(
+                            filteredMidwives,
+                            (m) => m.newbornBraceletLeg,
+                            ascending,
+                          );
+                        });
+                      },
+                    ),
+                    // adjust the width as needed
                     DataColumn(
                       label: Container(
                         decoration: BoxDecoration(
