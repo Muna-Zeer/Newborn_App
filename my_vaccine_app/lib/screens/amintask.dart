@@ -10,6 +10,7 @@ import 'package:my_vaccine_app/screens/Instructions/guidlineList.dart';
 import 'package:my_vaccine_app/screens/Instructions/guildlineForm.dart';
 import 'package:my_vaccine_app/screens/Newborns/allNewborns.dart';
 import 'package:my_vaccine_app/screens/instruction.dart';
+import 'package:my_vaccine_app/screens/midwives/MidwifeTable.dart';
 import 'package:my_vaccine_app/screens/mother/motherLogin.dart';
 import 'package:my_vaccine_app/screens/mother/motherRegister.dart';
 import 'package:my_vaccine_app/screens/preventiveExamination/adminAdd.dart';
@@ -558,6 +559,34 @@ class AdnminTask extends StatelessWidget {
                         )),
                   ),
                   const SizedBox(height: 16.0),
+                  SizedBox(
+                    width: size.width * 0.7,
+                    height: size.height * 0.08,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MidwifeTablePage(),
+                              ));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 236, 161, 229),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.assignment, color: Colors.black),
+                            Text(
+                              'بيانات القايلة',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
                 ],
               ),
             ],

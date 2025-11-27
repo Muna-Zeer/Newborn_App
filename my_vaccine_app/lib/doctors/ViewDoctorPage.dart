@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/doctors/doctor.dart';
+import 'package:my_vaccine_app/widget/BuildInfoRow.dart';
 
 class ViewDoctorPage extends StatefulWidget {
   final Doctor doctor;
@@ -121,25 +122,6 @@ class _ViewDoctorPageState extends State<ViewDoctorPage> {
     return 'Unknown';
   }
 
-  Widget _buildInfoRow(IconData icon, String? value) {
-    if (value == null || value.isEmpty) return const SizedBox.shrink();
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: Colors.blueAccent, size: 22),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(fontSize: 16, color: Colors.black87),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,19 +197,19 @@ class _ViewDoctorPageState extends State<ViewDoctorPage> {
                                 const SizedBox(height: 20),
                                 const Divider(height: 20, thickness: 1),
                                 const SizedBox(height: 12),
-                                _buildInfoRow(
+                                buildInfoRow(
                                     Icons.email, _doctor['email'] ?? 'N/A'),
-                                _buildInfoRow(
+                                buildInfoRow(
                                     Icons.phone, _doctor['phone'] ?? 'N/A'),
-                                _buildInfoRow(Icons.location_city,
+                                buildInfoRow(Icons.location_city,
                                     _doctor['city'] ?? 'N/A'),
-                                _buildInfoRow(
+                                buildInfoRow(
                                     Icons.public, _doctor['country'] ?? 'N/A'),
-                                _buildInfoRow(Icons.local_hospital,
+                                buildInfoRow(Icons.local_hospital,
                                     'Hospital: ${_hospitalName ?? "Unknown"}'),
-                                _buildInfoRow(Icons.apartment,
+                                buildInfoRow(Icons.apartment,
                                     'Ministry: ${_ministryOfHealthName ?? "Unknown"}'),
-                                _buildInfoRow(Icons.attach_money,
+                                buildInfoRow(Icons.attach_money,
                                     'Salary: ${_doctor['salary'] ?? 'N/A'}'),
                               ],
                             ),

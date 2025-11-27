@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  static const API_URL = 'http://127.0.0.1:8000/api';
+  static const API_URL = 'http://10.156.102.197:8000/api';
 
   Future<http.Response> login(String email, String password) async {
     final response = await http.post(
