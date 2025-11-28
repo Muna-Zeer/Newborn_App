@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/midwives/midwife.dart';
+import 'package:my_vaccine_app/widget/ActionButtons.dart';
+import 'package:my_vaccine_app/widget/HeaderCell.dart';
 
 import 'dart:convert';
 
-import 'package:my_vaccine_app/widget/BuildInfoRow.dart';
-import 'package:my_vaccine_app/widget/SortGeneric.dart';
+import 'package:my_vaccine_app/widget/TableCellWidget.dart';
+import 'package:my_vaccine_app/widget/TableHeader.dart';
 
 class MidwifeTablePage extends StatefulWidget {
   @override
@@ -19,10 +21,8 @@ final baseUrl = ApiService.getBaseUrl();
 class _MidwifeTableState extends State<MidwifeTablePage> {
   List<Midwife> midwives = [];
   List<Midwife> filteredMidwives = [];
-  String searchText = '';
   int _currentPage = 1;
   int _itemsPerPage = 4;
-  bool sort = true;
   int _sortColumnIndex = 0;
   bool _sortAscending = true;
 
@@ -33,366 +33,142 @@ class _MidwifeTableState extends State<MidwifeTablePage> {
   }
 
   Future<void> getMidwives() async {
-    final response = await http
-        .get(Uri.parse('$baseUrl/midwivesTable'))
-        .catchError((error) => print(error));
-    print('$response');
-    if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body)['data'];
-      print('$data');
+    final res = await http.get(Uri.parse('$baseUrl/midwivesTable'));
+    if (res.statusCode == 200) {
+      final body = jsonDecode(res.body)['data'];
       setState(() {
-        midwives = data.map((json) => Midwife.fromJson(json)).toList();
-        filteredMidwives = midwives;
-        print('$midwives');
+        midwives = body.map<Midwife>((j) => Midwife.fromJson(j)).toList();
+        filteredMidwives = List.from(midwives);
       });
-    } else {
-      throw Exception('Failed to load midwives');
     }
   }
 
-  List<Midwife> getCurrentPageItems() {
-    final startIndex = (_currentPage - 1) * _itemsPerPage;
-    final endIndex = startIndex + _itemsPerPage;
-    return filteredMidwives.sublist(
-        startIndex,
-        endIndex > filteredMidwives.length
-            ? filteredMidwives.length
-            : endIndex);
-  }
-
-  void goToPreviousPage() {
+  void sortBy(String field, int colIndex) {
     setState(() {
-      if (_currentPage > 1) {
-        _currentPage--;
-      }
-    });
-  }
+      _sortColumnIndex = colIndex;
+      _sortAscending = !_sortAscending;
 
-  void goToNextPage() {
-    setState(() {
-      if (_currentPage < getTotalPages()) {
-        _currentPage++;
-      }
-    });
-  }
+      filteredMidwives.sort((a, b) {
+        final A = getField(a, field);
+        final B = getField(b, field);
 
-  int getTotalPages() {
-    return (filteredMidwives.length / _itemsPerPage).ceil();
-  }
-
-  void onsortColum(int columnIndex, bool ascending) {
-    setState(() {
-      _sortColumnIndex = columnIndex;
-      _sortAscending = ascending;
-      if (columnIndex == 0) {
-        if (ascending) {
-          filteredMidwives.sort((a, b) => a.name!.compareTo(b.name!));
-        } else {
-          filteredMidwives.sort((a, b) => b.name!.compareTo(a.name!));
-        }
-      }
-    });
-  }
-
-  void performAction(
-      BuildContext context, Midwife midwife, String action) async {
-    // Navigate to another page based on the action
-    if (action == 'view') {
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => MidwifePage(midwife: midwife),
-      //   ),
-      // );
-    } else if (action == 'edit') {
-      // Show edit confirmation dialog
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Edit Midwife'),
-            content: Text('Are you sure you want to edit this Midwife record?'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-              ),
-              TextButton(
-                child: Text('Edit'),
-                onPressed: () async {
-                  // bool success = await editMidwife(midwife.id, context);
-                  // Navigator.of(context).pop(success);
-                },
-              ),
-            ],
-          );
-        },
-      ).then((value) {
-        // if (value != null && value == true) {
-        //   Navigator.of(context).push(MaterialPageRoute(
-        //     builder: (context) => EditMidwifePage(midwifeId: midwife.id),
-        //   ));
-        // }
+        return _sortAscending ? A.compareTo(B) : B.compareTo(A);
       });
-    } else if (action == 'delete') {
-      // Show confirmation dialog before deleting
-      bool confirmDelete = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Confirm Delete'),
-            content:
-                Text('Are you sure you want to delete this midwife record?'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-              ),
-              TextButton(
-                child: Text('Delete'),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-              ),
-            ],
-          );
-        },
-      );
-      if (confirmDelete) {
-        try {
-          // await deleteMidwifeAlert(midwife.id, context);
+    });
+  }
 
-          // Remove the deleted record from the list
-          setState(() {
-            midwives.remove(midwife);
-          });
+  dynamic getField(Midwife m, String f) {
+    switch (f) {
+      case 'id':
+        return m.id ?? 0;
+      case 'motherName':
+        return m.motherName ?? "";
+      case 'midwifeName':
+        return m.name ?? "";
+      case 'hospitalName':
+        return m.hospitalName ?? "";
+      case 'hand':
+        return m.newbornBraceletHand ?? "";
+      case 'leg':
+        return m.newbornBraceletLeg ?? "";
+      default:
+        return "";
+    }
+  }
 
-          // Show alert dialog after deletion
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Success'),
-                content: Text('The midwife record has been deleted.'),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('OK'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xfff4f0fb),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Midwife List",
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 4,
+                    offset: Offset(0, 3),
                   ),
                 ],
-              );
-            },
-          );
-        } catch (e) {
-          print('Error deleting midwife record: $e');
-        }
-      }
-    }
+              ),
+              child: Table(
+                columnWidths: const {
+                  0: FlexColumnWidth(2),
+                  1: FlexColumnWidth(2),
+                  2: FlexColumnWidth(2),
+                  3: FlexColumnWidth(2),
+                  4: FlexColumnWidth(2),
+                  5: FlexColumnWidth(2),
+                  6: FlexColumnWidth(2),
+                },
+                border: TableBorder.all(color: Colors.grey.shade300),
+                children: [
+                  TableRow(
+                    decoration: const BoxDecoration(
+                      color: Color(0xffe3f2fd),
+                    ),
+                    children: [
+                      headerCell("ID", () => sortBy("id", 0)),
+                      headerCell("Mother Name", () => sortBy("motherName", 1)),
+                      headerCell(
+                          "Midwife Name", () => sortBy("midwifeName", 1)),
+                      headerCell(
+                          "Hospital Name", () => sortBy("hospitalName", 1)),
+                      headerCell("Bracelet Hand", () => sortBy("hand", 2)),
+                      headerCell("Bracelet Leg", () => sortBy("leg", 3)),
+                      headerText("Action"),
+                    ],
+                  ),
+                  for (var m in filteredMidwives) tableRow(m),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  Widget build(BuildContext context) {
-    return Material(
-        child: Container(
-            padding:const EdgeInsets.symmetric(vertical: 20),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue),
-            ),
-            child: Column(children: [
-             const Text(
-                'Midwife List',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-           const   SizedBox(height: 10),
-              Flexible(
-                  child: ListView(shrinkWrap: true, children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(columns: [
-                  
-                    DataColumn(
-                      label: const Text('ID'),
-                      onSort: (columnIndex, ascending) {
-                        setState(() {
-                          _sortColumnIndex = columnIndex;
-                          _sortAscending = ascending;
+  
 
-                          genericSort<Midwife>(
-                            filteredMidwives,
-                            (m) => m.id,
-                            ascending,
-                          );
-                        });
-                      },
-                    ),
-
-                    DataColumn(
-                      label: const Text('motherName'),
-                      onSort: (columnIndex, ascending) {
-                        setState(() {
-                          _sortColumnIndex = columnIndex;
-                          _sortAscending = ascending;
-
-                          genericSort<Midwife>(
-                            filteredMidwives,
-                            (m) => m.motherName,
-                            ascending,
-                          );
-                        });
-                      },
-                    ),
-
-                    DataColumn(
-                      label: const Text('newbornBraceletHand'),
-                      onSort: (columnIndex, ascending) {
-                        setState(() {
-                          _sortColumnIndex = columnIndex;
-                          _sortAscending = ascending;
-
-                          genericSort<Midwife>(
-                            filteredMidwives,
-                            (m) => m.newbornBraceletHand,
-                            ascending,
-                          );
-                        });
-                      },
-                    ),
-
-                    DataColumn(
-                      label: const Text('newbornBraceletLeg'),
-                      onSort: (columnIndex, ascending) {
-                        setState(() {
-                          _sortColumnIndex = columnIndex;
-                          _sortAscending = ascending;
-
-                          genericSort<Midwife>(
-                            filteredMidwives,
-                            (m) => m.newbornBraceletLeg,
-                            ascending,
-                          );
-                        });
-                      },
-                    ),
-                    // adjust the width as needed
-                    DataColumn(
-                      label: Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.blue),
-                          ),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 8.0),
-                          child: Text(
-                            'Action',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ], rows: [
-                    //  Search Row
-                    DataRow(cells: [
-                      DataCell(
-                        TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Search',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              searchText = value;
-                              if (searchText.isEmpty) {
-                                filteredMidwives = midwives;
-                              } else {
-                                filteredMidwives = midwives.where((midwife) {
-                                  return midwife.name
-                                          .toLowerCase()
-                                          .contains(searchText.toLowerCase()) ||
-                                      midwife.newbornBraceletHand
-                                          .toLowerCase()
-                                          .contains(searchText.toLowerCase()) ||
-                                      midwife.newbornBraceletLeg
-                                          .toLowerCase()
-                                          .contains(searchText.toLowerCase());
-                                }).toList();
-                              }
-                              _currentPage = 1;
-                            });
-                          },
-                        ),
-                      ),
-                    ]),
-
-                    for (var midwife in getCurrentPageItems())
-                      DataRow(cells: [
-                        DataCell(
-                            buildInfoRow(Icons.numbers, midwife.id.toString())),
-                        DataCell(buildInfoRow(Icons.person, midwife.name)),
-                        DataCell(buildInfoRow(
-                            Icons.pan_tool, midwife.newbornBraceletHand)),
-                        DataCell(buildInfoRow(
-                            Icons.accessibility, midwife.newbornBraceletLeg)),
-
-                        // Action buttons
-                        DataCell(
-                          Row(
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.edit),
-                                onPressed: () =>
-                                    performAction(context, midwife, 'edit'),
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.visibility),
-                                onPressed: () =>
-                                    performAction(context, midwife, 'view'),
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () =>
-                                    performAction(context, midwife, 'delete'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]),
-
-                    //  Pagination Row
-                    DataRow(cells: [
-                      DataCell(
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Page $_currentPage of ${getTotalPages()}'),
-                            Row(
-                              children: [
-                                IconButton(
-                                  onPressed: goToPreviousPage,
-                                  icon: const Icon(Icons.arrow_back),
-                                ),
-                                IconButton(
-                                  onPressed: goToNextPage,
-                                  icon: const Icon(Icons.arrow_forward),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ]),
-                  ]),
-                )
-              ]))
-            ])));
+  TableRow tableRow(Midwife m) {
+    return TableRow(
+      decoration: BoxDecoration(color: Colors.grey.shade50),
+      children: [
+        tableCell(m.id?.toString() ?? "-"),
+        tableCell(m.motherName ?? "-"),
+        tableCell(m.name ?? "-"),
+        tableCell(m.hospitalId.toString() ?? "-"),
+        tableCell(m.newbornBraceletHand ?? "-"),
+        tableCell(m.newbornBraceletLeg ?? "-"),
+        Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(icon: const Icon(Icons.visibility), onPressed: () {}),
+              IconButton(icon: const Icon(Icons.edit), onPressed: () {}),
+              IconButton(icon: const Icon(Icons.delete), onPressed: () {}),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
