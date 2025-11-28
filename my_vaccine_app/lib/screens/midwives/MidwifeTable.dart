@@ -5,11 +5,13 @@ import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/midwives/midwife.dart';
 import 'package:my_vaccine_app/widget/ActionButtons.dart';
 import 'package:my_vaccine_app/widget/HeaderCell.dart';
+import 'package:my_vaccine_app/widget/Pagination.dart';
 
 import 'dart:convert';
 
 import 'package:my_vaccine_app/widget/TableCellWidget.dart';
 import 'package:my_vaccine_app/widget/TableHeader.dart';
+import 'package:my_vaccine_app/widget/roundedIcon.dart';
 
 class MidwifeTablePage extends StatefulWidget {
   @override
@@ -41,6 +43,14 @@ class _MidwifeTableState extends State<MidwifeTablePage> {
         filteredMidwives = List.from(midwives);
       });
     }
+  }
+
+  List<Midwife> get paginatedData {
+    int start = (_currentPage - 1) * _itemsPerPage;
+    int end = start + _itemsPerPage;
+    end = end > filteredMidwives.length ? filteredMidwives.length : end;
+
+    return filteredMidwives.sublist(start, end);
   }
 
   void sortBy(String field, int colIndex) {
@@ -80,7 +90,8 @@ class _MidwifeTableState extends State<MidwifeTablePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff4f0fb),
-      body: Padding(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,40 +99,35 @@ class _MidwifeTableState extends State<MidwifeTablePage> {
             const Text(
               "Midwife List",
               style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
+                fontSize: 30,
+                fontWeight: FontWeight.w700,
                 color: Colors.blue,
+                letterSpacing: 1.2,
               ),
-              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
             Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 4,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
+              width: MediaQuery.of(context).size.width,
+              constraints: const BoxConstraints(minWidth: 1000),
               child: Table(
                 columnWidths: const {
                   0: FlexColumnWidth(2),
-                  1: FlexColumnWidth(2),
-                  2: FlexColumnWidth(2),
-                  3: FlexColumnWidth(2),
+                  1: FlexColumnWidth(3),
+                  2: FlexColumnWidth(3),
+                  3: FlexColumnWidth(3),
                   4: FlexColumnWidth(2),
                   5: FlexColumnWidth(2),
                   6: FlexColumnWidth(2),
                 },
-                border: TableBorder.all(color: Colors.grey.shade300),
+                border: TableBorder(
+                  horizontalInside: BorderSide(color: Colors.grey.shade200),
+                ),
                 children: [
                   TableRow(
-                    decoration: const BoxDecoration(
-                      color: Color(0xffe3f2fd),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.blue.shade50, Colors.blue.shade100],
+                      ),
                     ),
                     children: [
                       headerCell("ID", () => sortBy("id", 0)),
@@ -135,9 +141,20 @@ class _MidwifeTableState extends State<MidwifeTablePage> {
                       headerText("Action"),
                     ],
                   ),
-                  for (var m in filteredMidwives) tableRow(m),
+                  for (var m in paginatedData) enhancedTableRow(m),
                 ],
               ),
+            ),
+            const SizedBox(height: 20),
+            AppPagination(
+              currentPage: _currentPage,
+              totalItems: filteredMidwives.length,
+              itemsPerPage: _itemsPerPage,
+              onPageChanged: (page) {
+                setState(() {
+                  _currentPage = page;
+                });
+              },
             ),
           ],
         ),
@@ -145,30 +162,45 @@ class _MidwifeTableState extends State<MidwifeTablePage> {
     );
   }
 
-  
-
-  TableRow tableRow(Midwife m) {
+  TableRow enhancedTableRow(Midwife m) {
     return TableRow(
-      decoration: BoxDecoration(color: Colors.grey.shade50),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
       children: [
-        tableCell(m.id?.toString() ?? "-"),
-        tableCell(m.motherName ?? "-"),
-        tableCell(m.name ?? "-"),
-        tableCell(m.hospitalId.toString() ?? "-"),
-        tableCell(m.newbornBraceletHand ?? "-"),
-        tableCell(m.newbornBraceletLeg ?? "-"),
+        styledCell(m.id?.toString() ?? "-"),
+        styledCell(m.motherName ?? "-"),
+        styledCell(m.name ?? "-"),
+        styledCell(m.hospitalId.toString() ?? "-"),
+        styledCell(m.newbornBraceletHand ?? "-"),
+        styledCell(m.newbornBraceletLeg ?? "-"),
         Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(icon: const Icon(Icons.visibility), onPressed: () {}),
-              IconButton(icon: const Icon(Icons.edit), onPressed: () {}),
-              IconButton(icon: const Icon(Icons.delete), onPressed: () {}),
+              roundedIcon(Icons.visibility, Colors.blue, () {}),
+              const SizedBox(width: 8),
+              roundedIcon(Icons.edit, Colors.orange, () {}),
+              const SizedBox(width: 8),
+              roundedIcon(Icons.delete, Colors.red, () {}),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  Widget styledCell(String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      child: Text(
+        value,
+        style: TextStyle(
+          fontSize: 15,
+          color: Colors.grey.shade900,
+        ),
+      ),
     );
   }
 }
