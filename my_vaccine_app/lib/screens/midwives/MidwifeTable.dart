@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_vaccine_app/apiServer.dart';
 import 'package:my_vaccine_app/screens/midwives/midwife.dart';
-import 'package:my_vaccine_app/widget/ActionButtons.dart';
 import 'package:my_vaccine_app/widget/HeaderCell.dart';
 import 'package:my_vaccine_app/widget/Pagination.dart';
 
 import 'dart:convert';
 
-import 'package:my_vaccine_app/widget/TableCellWidget.dart';
 import 'package:my_vaccine_app/widget/TableHeader.dart';
 import 'package:my_vaccine_app/widget/roundedIcon.dart';
+import 'package:my_vaccine_app/widget/styledCell.dart';
 
 class MidwifeTablePage extends StatefulWidget {
   @override
@@ -96,15 +95,18 @@ class _MidwifeTableState extends State<MidwifeTablePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Midwife List",
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w700,
-                color: Colors.blue,
-                letterSpacing: 1.2,
-              ),
-            ),
+            Container(
+                width: MediaQuery.of(context).size.width,
+                alignment: Alignment.center,
+                child: const Text(
+                  "Midwife List",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.blue,
+                    letterSpacing: 1.2,
+                  ),
+                )),
             const SizedBox(height: 20),
             Container(
               width: MediaQuery.of(context).size.width,
@@ -191,16 +193,5 @@ class _MidwifeTableState extends State<MidwifeTablePage> {
     );
   }
 
-  Widget styledCell(String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      child: Text(
-        value,
-        style: TextStyle(
-          fontSize: 15,
-          color: Colors.grey.shade900,
-        ),
-      ),
-    );
-  }
+
 }

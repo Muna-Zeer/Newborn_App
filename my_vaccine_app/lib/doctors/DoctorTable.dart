@@ -488,17 +488,7 @@ class _DoctorTableState extends State<DoctorPage> {
                             ),
                           ),
                         ]),
-                   const   DataRow(cells: [
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        DataCell(Text('')),
-                        // DataCell(Text('')),
-                      ]),
+               
                       DataRow(cells: [
                      const    DataCell(Text('')),
                      const   DataCell(Text('')),
